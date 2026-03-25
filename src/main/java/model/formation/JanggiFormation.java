@@ -1,4 +1,4 @@
-package model;
+package model.formation;
 
 import java.util.stream.Stream;
 

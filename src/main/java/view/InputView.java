@@ -1,11 +1,10 @@
 package view;
 
-import model.JanggiFormation;
-import model.Team;
-import view.parser.NumberParser;
-
 import java.util.List;
 import java.util.Scanner;
+import model.Team;
+import model.formation.JanggiFormation;
+import view.parser.NumberParser;
 
 public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
