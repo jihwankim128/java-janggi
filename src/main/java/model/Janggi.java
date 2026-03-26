@@ -1,5 +1,6 @@
 package model;
 
+import model.coordinate.Position;
 import model.piece.Piece;
 
 public class Janggi {
@@ -24,6 +25,9 @@ public class Janggi {
         Piece piece = findPieceAt(current, turn);
         if (!piece.canMove(current, next)) {
             throw new IllegalArgumentException("해당 기물이 이동할 수 없는 위치입니다.");
+        }
+        if (board.hasPieceAt(piece.extractPath(current, next))) {
+            throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
         }
 
         board.movePiece(current, next);

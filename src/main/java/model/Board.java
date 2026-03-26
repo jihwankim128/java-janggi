@@ -1,9 +1,12 @@
 package model;
 
+import model.coordinate.MovablePositions;
+import model.coordinate.Position;
+import model.piece.Piece;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import model.piece.Piece;
 
 public class Board {
 
@@ -40,5 +43,18 @@ public class Board {
         if (piece.isSameTeam(otherPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군이 존재하는 위치입니다.");
         }
+    }
+
+    public boolean hasPieceAt(MovablePositions positions) {
+        for (Position position : positions) {
+            if (hasPieceAt(position)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasPieceAt(Position position) {
+        return board.containsKey(position);
     }
 }

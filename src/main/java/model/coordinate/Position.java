@@ -1,4 +1,4 @@
-package model;
+package model.coordinate;
 
 import static model.Board.BOARD_COL;
 import static model.Board.BOARD_ROW;
@@ -31,5 +31,13 @@ public record Position(int row, int col) {
 
     public int calculateColDiff(Position other) {
         return this.col - other.col();
+    }
+
+    public Displacement minus(Position other) {
+        return new Displacement(calculateRowDiff(other), calculateColDiff(other));
+    }
+
+    public Position move(Direction direction) {
+        return new Position(row + direction.row(), col + direction.col());
     }
 }

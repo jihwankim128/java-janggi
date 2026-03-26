@@ -1,6 +1,7 @@
 package model.piece;
 
-import model.Position;
+import model.coordinate.MovablePositions;
+import model.coordinate.Position;
 import model.Team;
 
 public abstract class Piece {
@@ -28,6 +29,8 @@ public abstract class Piece {
     public PieceType getType() {
         return type;
     }
+
+    public abstract MovablePositions extractPath(Position current, Position next);
 
     public boolean canMove(Position current, Position next) {
         int rowDiff = next.calculateRowDiff(current);

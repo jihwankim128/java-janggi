@@ -1,11 +1,29 @@
 package model.piece;
 
+import model.coordinate.Direction;
+import model.coordinate.MovablePositions;
+import model.coordinate.Position;
 import model.Team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Horse extends Piece {
 
     public Horse(Team team) {
         super(team, PieceType.HORSE);
+    }
+
+    @Override
+    public MovablePositions extractPath(Position current, Position next) {
+        List<Direction> directions = Direction.decomposeToCardinalAndDiagonal(current, next);
+        List<Position> path = new ArrayList<>();
+        Position step = current;
+        for (int i = 0; i < directions.size() - 1; i++) {
+            step = step.move(directions.get(i));
+            path.add(step);
+        }
+        return new MovablePositions(path);
     }
 
     @Override

@@ -1,16 +1,16 @@
 package model.formation;
 
-import static model.Position.CHO_LEFT_INNER;
-import static model.Position.CHO_LEFT_OUTER;
-import static model.Position.CHO_RIGHT_INNER;
-import static model.Position.CHO_RIGHT_OUTER;
-import static model.Position.HAN_LEFT_INNER;
-import static model.Position.HAN_LEFT_OUTER;
-import static model.Position.HAN_RIGHT_INNER;
-import static model.Position.HAN_RIGHT_OUTER;
+import static model.coordinate.Position.CHO_LEFT_INNER;
+import static model.coordinate.Position.CHO_LEFT_OUTER;
+import static model.coordinate.Position.CHO_RIGHT_INNER;
+import static model.coordinate.Position.CHO_RIGHT_OUTER;
+import static model.coordinate.Position.HAN_LEFT_INNER;
+import static model.coordinate.Position.HAN_LEFT_OUTER;
+import static model.coordinate.Position.HAN_RIGHT_INNER;
+import static model.coordinate.Position.HAN_RIGHT_OUTER;
 
 import java.util.Map;
-import model.Position;
+import model.coordinate.Position;
 import model.Team;
 import model.piece.Elephant;
 import model.piece.Horse;

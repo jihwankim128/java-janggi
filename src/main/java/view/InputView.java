@@ -4,7 +4,7 @@ import static view.formater.BoardFormatter.formatSymbol;
 
 import java.util.List;
 import java.util.Scanner;
-import model.Position;
+import model.coordinate.Position;
 import model.Team;
 import model.formation.JanggiFormation;
 import model.piece.Piece;

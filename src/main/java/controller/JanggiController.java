@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import model.Board;
 import model.BoardFactory;
 import model.Janggi;
-import model.Position;
+import model.coordinate.Position;
 import model.Team;
 import model.formation.FormationFactory;
 import model.formation.JanggiFormation;

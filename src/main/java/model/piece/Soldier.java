@@ -2,13 +2,19 @@ package model.piece;
 
 import static model.Team.CHO;
 
-import model.Position;
+import model.coordinate.MovablePositions;
+import model.coordinate.Position;
 import model.Team;
 
 public class Soldier extends Piece {
 
     public Soldier(Team team) {
         super(team, PieceType.SOLDIER);
+    }
+
+    @Override
+    public MovablePositions extractPath(Position current, Position next) {
+        return MovablePositions.empty();
     }
 
     @Override

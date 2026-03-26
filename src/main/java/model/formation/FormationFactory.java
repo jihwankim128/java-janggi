@@ -3,7 +3,7 @@ package model.formation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import model.Position;
+import model.coordinate.Position;
 import model.Team;
 import model.piece.Piece;
 

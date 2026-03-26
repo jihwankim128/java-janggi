@@ -1,7 +1,7 @@
 package model.formation;
 
 import java.util.Map;
-import model.Position;
+import model.coordinate.Position;
 import model.Team;
 import model.piece.Piece;
 
