@@ -38,5 +38,9 @@ public abstract class Piece {
         return comparePosition(Math.abs(rowDiff), Math.abs(colDiff));
     }
 
+    public boolean isCho() {
+        return getTeam() == Team.CHO;
+    }
+
     protected abstract boolean comparePosition(int rowDiff, int colDiff);
 }

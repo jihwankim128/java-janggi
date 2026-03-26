@@ -26,7 +26,7 @@ public class Soldier extends Piece {
 
     @Override
     protected boolean comparePosition(int rowDiff, int colDiff) {
-        if (getTeam() == CHO) {
+        if (isCho()) {
             return (rowDiff == -1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
         }
         return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1);
