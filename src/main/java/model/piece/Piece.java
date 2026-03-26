@@ -1,5 +1,6 @@
 package model.piece;
 
+import model.Position;
 import model.Team;
 
 public abstract class Piece {
@@ -12,6 +13,14 @@ public abstract class Piece {
         this.type = type;
     }
 
+    public boolean isSameTeam(Piece other) {
+        return !isEnemy(other.team);
+    }
+
+    public boolean isEnemy(Team team) {
+        return this.team != team;
+    }
+
     public Team getTeam() {
         return team;
     }
@@ -19,4 +28,12 @@ public abstract class Piece {
     public PieceType getType() {
         return type;
     }
+
+    public boolean canMove(Position current, Position next) {
+        int rowDiff = next.calculateRowDiff(current);
+        int colDiff = next.calculateColDiff(current);
+        return comparePosition(Math.abs(rowDiff), Math.abs(colDiff));
+    }
+
+    protected abstract boolean comparePosition(int rowDiff, int colDiff);
 }

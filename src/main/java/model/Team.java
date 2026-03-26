@@ -12,4 +12,11 @@ public enum Team {
     public String getName() {
         return name;
     }
+
+    public Team next() {
+        if (this == HAN) {
+            return CHO;
+        }
+        return HAN;
+    }
 }

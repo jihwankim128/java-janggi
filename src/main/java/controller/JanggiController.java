@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import model.Board;
 import model.BoardFactory;
+import model.Janggi;
 import model.Position;
+import model.Team;
 import model.formation.FormationFactory;
 import model.formation.JanggiFormation;
 import model.piece.Piece;
@@ -34,6 +36,22 @@ public class JanggiController {
         Map<Position, Piece> pieceByFormation = FormationFactory.generateFormation(hanFormation, choFormation);
         Board board = BoardFactory.generatePieces(pieceByFormation);
         outputView.displayBoard(board.getBoard());
+
+        Janggi janggi = new Janggi(board);
+        while (true) {
+            retry(() -> playByTurn(janggi), processError());
+            outputView.displayBoard(board.getBoard());
+        }
+    }
+
+    private void playByTurn(Janggi janggi) {
+        Team nowTurn = janggi.getTurn();
+
+        Position current = inputView.readSource(nowTurn);
+        Piece piece = janggi.findPieceAt(current, nowTurn);
+
+        Position next = inputView.readDestination(nowTurn, piece);
+        janggi.move(current, next);
     }
 
     private Consumer<IllegalArgumentException> processError() {

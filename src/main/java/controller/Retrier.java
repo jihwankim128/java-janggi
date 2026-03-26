@@ -16,4 +16,16 @@ public final class Retrier {
             }
         }
     }
+
+
+    public static void retry(Runnable task, Consumer<IllegalArgumentException> consumer) {
+        while (true) {
+            try {
+                task.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                consumer.accept(e);
+            }
+        }
+    }
 }
