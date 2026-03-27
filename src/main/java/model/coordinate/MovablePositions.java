@@ -4,9 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MovablePositions implements Iterable<Position> {
-    private final List<Position> paths ;
-
     private static final MovablePositions EMPTY = new MovablePositions(List.of());
+    private final List<Position> paths;
 
     public MovablePositions(List<Position> paths) {
         this.paths = List.copyOf(paths);

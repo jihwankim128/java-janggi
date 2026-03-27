@@ -1,18 +1,13 @@
 package model;
 
-import static model.Team.CHO;
-import static model.Team.HAN;
+import model.coordinate.Position;
+import model.piece.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import model.coordinate.Position;
-import model.piece.Cannon;
-import model.piece.Chariot;
-import model.piece.General;
-import model.piece.Guard;
-import model.piece.Piece;
-import model.piece.Soldier;
+import static model.Team.CHO;
+import static model.Team.HAN;
 
 public class BoardFactory {
 

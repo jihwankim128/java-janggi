@@ -23,13 +23,6 @@ public class Board {
         return Map.copyOf(board);
     }
 
-    public Piece pickPiece(Position position) {
-        if (!board.containsKey(position)) {
-            throw new IllegalArgumentException("해당 위치에 존재하는 장기말이 없습니다.");
-        }
-        return board.get(position);
-    }
-
     public void movePiece(Position current, Position next) {
         Piece piece = pickPiece(current);
         Optional.ofNullable(board.get(next))
@@ -37,6 +30,13 @@ public class Board {
 
         board.remove(current);
         board.put(next, piece);
+    }
+
+    public Piece pickPiece(Position position) {
+        if (!board.containsKey(position)) {
+            throw new IllegalArgumentException("해당 위치에 존재하는 장기말이 없습니다.");
+        }
+        return board.get(position);
     }
 
     private void checkAlly(Piece piece, Piece otherPiece) {
@@ -55,6 +55,10 @@ public class Board {
         return count;
     }
 
+    private boolean hasPieceAt(Position position) {
+        return board.containsKey(position);
+    }
+
     public boolean hasPieceAt(MovablePositions positions) {
         for (Position position : positions) {
             if (hasPieceAt(position)) {
@@ -62,10 +66,6 @@ public class Board {
             }
         }
         return false;
-    }
-
-    private boolean hasPieceAt(Position position) {
-        return board.containsKey(position);
     }
 
     public boolean hasCannon(MovablePositions positions) {

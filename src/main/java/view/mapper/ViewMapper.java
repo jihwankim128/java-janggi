@@ -1,9 +1,10 @@
 package view.mapper;
 
-import java.util.EnumMap;
-import java.util.Map;
 import model.Team;
 import model.piece.PieceType;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class ViewMapper {
 

@@ -1,6 +1,5 @@
 package model.fixture;
 
-import java.util.stream.Stream;
 import model.Team;
 import model.formation.MaSangMaSangStrategy;
 import model.formation.MaSangSangMaStrategy;
@@ -9,6 +8,8 @@ import model.formation.SangMaSangMaStrategy;
 import model.piece.Elephant;
 import model.piece.Horse;
 import org.junit.jupiter.params.provider.Arguments;
+
+import java.util.stream.Stream;
 
 public class FormationTestFixture {
 

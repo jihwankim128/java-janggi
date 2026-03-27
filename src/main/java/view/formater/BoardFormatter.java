@@ -1,9 +1,9 @@
 package view.formater;
 
-import static view.mapper.ViewMapper.getSymbol;
-
 import model.Team;
 import model.piece.Piece;
+
+import static view.mapper.ViewMapper.getSymbol;
 
 public class BoardFormatter {
 

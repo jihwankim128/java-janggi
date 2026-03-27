@@ -1,20 +1,24 @@
 package view;
 
-import static view.formater.BoardFormatter.COL_NUM;
-import static view.formater.BoardFormatter.RED;
-import static view.formater.BoardFormatter.RESET;
-import static view.formater.BoardFormatter.ROW_NUM;
-import static view.formater.BoardFormatter.SPACE;
-import static view.formater.BoardFormatter.VERTICAL_LINE;
-import static view.formater.BoardFormatter.formatHorizon;
-import static view.formater.BoardFormatter.formatSymbol;
-
-import java.util.Map;
 import model.Board;
 import model.coordinate.Position;
 import model.piece.Piece;
 
+import java.util.Map;
+
+import static view.formater.BoardFormatter.*;
+
 public class OutputView {
+
+    public void displayBoard(Map<Position, Piece> board) {
+        displayColIndex();
+        String border = formatHorizon(Board.BOARD_COL);
+        System.out.println(border);
+
+        displayPositionByPiece(board);
+
+        System.out.println(border);
+    }
 
     private static void displayPositionByPiece(Map<Position, Piece> board) {
         for (int row = 0; row < Board.BOARD_ROW; row++) {
@@ -34,16 +38,6 @@ public class OutputView {
             System.out.print(SPACE + column);
         }
         System.out.println();
-    }
-
-    public void displayBoard(Map<Position, Piece> board) {
-        displayColIndex();
-        String border = formatHorizon(Board.BOARD_COL);
-        System.out.println(border);
-
-        displayPositionByPiece(board);
-
-        System.out.println(border);
     }
 
     public void displayError(String message) {

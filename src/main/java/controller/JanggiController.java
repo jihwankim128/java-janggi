@@ -1,23 +1,24 @@
 package controller;
 
-import static controller.Retrier.retry;
-import static model.Team.CHO;
-import static model.Team.HAN;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 import model.Board;
 import model.BoardFactory;
 import model.Janggi;
-import model.coordinate.Position;
 import model.Team;
+import model.coordinate.Position;
 import model.formation.FormationFactory;
 import model.formation.JanggiFormation;
 import model.piece.Piece;
 import view.InputView;
 import view.OutputView;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import static controller.Retrier.retry;
+import static model.Team.CHO;
+import static model.Team.HAN;
 
 public class JanggiController {
     private final InputView inputView;

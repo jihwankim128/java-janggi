@@ -25,16 +25,16 @@ public record Position(int row, int col) {
         }
     }
 
+    public Displacement minus(Position other) {
+        return new Displacement(calculateRowDiff(other), calculateColDiff(other));
+    }
+
     public int calculateRowDiff(Position other) {
         return this.row() - other.row();
     }
 
     public int calculateColDiff(Position other) {
         return this.col - other.col();
-    }
-
-    public Displacement minus(Position other) {
-        return new Displacement(calculateRowDiff(other), calculateColDiff(other));
     }
 
     public Position move(Direction direction) {

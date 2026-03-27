@@ -1,9 +1,9 @@
 package model.piece;
 
+import model.Team;
 import model.coordinate.Direction;
 import model.coordinate.MovablePositions;
 import model.coordinate.Position;
-import model.Team;
 
 import java.util.ArrayList;
 import java.util.List;

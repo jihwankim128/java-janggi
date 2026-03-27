@@ -1,8 +1,9 @@
 package model.fixture;
 
-import java.util.stream.Stream;
 import model.coordinate.Position;
 import org.junit.jupiter.params.provider.Arguments;
+
+import java.util.stream.Stream;
 
 public class PieceTestFixture {
 

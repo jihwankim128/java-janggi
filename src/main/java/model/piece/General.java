@@ -1,8 +1,8 @@
 package model.piece;
 
+import model.Team;
 import model.coordinate.MovablePositions;
 import model.coordinate.Position;
-import model.Team;
 
 public class General extends Piece {
 

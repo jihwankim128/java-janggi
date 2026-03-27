@@ -1,15 +1,15 @@
 package model;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import model.coordinate.Position;
 import model.piece.Chariot;
 import model.piece.Piece;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BoardTest {
 

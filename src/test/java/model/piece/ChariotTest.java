@@ -1,16 +1,17 @@
 package model.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.HashMap;
-import java.util.Map;
 import model.Board;
+import model.Team;
 import model.coordinate.MovablePositions;
 import model.coordinate.Position;
-import model.Team;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChariotTest {
 

@@ -1,10 +1,8 @@
 package model.piece;
 
-import static model.Team.CHO;
-
+import model.Team;
 import model.coordinate.MovablePositions;
 import model.coordinate.Position;
-import model.Team;
 
 public class Soldier extends Piece {
 

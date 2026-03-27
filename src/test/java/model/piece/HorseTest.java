@@ -1,11 +1,11 @@
 package model.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import model.coordinate.Position;
 import model.Team;
+import model.coordinate.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HorseTest {
 
