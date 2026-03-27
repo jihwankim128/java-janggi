@@ -1,25 +1,21 @@
 package model;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 import model.piece.Piece;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-public record Board(Map<Position, Piece> board) {
+public class Board {
 
     public static final int BOARD_ROW = 10;
     public static final int BOARD_COL = 9;
 
+    private final Map<Position, Piece> board;
+
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
-    }
-
-    @Override
-    public Map<Position, Piece> board() {
-        return Map.copyOf(board);
     }
 
     public void movePiece(Position current, Position next) {
@@ -32,16 +28,10 @@ public record Board(Map<Position, Piece> board) {
     }
 
     public Piece pickPiece(Position position) {
-        if (!board.containsKey(position)) {
+        if (!hasPieceAt(position)) {
             throw new IllegalArgumentException("해당 위치에 존재하는 장기말이 없습니다.");
         }
         return board.get(position);
-    }
-
-    private void checkAlly(Piece piece, Piece otherPiece) {
-        if (piece.isSameTeam(otherPiece)) {
-            throw new IllegalArgumentException("해당 위치는 아군이 존재하는 위치입니다.");
-        }
     }
 
     public int countPiecesAt(MovablePositions positions) {
@@ -52,10 +42,6 @@ public record Board(Map<Position, Piece> board) {
             }
         }
         return count;
-    }
-
-    private boolean hasPieceAt(Position position) {
-        return board.containsKey(position);
     }
 
     public boolean hasPieceAt(MovablePositions positions) {
@@ -78,5 +64,19 @@ public record Board(Map<Position, Piece> board) {
             }
         }
         return false;
+    }
+
+    private void checkAlly(Piece piece, Piece otherPiece) {
+        if (piece.isSameTeam(otherPiece)) {
+            throw new IllegalArgumentException("해당 위치는 아군이 존재하는 위치입니다.");
+        }
+    }
+
+    private boolean hasPieceAt(Position position) {
+        return board.containsKey(position);
+    }
+
+    public Map<Position, Piece> board() {
+        return Map.copyOf(board);
     }
 }

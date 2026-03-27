@@ -7,6 +7,7 @@ import model.piece.Piece;
 public class Janggi {
 
     public static final int CANNON_HURDLE_COUNT = 1;
+
     private final Board board;
     private Team turn;
 
@@ -29,6 +30,10 @@ public class Janggi {
             throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
         }
         return piece;
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 
     private void validateMovement(Position current, Position next, Piece piece) {
@@ -55,9 +60,5 @@ public class Janggi {
         if (board.hasCannon(positions)) {
             throw new IllegalArgumentException("포는 포를 건너뛸 수 없습니다.");
         }
-    }
-
-    public Team getTurn() {
-        return turn;
     }
 }
