@@ -1,8 +1,8 @@
 package model.piece;
 
+import model.Team;
 import model.coordinate.MovablePositions;
 import model.coordinate.Position;
-import model.Team;
 
 public abstract class Piece {
 
@@ -40,6 +40,10 @@ public abstract class Piece {
 
     public boolean isCho() {
         return getTeam() == Team.CHO;
+    }
+
+    public boolean isCannon() {
+        return getType() == PieceType.CANNON;
     }
 
     protected abstract boolean comparePosition(int rowDiff, int colDiff);

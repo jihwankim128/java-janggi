@@ -45,6 +45,16 @@ public class Board {
         }
     }
 
+    public int countPiecesAt(MovablePositions positions) {
+        int count = 0;
+        for (Position position : positions) {
+            if (hasPieceAt(position)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public boolean hasPieceAt(MovablePositions positions) {
         for (Position position : positions) {
             if (hasPieceAt(position)) {
@@ -56,5 +66,18 @@ public class Board {
 
     private boolean hasPieceAt(Position position) {
         return board.containsKey(position);
+    }
+
+    public boolean hasCannon(MovablePositions positions) {
+        for (Position position : positions) {
+            if (!hasPieceAt(position)) {
+                continue;
+            }
+            Piece piece = pickPiece(position);
+            if (piece.isCannon()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
