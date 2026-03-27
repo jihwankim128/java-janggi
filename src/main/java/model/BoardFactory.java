@@ -1,7 +1,12 @@
 package model;
 
 import model.coordinate.Position;
-import model.piece.*;
+import model.piece.Cannon;
+import model.piece.Chariot;
+import model.piece.General;
+import model.piece.Guard;
+import model.piece.Piece;
+import model.piece.Soldier;
 
 import java.util.HashMap;
 import java.util.Map;

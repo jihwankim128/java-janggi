@@ -9,7 +9,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Map;
 
-import static model.coordinate.Position.*;
+import static model.coordinate.Position.CHO_LEFT_INNER;
+import static model.coordinate.Position.CHO_LEFT_OUTER;
+import static model.coordinate.Position.CHO_RIGHT_INNER;
+import static model.coordinate.Position.CHO_RIGHT_OUTER;
+import static model.coordinate.Position.HAN_LEFT_INNER;
+import static model.coordinate.Position.HAN_LEFT_OUTER;
+import static model.coordinate.Position.HAN_RIGHT_INNER;
+import static model.coordinate.Position.HAN_RIGHT_OUTER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FormationStrategyTest {

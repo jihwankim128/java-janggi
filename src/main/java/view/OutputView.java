@@ -6,7 +6,14 @@ import model.piece.Piece;
 
 import java.util.Map;
 
-import static view.formater.BoardFormatter.*;
+import static view.formater.BoardFormatter.COL_NUM;
+import static view.formater.BoardFormatter.RED;
+import static view.formater.BoardFormatter.RESET;
+import static view.formater.BoardFormatter.ROW_NUM;
+import static view.formater.BoardFormatter.SPACE;
+import static view.formater.BoardFormatter.VERTICAL_LINE;
+import static view.formater.BoardFormatter.formatHorizon;
+import static view.formater.BoardFormatter.formatSymbol;
 
 public class OutputView {
 
