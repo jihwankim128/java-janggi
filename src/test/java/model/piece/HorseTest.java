@@ -1,19 +1,18 @@
 package model.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import model.Board;
 import model.Janggi;
 import model.Team;
-import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class HorseTest {
 
@@ -52,7 +51,7 @@ public class HorseTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = horse.extractPath(current, next);
+        List<Position> path = horse.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isTrue();
@@ -84,7 +83,7 @@ public class HorseTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = horse.extractPath(current, next);
+        List<Position> path = horse.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isFalse();

@@ -1,9 +1,9 @@
 package model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 import model.piece.Piece;
 
@@ -34,36 +34,21 @@ public class Board {
         return board.get(position);
     }
 
-    public int countPiecesAt(MovablePositions positions) {
-        int count = 0;
-        for (Position position : positions) {
-            if (hasPieceAt(position)) {
-                count++;
-            }
-        }
-        return count;
+    public int countPiecesAt(List<Position> path) {
+        return (int) path.stream()
+                .filter(this::hasPieceAt)
+                .count();
     }
 
-    public boolean hasPieceAt(MovablePositions positions) {
-        for (Position position : positions) {
-            if (hasPieceAt(position)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean hasPieceAt(List<Position> path) {
+        return path.stream()
+                .anyMatch(this::hasPieceAt);
     }
 
-    public boolean hasCannon(MovablePositions positions) {
-        for (Position position : positions) {
-            if (!hasPieceAt(position)) {
-                continue;
-            }
-            Piece piece = pickPiece(position);
-            if (piece.isCannon()) {
-                return true;
-            }
-        }
-        return false;
+    public boolean hasCannon(List<Position> path) {
+        return path.stream()
+                .filter(this::hasPieceAt)
+                .anyMatch(position -> pickPiece(position).isCannon());
     }
 
     private void checkAlly(Piece piece, Piece otherPiece) {

@@ -1,17 +1,16 @@
 package model.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import model.Board;
 import model.Team;
-import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChariotTest {
 
@@ -45,7 +44,7 @@ public class ChariotTest {
         Position next = new Position(0, 5);
 
         // when
-        MovablePositions path = chariot.extractPath(current, next);
+        List<Position> path = chariot.extractPath(current, next);
 
         // then
         assertThat(path).containsExactly(
@@ -64,7 +63,7 @@ public class ChariotTest {
         Position next = new Position(3, 5);
 
         // when
-        MovablePositions path = chariot.extractPath(current, next);
+        List<Position> path = chariot.extractPath(current, next);
 
         // then
         assertThat(path).isEmpty();
@@ -83,7 +82,7 @@ public class ChariotTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = chariot.extractPath(current, next);
+        List<Position> path = chariot.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isTrue();
@@ -101,7 +100,7 @@ public class ChariotTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = chariot.extractPath(current, next);
+        List<Position> path = chariot.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isFalse();
@@ -117,7 +116,7 @@ public class ChariotTest {
         Board board = new Board(new HashMap<>());
 
         // when
-        MovablePositions path = chariot.extractPath(current, next);
+        List<Position> path = chariot.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isFalse();

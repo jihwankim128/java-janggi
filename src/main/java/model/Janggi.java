@@ -1,6 +1,6 @@
 package model;
 
-import model.coordinate.MovablePositions;
+import java.util.List;
 import model.coordinate.Position;
 import model.piece.Piece;
 
@@ -46,18 +46,19 @@ public class Janggi {
             return;
         }
 
-        if (board.hasPieceAt(piece.extractPath(current, next))) {
+        List<Position> path = piece.extractPath(current, next);
+        if (board.hasPieceAt(path)) {
             throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
         }
     }
 
     private void validateMovementOfCannon(Position current, Position next, Piece piece) {
-        MovablePositions positions = piece.extractPath(current, next);
-        int countedPieces = board.countPiecesAt(positions);
+        List<Position> path = piece.extractPath(current, next);
+        int countedPieces = board.countPiecesAt(path);
         if (countedPieces != CANNON_HURDLE_COUNT) {
             throw new IllegalArgumentException("포는 1개의 기물만 건너 뛰어야 합니다.");
         }
-        if (board.hasCannon(positions)) {
+        if (board.hasCannon(path)) {
             throw new IllegalArgumentException("포는 포를 건너뛸 수 없습니다.");
         }
     }

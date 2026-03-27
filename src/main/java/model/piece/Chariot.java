@@ -1,12 +1,10 @@
 package model.piece;
 
-import model.Team;
-import model.coordinate.Direction;
-import model.coordinate.MovablePositions;
-import model.coordinate.Position;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.Team;
+import model.coordinate.Direction;
+import model.coordinate.Position;
 
 public class Chariot extends Piece {
 
@@ -15,7 +13,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public MovablePositions extractPath(Position current, Position next) {
+    public List<Position> extractPath(Position current, Position next) {
         Direction direction = Direction.from(current, next);
         List<Position> path = new ArrayList<>();
         Position step = current.move(direction);
@@ -23,7 +21,7 @@ public class Chariot extends Piece {
             path.add(step);
             step = step.move(direction);
         }
-        return new MovablePositions(path);
+        return path;
     }
 
     @Override

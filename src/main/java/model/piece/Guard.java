@@ -1,7 +1,7 @@
 package model.piece;
 
+import java.util.List;
 import model.Team;
-import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 
 public class Guard extends Piece {
@@ -11,8 +11,8 @@ public class Guard extends Piece {
     }
 
     @Override
-    public MovablePositions extractPath(Position current, Position next) {
-        return MovablePositions.empty();
+    public List<Position> extractPath(Position current, Position next) {
+        throw new IllegalArgumentException("1단계 궁성 영역 미구현");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package model.piece;
 
+import java.util.List;
 import model.Team;
-import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 
 public abstract class Piece {
@@ -14,7 +14,7 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public abstract MovablePositions extractPath(Position current, Position next);
+    public abstract List<Position> extractPath(Position current, Position next);
 
     protected abstract boolean comparePosition(int rowDiff, int colDiff);
 

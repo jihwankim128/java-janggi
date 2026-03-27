@@ -1,12 +1,10 @@
 package model.piece;
 
-import model.Team;
-import model.coordinate.Direction;
-import model.coordinate.MovablePositions;
-import model.coordinate.Position;
-
 import java.util.ArrayList;
 import java.util.List;
+import model.Team;
+import model.coordinate.Direction;
+import model.coordinate.Position;
 
 public class Elephant extends Piece {
 
@@ -15,7 +13,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public MovablePositions extractPath(Position current, Position next) {
+    public List<Position> extractPath(Position current, Position next) {
         List<Direction> directions = Direction.decomposeToCardinalAndDiagonal(current, next);
         List<Position> path = new ArrayList<>();
         Position step = current;
@@ -23,7 +21,7 @@ public class Elephant extends Piece {
             step = step.move(directions.get(i));
             path.add(step);
         }
-        return new MovablePositions(path);
+        return path;
     }
 
     @Override

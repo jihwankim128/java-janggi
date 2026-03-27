@@ -1,19 +1,18 @@
 package model.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import model.Board;
 import model.Janggi;
 import model.Team;
-import model.coordinate.MovablePositions;
 import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ElephantTest {
 
@@ -52,7 +51,7 @@ public class ElephantTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = elephant.extractPath(current, next);
+        List<Position> path = elephant.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isTrue();
@@ -71,7 +70,7 @@ public class ElephantTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = elephant.extractPath(current, next);
+        List<Position> path = elephant.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isTrue();
@@ -117,7 +116,7 @@ public class ElephantTest {
         Board board = new Board(pieces);
 
         // when
-        MovablePositions path = elephant.extractPath(current, next);
+        List<Position> path = elephant.extractPath(current, next);
 
         // then
         assertThat(board.hasPieceAt(path)).isFalse();
