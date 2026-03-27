@@ -30,12 +30,12 @@ public enum Direction {
                 .orElseThrow(() -> new IllegalArgumentException("직선 방향이 아닙니다."));
     }
 
+    /**
+     * 두 방향 벡터 (a,b), (c,d)가 실수배이려면 비례 관계 a:c = b:d 가 성립해야 한다.
+     * 나눗셈의 0 처리 문제를 피하기 위해 ad = bc 형태로 변환하여 판별하고,
+     * 부호 곱 >= 0 조건으로 반대 방향을 걸러낸다.
+     */
     private static boolean hasSameDirection(Direction direction, Displacement displacement) {
-        /*
-        두 방향 벡터 (a,b), (c,d)가 실수배이려면 비례 관계 a:c = b:d 가 성립해야 한다.
-        나눗셈의 0 처리 문제를 피하기 위해 ad = bc 형태로 변환하여 판별하고,
-        부호 곱 >= 0 조건으로 반대 방향을 걸러낸다.
-         */
         return direction.row * displacement.col() == direction.col * displacement.row()
                 && direction.row * displacement.row() >= 0
                 && direction.col * displacement.col() >= 0;
