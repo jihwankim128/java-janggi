@@ -36,12 +36,12 @@ public class JanggiController {
 
         Map<Position, Piece> pieceByFormation = FormationFactory.generateFormation(hanFormation, choFormation);
         Board board = BoardFactory.generatePieces(pieceByFormation);
-        outputView.displayBoard(board.getBoard());
+        outputView.displayBoard(board.board());
 
         Janggi janggi = new Janggi(board);
         while (true) {
             retry(() -> playByTurn(janggi), processError());
-            outputView.displayBoard(board.getBoard());
+            outputView.displayBoard(board.board());
         }
     }
 

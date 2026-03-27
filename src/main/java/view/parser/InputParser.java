@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class InputParser {
-    
+
     public int parseNumber(String input) {
         try {
             return Integer.parseInt(input.strip());
@@ -15,7 +15,7 @@ public class InputParser {
 
     public List<String> parseToken(String input, String delimiter) {
         return Arrays.stream(input.strip()
-                .split(delimiter))
+                        .split(delimiter))
                 .map(String::strip)
                 .toList();
     }
