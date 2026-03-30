@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class ChariotTest {
 
     @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#직선_이동_가능한_위치")
+    @MethodSource("model.fixture.PieceTestFixture#사방위_이동_방향_케이스")
     void 차는_직선으로_이동할_수_있다(Position current, Position next) {
         // given
         Piece chariot = new Chariot(Team.HAN);
@@ -26,7 +26,7 @@ public class ChariotTest {
     }
 
     @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#직선_이동_불가능한_위치")
+    @MethodSource("model.fixture.PieceTestFixture#사간방_대각선_이동_방향_케이스")
     void 차는_대각선으로_이동할_수_없다(Position current, Position next) {
         // given
         Piece chariot = new Chariot(Team.HAN);

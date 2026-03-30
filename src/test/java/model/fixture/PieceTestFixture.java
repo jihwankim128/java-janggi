@@ -1,17 +1,21 @@
 package model.fixture;
 
+import java.util.stream.Stream;
 import model.coordinate.Position;
 import org.junit.jupiter.params.provider.Arguments;
 
-import java.util.stream.Stream;
-
 public class PieceTestFixture {
+
+    // 공통
+    public static Stream<Arguments> 제자리_이동_케이스() {
+        return Stream.of(Arguments.of(new Position(0, 0), new Position(0, 0)));
+    }
 
     // ============================
     // 직선 이동 (車, 包 공통)
     // ============================
 
-    public static Stream<Arguments> 직선_이동_가능한_위치() {
+    public static Stream<Arguments> 사방위_이동_방향_케이스() {
         return Stream.of(
                 Arguments.of(new Position(0, 0), new Position(0, 5)),  // 우 이동
                 Arguments.of(new Position(0, 0), new Position(5, 0)),  // 하 이동
@@ -20,13 +24,12 @@ public class PieceTestFixture {
         );
     }
 
-    public static Stream<Arguments> 직선_이동_불가능한_위치() {
+    public static Stream<Arguments> 사간방_대각선_이동_방향_케이스() {
         return Stream.of(
-                Arguments.of(new Position(0, 0), new Position(1, 1)),  // 정대각선 (1:1)
-                Arguments.of(new Position(0, 0), new Position(2, 1)),  // rowDiff > colDiff
-                Arguments.of(new Position(0, 0), new Position(1, 2)),  // rowDiff < colDiff
-                Arguments.of(new Position(5, 5), new Position(7, 3)),  // 음수 방향 대각선
-                Arguments.of(new Position(5, 5), new Position(9, 8))   // 둘 다 다름
+                Arguments.of(new Position(2, 2), new Position(4, 4)),   // 1. 북동 (NE): row 증가, col 증가
+                Arguments.of(new Position(5, 5), new Position(3, 7)),   // 2. 남동 (SE): row 감소, col 증가
+                Arguments.of(new Position(5, 5), new Position(2, 2)),   // 3. 남서 (SW): row 감소, col 감소
+                Arguments.of(new Position(2, 5), new Position(4, 3))    // 4. 북서 (NW): row 증가, col 감소
         );
     }
 
