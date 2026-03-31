@@ -17,10 +17,10 @@ public abstract class Piece {
     public abstract List<Position> extractPath(Position current, Position next);
 
     public boolean isSameTeam(Piece other) {
-        return !isEnemy(other.team);
+        return !isOtherTeam(other.team);
     }
 
-    public boolean isEnemy(Team team) {
+    public boolean isOtherTeam(Team team) {
         return this.team != team;
     }
 
@@ -36,12 +36,12 @@ public abstract class Piece {
         return getTeam() == Team.CHO;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
     public boolean isCannon() {
         return getType() == PieceType.CANNON;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     public PieceType getType() {

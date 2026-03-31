@@ -1,8 +1,16 @@
 package controller;
 
+import static controller.Retrier.retry;
+import static model.Team.CHO;
+import static model.Team.HAN;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import model.Board;
 import model.BoardFactory;
-import model.Janggi;
+import model.JanggiGame;
 import model.Team;
 import model.coordinate.Position;
 import model.formation.FormationFactory;
@@ -10,15 +18,6 @@ import model.formation.JanggiFormation;
 import model.piece.Piece;
 import view.InputView;
 import view.OutputView;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import static controller.Retrier.retry;
-import static model.Team.CHO;
-import static model.Team.HAN;
 
 public class JanggiController {
     private final InputView inputView;
@@ -38,21 +37,21 @@ public class JanggiController {
         Board board = BoardFactory.generatePieces(pieceByFormation);
         outputView.displayBoard(board.board());
 
-        Janggi janggi = new Janggi(board);
+        JanggiGame janggiGame = new JanggiGame(board);
         while (true) {
-            retry(() -> playByTurn(janggi), processError());
+            retry(() -> playByTurn(janggiGame), processError());
             outputView.displayBoard(board.board());
         }
     }
 
-    private void playByTurn(Janggi janggi) {
-        Team currentTurn = janggi.getTurn();
+    private void playByTurn(JanggiGame janggiGame) {
+        Team currentTurn = janggiGame.getTurn();
 
         Position current = inputView.readSource(currentTurn);
-        Piece piece = janggi.findPieceAt(current, currentTurn);
+        Piece piece = janggiGame.selectPiece(current);
 
         Position next = inputView.readDestination(currentTurn, piece);
-        janggi.move(current, next);
+        janggiGame.movePiece(current, next);
     }
 
     private Consumer<IllegalArgumentException> processError() {
