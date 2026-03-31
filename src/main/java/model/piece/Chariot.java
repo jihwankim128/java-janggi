@@ -3,8 +3,8 @@ package model.piece;
 import java.util.ArrayList;
 import java.util.List;
 import model.Team;
-import model.coordinate.Direction;
-import model.coordinate.Position;
+import model.board.Direction;
+import model.board.Position;
 
 public class Chariot extends Piece {
 

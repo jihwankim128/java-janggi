@@ -1,18 +1,16 @@
-package model;
+package model.board;
 
-import model.coordinate.Position;
+import static model.Team.CHO;
+import static model.Team.HAN;
+
+import java.util.HashMap;
+import java.util.Map;
 import model.piece.Cannon;
 import model.piece.Chariot;
 import model.piece.General;
 import model.piece.Guard;
 import model.piece.Piece;
 import model.piece.Soldier;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static model.Team.CHO;
-import static model.Team.HAN;
 
 public class BoardFactory {
 

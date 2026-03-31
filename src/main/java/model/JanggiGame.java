@@ -1,6 +1,7 @@
 package model;
 
-import model.coordinate.Position;
+import model.board.Board;
+import model.board.Position;
 import model.piece.Piece;
 
 public class JanggiGame {

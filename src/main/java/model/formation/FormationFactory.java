@@ -1,12 +1,11 @@
 package model.formation;
 
-import model.Team;
-import model.coordinate.Position;
-import model.piece.Piece;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import model.Team;
+import model.board.Position;
+import model.piece.Piece;
 
 public class FormationFactory {
 

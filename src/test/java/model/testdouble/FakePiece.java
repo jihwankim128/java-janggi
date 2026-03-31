@@ -2,7 +2,7 @@ package model.testdouble;
 
 import java.util.List;
 import model.Team;
-import model.coordinate.Position;
+import model.board.Position;
 import model.piece.Piece;
 import model.piece.PieceType;
 

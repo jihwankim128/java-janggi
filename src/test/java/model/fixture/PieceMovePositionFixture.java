@@ -2,7 +2,7 @@ package model.fixture;
 
 import java.util.stream.Stream;
 import model.Team;
-import model.coordinate.Position;
+import model.board.Position;
 import org.junit.jupiter.params.provider.Arguments;
 
 public class PieceMovePositionFixture {

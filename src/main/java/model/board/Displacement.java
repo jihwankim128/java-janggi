@@ -1,4 +1,4 @@
-package model.coordinate;
+package model.board;
 
 public record Displacement(int row, int col) {
 }

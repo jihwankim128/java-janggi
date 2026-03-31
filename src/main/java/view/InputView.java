@@ -1,15 +1,14 @@
 package view;
 
-import model.Team;
-import model.coordinate.Position;
-import model.formation.JanggiFormation;
-import model.piece.Piece;
-import view.parser.InputParser;
+import static view.formater.BoardFormatter.formatSymbol;
 
 import java.util.List;
 import java.util.Scanner;
-
-import static view.formater.BoardFormatter.formatSymbol;
+import model.Team;
+import model.board.Position;
+import model.formation.JanggiFormation;
+import model.piece.Piece;
+import view.parser.InputParser;
 
 public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);

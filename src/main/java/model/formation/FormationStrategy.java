@@ -1,10 +1,9 @@
 package model.formation;
 
-import model.Team;
-import model.coordinate.Position;
-import model.piece.Piece;
-
 import java.util.Map;
+import model.Team;
+import model.board.Position;
+import model.piece.Piece;
 
 public abstract class FormationStrategy {
 

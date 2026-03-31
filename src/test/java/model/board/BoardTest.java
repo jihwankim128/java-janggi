@@ -1,11 +1,11 @@
-package model;
+package model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import java.util.Map;
-import model.coordinate.Position;
+import model.Team;
 import model.piece.Piece;
 import model.testdouble.FakePiece;
 import org.junit.jupiter.api.Test;

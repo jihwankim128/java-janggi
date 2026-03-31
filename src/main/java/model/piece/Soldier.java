@@ -2,7 +2,7 @@ package model.piece;
 
 import java.util.List;
 import model.Team;
-import model.coordinate.Position;
+import model.board.Position;
 
 public class Soldier extends Piece {
 

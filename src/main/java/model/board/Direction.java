@@ -1,4 +1,4 @@
-package model.coordinate;
+package model.board;
 
 import java.util.ArrayList;
 import java.util.List;
