@@ -2,6 +2,7 @@ package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import model.Team;
 import model.coordinate.Position;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,55 +10,36 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class SoldierTest {
 
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#한나라_병_이동_가능한_위치")
-    void 한나라_병은_전진과_좌우로_이동할_수_있다(Position current, Position next) {
+    @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동할 수 있다.")
+    @MethodSource("model.fixture.PieceMovePositionFixture#졸_병_이동_가능한_위치")
+    void 졸_병_이동_성공_테스트(Team team, Position current, Position next) {
         // given
-        Piece soldier = new Soldier(Team.HAN);
+        Piece soldier = new Soldier(team);
 
-        // when
-        boolean canMove = soldier.canMove(current, next);
-
-        // then
-        assertThat(canMove).isTrue();
+        // when & then
+        assertThat(soldier.canMove(current, next)).isTrue();
     }
 
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#한나라_병_이동_불가능한_위치")
-    void 한나라_병은_후퇴와_두칸_이동을_할_수_없다(Position current, Position next) {
+    @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동할 수 없다.")
+    @MethodSource("model.fixture.PieceMovePositionFixture#졸_병_이동_불가능한_위치")
+    void 졸_병_이동_실패_테스트(Team team, Position current, Position next) {
         // given
-        Piece soldier = new Soldier(Team.HAN);
+        Piece soldier = new Soldier(team);
 
-        // when
-        boolean canMove = soldier.canMove(current, next);
-
-        // then
-        assertThat(canMove).isFalse();
+        // when & then
+        assertThat(soldier.canMove(current, next)).isFalse();
     }
 
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#초나라_졸_이동_가능한_위치")
-    void 초나라_졸은_전진과_좌우로_이동할_수_있다(Position current, Position next) {
+    @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동 시 무조건 경로가 비어있다.")
+    @MethodSource("model.fixture.PieceMovePathFixture#졸_병_이동_경로_테스트_데이터")
+    void 졸_병_경로_테스트(Team team, Position current, Position next) {
         // given
-        Piece soldier = new Soldier(Team.CHO);
+        Piece soldier = new Soldier(team);
 
         // when
-        boolean canMove = soldier.canMove(current, next);
+        List<Position> path = soldier.extractPath(current, next);
 
         // then
-        assertThat(canMove).isTrue();
-    }
-
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#초나라_졸_이동_불가능한_위치")
-    void 초나라_졸은_후퇴와_두칸_이동을_할_수_없다(Position current, Position next) {
-        // given
-        Piece soldier = new Soldier(Team.CHO);
-
-        // when
-        boolean canMove = soldier.canMove(current, next);
-
-        // then
-        assertThat(canMove).isFalse();
+        assertThat(path).isEmpty();
     }
 }

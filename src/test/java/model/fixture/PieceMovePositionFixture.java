@@ -1,10 +1,11 @@
 package model.fixture;
 
 import java.util.stream.Stream;
+import model.Team;
 import model.coordinate.Position;
 import org.junit.jupiter.params.provider.Arguments;
 
-public class PieceTestFixture {
+public class PieceMovePositionFixture {
 
     // 공통
     public static Stream<Arguments> 제자리_이동_케이스() {
@@ -88,44 +89,39 @@ public class PieceTestFixture {
     }
 
     // ============================
-    // 兵 (HAN)
+    // 兵 & 卒 (Soldier) 통합 데이터
     // ============================
-
-    public static Stream<Arguments> 한나라_병_이동_가능한_위치() {
-        return Stream.of(
-                Arguments.of(new Position(3, 2), new Position(4, 2)),  // 전진 (하)
-                Arguments.of(new Position(3, 2), new Position(3, 1)),  // 좌
-                Arguments.of(new Position(3, 2), new Position(3, 3))   // 우
+    public static Stream<Arguments> 졸_병_이동_가능한_위치() {
+        return Stream.concat(
+                // 한나라 (HAN): 전진(row+1), 좌우
+                Stream.of(
+                        Arguments.of(Team.HAN, new Position(3, 2), new Position(4, 2)), // 전진
+                        Arguments.of(Team.HAN, new Position(3, 2), new Position(3, 1)), // 좌
+                        Arguments.of(Team.HAN, new Position(3, 2), new Position(3, 3))  // 우
+                ),
+                // 초나라 (CHO): 전진(row-1), 좌우
+                Stream.of(
+                        Arguments.of(Team.CHO, new Position(6, 2), new Position(5, 2)), // 전진
+                        Arguments.of(Team.CHO, new Position(6, 2), new Position(6, 1)), // 좌
+                        Arguments.of(Team.CHO, new Position(6, 2), new Position(6, 3))  // 우
+                )
         );
     }
 
-    public static Stream<Arguments> 한나라_병_이동_불가능한_위치() {
-        return Stream.of(
-                Arguments.of(new Position(3, 2), new Position(2, 2)),  // 후퇴 (상)
-                Arguments.of(new Position(3, 2), new Position(5, 2)),  // 두 칸 전진
-                Arguments.of(new Position(3, 2), new Position(3, 4)),  // 두 칸 옆
-                Arguments.of(new Position(3, 2), new Position(4, 3))   // 대각선
-        );
-    }
-
-    // ============================
-    // 卒 (CHO)
-    // ============================
-
-    public static Stream<Arguments> 초나라_졸_이동_가능한_위치() {
-        return Stream.of(
-                Arguments.of(new Position(6, 2), new Position(5, 2)),  // 전진 (상)
-                Arguments.of(new Position(6, 2), new Position(6, 1)),  // 좌
-                Arguments.of(new Position(6, 2), new Position(6, 3))   // 우
-        );
-    }
-
-    public static Stream<Arguments> 초나라_졸_이동_불가능한_위치() {
-        return Stream.of(
-                Arguments.of(new Position(6, 2), new Position(7, 2)),  // 후퇴 (하)
-                Arguments.of(new Position(6, 2), new Position(4, 2)),  // 두 칸 전진
-                Arguments.of(new Position(6, 2), new Position(6, 4)),  // 두 칸 옆
-                Arguments.of(new Position(6, 2), new Position(5, 3))   // 대각선
+    public static Stream<Arguments> 졸_병_이동_불가능한_위치() {
+        return Stream.concat(
+                // 한나라 (HAN) 불가능
+                Stream.of(
+                        Arguments.of(Team.HAN, new Position(3, 2), new Position(2, 2)), // 후퇴
+                        Arguments.of(Team.HAN, new Position(3, 2), new Position(5, 2)), // 2칸 전진
+                        Arguments.of(Team.HAN, new Position(3, 2), new Position(4, 3))  // 대각선
+                ),
+                // 초나라 (CHO) 불가능
+                Stream.of(
+                        Arguments.of(Team.CHO, new Position(6, 2), new Position(7, 2)), // 후퇴
+                        Arguments.of(Team.CHO, new Position(6, 2), new Position(4, 2)), // 2칸 전진
+                        Arguments.of(Team.CHO, new Position(6, 2), new Position(5, 3))  // 대각선
+                )
         );
     }
 }

@@ -5,14 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import model.Team;
 import model.coordinate.Position;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class ChariotTest {
 
     @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#사방위_이동_방향_케이스")
+    @MethodSource("model.fixture.PieceMovePositionFixture#사방위_이동_방향_케이스")
     void 차는_직선으로_이동할_수_있다(Position current, Position next) {
         // given
         Piece chariot = new Chariot(Team.HAN);
@@ -23,8 +22,8 @@ public class ChariotTest {
     }
 
     @ParameterizedTest
-    @MethodSource("model.fixture.PieceTestFixture#사간방_대각선_이동_방향_케이스")
-    @MethodSource("model.fixture.PieceTestFixture#제자리_이동_케이스")
+    @MethodSource("model.fixture.PieceMovePositionFixture#사간방_대각선_이동_방향_케이스")
+    @MethodSource("model.fixture.PieceMovePositionFixture#제자리_이동_케이스")
     void 차는_대각선_또는_제자리로_이동할_수_없다(Position current, Position next) {
         // given
         Piece chariot = new Chariot(Team.HAN);
@@ -34,36 +33,16 @@ public class ChariotTest {
         assertThat(canMove).isFalse();
     }
 
-    @Test
-    void 차는_이동_경로의_중간_위치를_반환한다() {
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceMovePathFixture#사방위_이동_경로_테스트_데이터")
+    void 차에_대한_다음_위치까지의_이동_경로를_반환한다(Position current, Position next, List<Position> expectedPath) {
         // given
         Piece chariot = new Chariot(Team.HAN);
-        Position current = new Position(0, 0);
-        Position next = new Position(0, 5);
 
         // when
         List<Position> path = chariot.extractPath(current, next);
 
         // then
-        assertThat(path).containsExactly(
-                new Position(0, 1),
-                new Position(0, 2),
-                new Position(0, 3),
-                new Position(0, 4)
-        );
-    }
-
-    @Test
-    void 차가_한_칸_이동하면_중간_경로가_없다() {
-        // given
-        Piece chariot = new Chariot(Team.HAN);
-        Position current = new Position(3, 4);
-        Position next = new Position(3, 5);
-
-        // when
-        List<Position> path = chariot.extractPath(current, next);
-
-        // then
-        assertThat(path).isEmpty();
+        assertThat(path).isEqualTo(expectedPath);
     }
 }
