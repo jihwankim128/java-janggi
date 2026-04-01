@@ -119,7 +119,7 @@ class BoardTest {
         board.move(source, destination);
 
         // then
-        assertSuccessMoved(board, source, cannon, destination);
+        assertSuccessMoved(board, destination, cannon, source);
     }
 
     @Test

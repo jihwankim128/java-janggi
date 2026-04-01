@@ -15,18 +15,19 @@ public class JanggiGame {
     }
 
     public void movePiece(Position current, Position next) {
-        validateTurn(board.pickPiece(current));
+        Piece piece = board.pickPiece(current);
+        validateCurrentTurn(piece);
         board.move(current, next);
         this.turn = turn.next();
     }
 
     public Piece selectPiece(Position position) {
         Piece piece = board.pickPiece(position);
-        validateTurn(piece);
+        validateCurrentTurn(piece);
         return piece;
     }
 
-    private void validateTurn(Piece piece) {
+    private void validateCurrentTurn(Piece piece) {
         if (piece.isOtherTeam(turn)) {
             throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
         }

@@ -20,6 +20,44 @@ public class Board {
 
     public void move(Position current, Position next) {
         Piece piece = pickPiece(current);
+        validateMove(current, next, piece);
+
+        board.remove(current);
+        board.put(next, piece);
+    }
+
+    private void validateMove(Position current, Position next, Piece piece) {
+        validateCanMoveByPiece(current, next, piece);
+
+        List<Position> path = piece.extractPath(current, next);
+        if (piece.isCannon()) {
+            validateContainOnlyOnePiece(path);
+            validateNotContainCannon(path);
+            return;
+        }
+
+        validateNotContainPiece(path);
+    }
+
+    private void validateNotContainPiece(List<Position> path) {
+        if (hasPieceAt(path)) {
+            throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
+        }
+    }
+
+    private void validateNotContainCannon(List<Position> path) {
+        if (hasCannon(path)) {
+            throw new IllegalArgumentException("포는 포를 건너뛸 수 없습니다.");
+        }
+    }
+
+    private void validateContainOnlyOnePiece(List<Position> path) {
+        if (countPiecesAt(path) != CANNON_HURDLE_COUNT) {
+            throw new IllegalArgumentException("포는" + CANNON_HURDLE_COUNT + "개의 기물만 건너 뛰어야 합니다.");
+        }
+    }
+
+    private void validateCanMoveByPiece(Position current, Position next, Piece piece) {
         if (!piece.canMove(current, next)) {
             throw new IllegalArgumentException("해당 기물이 이동할 수 없는 위치입니다.");
         }
@@ -29,27 +67,6 @@ public class Board {
                 throw new IllegalArgumentException("아군이 있는 위치로 이동할 수 없습니다.");
             }
         });
-
-        List<Position> path = piece.extractPath(current, next);
-        if (piece.isCannon()) {
-            int countedPieces = countPiecesAt(path);
-            if (countedPieces != CANNON_HURDLE_COUNT) {
-                throw new IllegalArgumentException("포는" + CANNON_HURDLE_COUNT + "개의 기물만 건너 뛰어야 합니다.");
-            }
-            if (hasCannon(path)) {
-                throw new IllegalArgumentException("포는 포를 건너뛸 수 없습니다.");
-            }
-            board.remove(current);
-            board.put(next, piece);
-            return;
-        }
-
-        if (hasPieceAt(path)) {
-            throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
-        }
-
-        board.remove(current);
-        board.put(next, piece);
     }
 
     public Piece pickPiece(Position position) {
