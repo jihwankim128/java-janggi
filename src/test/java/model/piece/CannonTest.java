@@ -1,10 +1,12 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import model.Team;
 import model.board.Position;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -48,5 +50,53 @@ public class CannonTest {
 
         // then
         assertThat(path).isEqualTo(expectedPath);
+    }
+
+    @Test
+    void 포가_넘어가는_다리에_포가_있으면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece hurdleCannon = new Cannon(Team.CHO); // 다리가 포인 경우
+        List<Piece> piecesOnPath = List.of(hurdleCannon);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validatePathCondition(piecesOnPath))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_넘어가는_다리가_없으면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        List<Piece> emptyPath = List.of(); // 다리가 없는 경우
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validatePathCondition(emptyPath))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_넘어가는_다리가_두_개_이상이면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        List<Piece> manyHurdles = List.of(
+                new Cannon(Team.CHO), // 사실 포가 아니어도 상관없지만 규칙상 테스트
+                new Cannon(Team.CHO)
+        );
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validatePathCondition(manyHurdles))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_상대_포를_잡으려_하면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece targetCannon = new Cannon(Team.CHO);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validateTarget(targetCannon))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

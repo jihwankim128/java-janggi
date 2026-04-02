@@ -6,39 +6,33 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import model.board.Position;
 import model.piece.Horse;
 import model.piece.Piece;
+import model.testdouble.FakePiece;
 import model.testdouble.SpyBoard;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
 
     @Test
-    void 장기에서_장기말을_옮기면_보드에서_장기말이_이동하고_다음_차례가_된다() {
-        // given
-        SpyBoard board = SpyBoard.cho();
+    void 장기말을_정상적으로_옮기면_보드에서_이동하고_다음_차례가_된다() {
+        // given: (1,1)에 CHO의 이동 가능한 기물이 있고, 경로가 비어있는 상황 시뮬레이션
+        Position source = new Position(1, 1);
+        Position destination = new Position(2, 2);
+        FakePiece piece = FakePiece.createFake(Team.CHO);
+
+        SpyBoard board = new SpyBoard(piece);
         JanggiGame janggiGame = new JanggiGame(board);
         Team prevTurn = janggiGame.getTurn();
 
         // when
-        janggiGame.movePiece(new Position(1, 1), new Position(2, 2));
+        janggiGame.movePiece(source, destination);
 
         // then
-        assertThat(board.isMoved).isTrue();
+        assertThat(board.pickPiece(destination)).isEqualTo(piece);
         assertThat(janggiGame.getTurn()).isEqualTo(prevTurn.next());
     }
 
     @Test
-    void 장기에서_장기말을_옮길_때_다른_팀의_장기말을_옮기면_예외가_발생한다() {
-        // given
-        SpyBoard board = SpyBoard.han();
-        JanggiGame janggiGame = new JanggiGame(board);
-
-        // when & then
-        assertThatThrownBy(() -> janggiGame.movePiece(new Position(1, 1), new Position(2, 2)))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 장기에서_현재_턴에_대한_장기물을_선택할_수_있다() {
+    void 현재_턴의_팀에_맞는_기물을_선택할_수_있다() {
         // given
         Piece piece = new Horse(Team.CHO);
         SpyBoard board = new SpyBoard(piece);
@@ -52,8 +46,8 @@ class JanggiGameTest {
     }
 
     @Test
-    void 장기에서_다른_턴에_대한_장기물을_선택하면_예외가_발생한다() {
-        // given
+    void 다른_팀의_기물을_선택하면_예외가_발생한다() {
+        // given: CHO 턴인데 HAN 기물 배치
         SpyBoard board = new SpyBoard(new Horse(Team.HAN));
         JanggiGame janggiGame = new JanggiGame(board);
 

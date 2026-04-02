@@ -1,10 +1,13 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import model.Team;
 import model.board.Position;
+import model.testdouble.FakePiece;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -44,5 +47,16 @@ public class ChariotTest {
 
         // then
         assertThat(path).isEqualTo(expectedPath);
+    }
+
+    @Test
+    void 차는_이동_경로에_기물이_있으면_예외가_발생한다() {
+        // given
+        Piece chariot = new Chariot(Team.HAN);
+        List<Piece> obstacles = List.of(FakePiece.createFake(Team.CHO));
+
+        // when & then
+        assertThatThrownBy(() -> chariot.validatePathCondition(obstacles))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

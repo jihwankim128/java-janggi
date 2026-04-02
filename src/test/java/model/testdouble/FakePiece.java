@@ -17,20 +17,8 @@ public class FakePiece extends Piece {
         this.path = path;
     }
 
-    public static FakePiece 이동_가능(Team team) {
+    public static FakePiece createFake(Team team) {
         return new FakePiece(team, PieceType.SOLDIER, true, List.of());
-    }
-
-    public static FakePiece 이동_불가(Team team) {
-        return new FakePiece(team, PieceType.SOLDIER, false, List.of());
-    }
-
-    public static FakePiece 이동_가능한_포(Team team, List<Position> path) {
-        return new FakePiece(team, PieceType.CANNON, true, path);
-    }
-
-    public static FakePiece 이동_가능하지만_경로_있는_기물(Team team, List<Position> path) {
-        return new FakePiece(team, PieceType.SOLDIER, true, path);
     }
 
     @Override

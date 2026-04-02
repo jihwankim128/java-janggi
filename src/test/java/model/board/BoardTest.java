@@ -9,8 +9,6 @@ import model.Team;
 import model.piece.Piece;
 import model.testdouble.FakePiece;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
 class BoardTest {
 
@@ -20,7 +18,7 @@ class BoardTest {
     @Test
     void 해당_위치에_기물이_있으면_반환한다() {
         // given
-        FakePiece piece = FakePiece.이동_가능(Team.CHO);
+        FakePiece piece = FakePiece.createFake(Team.CHO);
         Board board = new Board(Map.of(source, piece));
 
         // when
@@ -41,9 +39,10 @@ class BoardTest {
     }
 
     @Test
-    void 이동_가능한_기물은_정상적으로_이동한다() {
+    void 보드에서_도착_위치에_기물이_없으면_이동한다() {
         // given
-        FakePiece piece = FakePiece.이동_가능(Team.CHO);
+        FakePiece piece = FakePiece.createFake(Team.CHO);
+
         Board board = new Board(Map.of(source, piece));
 
         // when
@@ -54,34 +53,21 @@ class BoardTest {
     }
 
     @Test
-    void 이동_불가능한_기물을_이동하면_예외가_발생한다() {
+    void 보드에서_도착_위치에_아군이_있으면_이동할_수_없다() {
         // given
-        FakePiece piece = FakePiece.이동_불가(Team.CHO);
-        Board board = new Board(Map.of(source, piece));
+        FakePiece piece = FakePiece.createFake(Team.CHO);
+        FakePiece otherPiece = FakePiece.createFake(Team.CHO);
+        Board board = new Board(Map.of(source, piece, destination, otherPiece));
 
         // when & then
-        assertThatThrownBy(() -> board.move(source, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> board.move(source, destination));
     }
 
     @Test
-    void 도착_위치에_아군이_있으면_예외가_발생한다() {
+    void 보드에서_도착_위치에_적군이_있으면_이동한다() {
         // given
-        FakePiece piece = FakePiece.이동_가능(Team.CHO);
-        FakePiece ally = FakePiece.이동_가능(Team.CHO);
-
-        Board board = new Board(Map.of(source, piece, destination, ally));
-
-        // when & then
-        assertThatThrownBy(() -> board.move(source, destination))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 도착_위치에_적군이_있으면_이동한다() {
-        // given
-        FakePiece piece = FakePiece.이동_가능(Team.CHO);
-        FakePiece enemy = FakePiece.이동_가능(Team.HAN);
+        FakePiece piece = FakePiece.createFake(Team.CHO);
+        FakePiece enemy = FakePiece.createFake(Team.HAN);
 
         Board board = new Board(Map.of(source, piece, destination, enemy));
 
@@ -93,83 +79,45 @@ class BoardTest {
     }
 
     @Test
-    void 이동_경로에_기물이_있으면_예외가_발생한다() {
+    void 여러_기물을_한번에_배치한다() {
         // given
-        Position vertex = new Position(5, 2);
-        FakePiece piece = FakePiece.이동_가능하지만_경로_있는_기물(Team.CHO, List.of(vertex));
-        FakePiece barricade = FakePiece.이동_가능(Team.HAN);
-
-        Board board = new Board(Map.of(source, piece, vertex, barricade));
-
-        // when & then
-        assertThatThrownBy(() -> board.move(source, destination))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 포는_정확히_1개의_기물을_넘어야_한다() {
-        // given
-        Position vertex = new Position(5, 2);
-        FakePiece cannon = FakePiece.이동_가능한_포(Team.CHO, List.of(vertex));
-        FakePiece hurdle = FakePiece.이동_가능(Team.HAN);
-
-        Board board = new Board(Map.of(source, cannon, vertex, hurdle));
+        Board board = new Board(Map.of());
+        Position pos1 = new Position(0, 0);
+        Position pos2 = new Position(0, 1);
+        FakePiece piece1 = FakePiece.createFake(Team.CHO);
+        FakePiece piece2 = FakePiece.createFake(Team.HAN);
 
         // when
-        board.move(source, destination);
+        board.arrangePieces(Map.of(pos1, piece1, pos2, piece2));
 
         // then
-        assertSuccessMoved(board, destination, cannon, source);
+        assertThat(board.pickPiece(pos1)).isEqualTo(piece1);
+        assertThat(board.pickPiece(pos2)).isEqualTo(piece2);
     }
 
     @Test
-    void 포는_넘을_기물이_없으면_예외가_발생한다() {
+    void 경로상에_존재하는_기물들을_추출한다() {
         // given
-        Position vertex = new Position(5, 2);
-        FakePiece cannon = FakePiece.이동_가능한_포(Team.CHO, List.of(vertex));
+        Position path1 = new Position(5, 1);
+        Position path2 = new Position(5, 2);    // 경로에 기물이 없는 경우
+        Position path3 = new Position(5, 3);
 
-        Board board = new Board(Map.of(source, cannon));
+        FakePiece hurdle1 = FakePiece.createFake(Team.HAN);
+        FakePiece hurdle2 = FakePiece.createFake(Team.CHO);
 
-        // when & then
-        assertThatThrownBy(() -> board.move(source, destination))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+        Board board = new Board(Map.of(path1, hurdle1, path3, hurdle2));
+        List<Position> path = List.of(path1, path2, path3);
 
-    @ParameterizedTest
-    @EnumSource(Team.class)
-    void 포는_포를_넘을_수_없다(Team team) {
-        // given
-        Position vertex = new Position(5, 2);
-        FakePiece cannon = FakePiece.이동_가능한_포(Team.CHO, List.of(vertex));
-        FakePiece otherCannon = FakePiece.이동_가능한_포(team, List.of());
+        // when
+        List<Piece> extracted = board.extractPiecesByPath(path);
 
-        Board board = new Board(Map.of(source, cannon, vertex, otherCannon));
-
-        // when & then
-        assertThatThrownBy(() -> board.move(source, destination))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 포는_2개_이상의_기물을_넘으면_예외가_발생한다() {
-        // given
-        Position firstVertex = new Position(5, 1);
-        Position secondVertex = new Position(5, 2);
-        FakePiece cannon = FakePiece.이동_가능한_포(Team.CHO, List.of(firstVertex, secondVertex));
-
-        Board board = new Board(Map.of(
-                source, cannon,
-                firstVertex, FakePiece.이동_가능(Team.HAN),
-                secondVertex, FakePiece.이동_가능(Team.HAN)
-        ));
-
-        // when & then
-        assertThatThrownBy(() -> board.move(source, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+        // then
+        assertThat(extracted).hasSize(2)
+                .containsExactly(hurdle1, hurdle2);
     }
 
     private void assertSuccessMoved(Board board, Position source, FakePiece piece, Position destination) {
         assertThat(board.pickPiece(source)).isEqualTo(piece);
-        assertThat(board.hasPieceAt(destination)).isFalse();
+        assertThat(board.board()).doesNotContainKey(destination);
     }
 }

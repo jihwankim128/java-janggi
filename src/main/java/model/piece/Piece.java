@@ -16,10 +16,6 @@ public abstract class Piece {
 
     public abstract List<Position> extractPath(Position current, Position next);
 
-    public boolean isSameTeam(Piece other) {
-        return !isOtherTeam(other.team);
-    }
-
     public boolean isOtherTeam(Team team) {
         return this.team != team;
     }
@@ -30,13 +26,31 @@ public abstract class Piece {
         return comparePosition(Math.abs(rowDiff), Math.abs(colDiff));
     }
 
-    protected abstract boolean comparePosition(int rowDiff, int colDiff);
-
-    public boolean isCho() {
-        return getTeam() == Team.CHO;
+    public void validatePathCondition(List<Piece> pieces) {
+        if (!pieces.isEmpty()) {
+            throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
+        }
     }
 
-    public boolean isCannon() {
+    public void validateTarget(Piece otherPiece) {
+        if (getTeam() == otherPiece.team) {
+            throw new IllegalArgumentException("아군이 있는 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    public void validateMove(Position current, Position next) {
+        if (!canMove(current, next)) {
+            throw new IllegalArgumentException("해당 기물이 이동할 수 없는 위치입니다.");
+        }
+    }
+
+    protected abstract boolean comparePosition(int rowDiff, int colDiff);
+
+    protected boolean isCho() {
+        return !team.isHan();
+    }
+
+    protected boolean isCannon() {
         return getType() == PieceType.CANNON;
     }
 
