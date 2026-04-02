@@ -48,10 +48,10 @@ public class JanggiController {
     private void playByTurn(JanggiGame janggiGame) {
         Team currentTurn = janggiGame.getTurn();
 
-        Position current = inputView.readSource(currentTurn);
+        Position current = inputView.readPiecePositionForMove(currentTurn);
         Piece piece = janggiGame.selectPiece(current);
 
-        Position next = inputView.readDestination(currentTurn, piece);
+        Position next = inputView.readPiecePositionForArrange(currentTurn, piece);
         janggiGame.movePiece(current, next);
     }
 

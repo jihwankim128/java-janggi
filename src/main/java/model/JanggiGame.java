@@ -15,8 +15,7 @@ public class JanggiGame {
     }
 
     public void movePiece(Position current, Position next) {
-        Piece piece = board.pickPiece(current);
-        validateCurrentTurn(piece);
+        selectPiece(current);
         board.move(current, next);
         this.turn = turn.next();
     }

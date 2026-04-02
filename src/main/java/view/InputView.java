@@ -29,7 +29,7 @@ public class InputView {
                 .orElseThrow(() -> new IllegalArgumentException("올바른 상차림을 선택해주세요."));
     }
 
-    public Position readSource(Team turn) {
+    public Position readPiecePositionForMove(Team turn) {
         System.out.println();
         System.out.printf("[%s] 이동할 기물을 선택해주세요. (쉼표 기준으로 분리)%n", turn.getName());
         System.out.print("기물: ");
@@ -43,7 +43,7 @@ public class InputView {
         return new Position(row, col);
     }
 
-    public Position readDestination(Team turn, Piece piece) {
+    public Position readPiecePositionForArrange(Team turn, Piece piece) {
         System.out.println();
         System.out.printf("[%s] 기물 %s의 다음 위치를 선택해주세요. (쉼표 기준으로 분리)%n", turn.getName(), formatSymbol(piece));
         System.out.print("기물: ");
