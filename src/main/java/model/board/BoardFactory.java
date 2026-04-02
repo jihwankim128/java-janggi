@@ -14,7 +14,7 @@ import model.piece.Soldier;
 
 public class BoardFactory {
 
-    private static final Map<Position, Piece> RED_PIECES = Map.ofEntries(
+    private static final Map<Position, Piece> HAN_PIECES = Map.ofEntries(
             Map.entry(new Position(0, 0), new Chariot(HAN)),
             Map.entry(new Position(0, 3), new Guard(HAN)),
             Map.entry(new Position(0, 5), new Guard(HAN)),
@@ -29,7 +29,7 @@ public class BoardFactory {
             Map.entry(new Position(3, 8), new Soldier(HAN))
     );
 
-    private static final Map<Position, Piece> GREEN_PIECES = Map.ofEntries(
+    private static final Map<Position, Piece> CHO_PIECES = Map.ofEntries(
             Map.entry(new Position(9, 0), new Chariot(CHO)),
             Map.entry(new Position(9, 3), new Guard(CHO)),
             Map.entry(new Position(9, 5), new Guard(CHO)),
@@ -44,11 +44,10 @@ public class BoardFactory {
             Map.entry(new Position(6, 8), new Soldier(CHO))
     );
 
-    public static Board generatePieces(Map<Position, Piece> pieceByFormation) {
+    public static Board generateDefaultPieces() {
         Map<Position, Piece> allPieces = new HashMap<>();
-        allPieces.putAll(RED_PIECES);
-        allPieces.putAll(GREEN_PIECES);
-        allPieces.putAll(pieceByFormation);
+        allPieces.putAll(HAN_PIECES);
+        allPieces.putAll(CHO_PIECES);
         return new Board(allPieces);
     }
 }

@@ -1,9 +1,9 @@
 package view.formater;
 
+import static view.mapper.ViewMapper.SYMBOL_MAP;
+
 import model.Team;
 import model.piece.Piece;
-
-import static view.mapper.ViewMapper.getSymbol;
 
 public class BoardFormatter {
 
@@ -33,7 +33,7 @@ public class BoardFormatter {
             return EMPTY;
         }
         String color = extractColor(piece.getTeam());
-        String symbol = getSymbol(piece.getType(), piece.getTeam());
+        String symbol = SYMBOL_MAP.get(piece.getType()).get(piece.getTeam());
         return color + symbol + RESET;
     }
 

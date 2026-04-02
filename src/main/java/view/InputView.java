@@ -1,12 +1,15 @@
 package view;
 
 import static view.formater.BoardFormatter.formatSymbol;
+import static view.mapper.ViewMapper.FORMATION_DISPLAY_MAPPER;
+import static view.mapper.ViewMapper.FORMATION_ORDER_MAPPER;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import model.Team;
+import model.board.JanggiFormation;
 import model.board.Position;
-import model.formation.JanggiFormation;
 import model.piece.Piece;
 import view.parser.InputParser;
 
@@ -14,15 +17,16 @@ public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final InputParser PARSER = new InputParser();
 
-    public JanggiFormation readFormationNumber(Team team, List<JanggiFormation> janggiFormations) {
+    public JanggiFormation readFormationByTeam(Team team) {
         System.out.printf("%n%s의 상차림을 선택해주세요.%n", team.getName());
-        for (JanggiFormation formation : janggiFormations) {
-            System.out.printf("%d. %s%n", formation.getOrder(), formation.getFormation());
-        }
+        FORMATION_ORDER_MAPPER.forEach((order, formation) ->
+                System.out.printf("%d. %s%n", order, FORMATION_DISPLAY_MAPPER.get(formation)));
 
         String input = SCANNER.nextLine();
         int order = PARSER.parseNumber(input);
-        return JanggiFormation.from(order);
+
+        return Optional.ofNullable(FORMATION_ORDER_MAPPER.get(order))
+                .orElseThrow(() -> new IllegalArgumentException("올바른 상차림을 선택해주세요."));
     }
 
     public Position readSource(Team turn) {

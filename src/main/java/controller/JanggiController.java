@@ -4,17 +4,13 @@ import static controller.Retrier.retry;
 import static model.Team.CHO;
 import static model.Team.HAN;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import model.JanggiGame;
 import model.Team;
 import model.board.Board;
 import model.board.BoardFactory;
+import model.board.JanggiFormation;
 import model.board.Position;
-import model.formation.FormationFactory;
-import model.formation.JanggiFormation;
 import model.piece.Piece;
 import view.InputView;
 import view.OutputView;
@@ -29,12 +25,7 @@ public class JanggiController {
     }
 
     public void run() {
-        List<JanggiFormation> formations = Arrays.asList(JanggiFormation.values());
-        JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), processError());
-        JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), processError());
-
-        Map<Position, Piece> pieceByFormation = FormationFactory.generateFormation(hanFormation, choFormation);
-        Board board = BoardFactory.generatePieces(pieceByFormation);
+        Board board = createBoardByFormation();
         outputView.displayBoard(board.board());
 
         JanggiGame janggiGame = new JanggiGame(board);
@@ -42,6 +33,16 @@ public class JanggiController {
             retry(() -> playByTurn(janggiGame), processError());
             outputView.displayBoard(board.board());
         }
+    }
+
+    private Board createBoardByFormation() {
+        JanggiFormation hanFormation = retry(() -> inputView.readFormationByTeam(HAN), processError());
+        JanggiFormation choFormation = retry(() -> inputView.readFormationByTeam(CHO), processError());
+
+        Board board = BoardFactory.generateDefaultPieces();
+        board.arrangePieces(hanFormation.generateByTeam(HAN));
+        board.arrangePieces(choFormation.generateByTeam(CHO));
+        return board;
     }
 
     private void playByTurn(JanggiGame janggiGame) {

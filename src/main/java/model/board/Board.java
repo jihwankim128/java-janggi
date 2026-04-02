@@ -78,6 +78,10 @@ public class Board {
         return board.containsKey(position);
     }
 
+    public void arrangePieces(Map<Position, Piece> pieces) {
+        board.putAll(pieces);
+    }
+
     private Optional<Piece> findByPosition(Position position) {
         return Optional.ofNullable(board.get(position));
     }

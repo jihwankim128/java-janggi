@@ -1,14 +1,28 @@
 package view.mapper;
 
-import model.Team;
-import model.piece.PieceType;
+import static model.board.JanggiFormation.MA_SANG_MA_SANG;
+import static model.board.JanggiFormation.MA_SANG_SANG_MA;
+import static model.board.JanggiFormation.SANG_MA_MA_SANG;
+import static model.board.JanggiFormation.SANG_MA_SANG_MA;
 
 import java.util.EnumMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import model.Team;
+import model.board.JanggiFormation;
+import model.piece.PieceType;
 
 public class ViewMapper {
 
-    private static final Map<PieceType, Map<Team, String>> SYMBOL_MAP = new EnumMap<>(PieceType.class);
+    public static final Map<PieceType, Map<Team, String>> SYMBOL_MAP = new EnumMap<>(PieceType.class);
+    public static Map<Integer, JanggiFormation> FORMATION_ORDER_MAPPER = new LinkedHashMap<>();
+
+    public static Map<JanggiFormation, String> FORMATION_DISPLAY_MAPPER = Map.of(
+            SANG_MA_SANG_MA, "상마상마",
+            MA_SANG_MA_SANG, "마상마상",
+            MA_SANG_SANG_MA, "마상상마",
+            SANG_MA_MA_SANG, "상마마상"
+    );
 
     static {
         SYMBOL_MAP.put(PieceType.CHARIOT, Map.of(Team.HAN, "車", Team.CHO, "車"));
@@ -18,12 +32,13 @@ public class ViewMapper {
         SYMBOL_MAP.put(PieceType.ELEPHANT, Map.of(Team.HAN, "象", Team.CHO, "象"));
         SYMBOL_MAP.put(PieceType.GUARD, Map.of(Team.HAN, "士", Team.CHO, "士"));
         SYMBOL_MAP.put(PieceType.SOLDIER, Map.of(Team.HAN, "兵", Team.CHO, "卒"));
+
+        FORMATION_ORDER_MAPPER.put(1, SANG_MA_SANG_MA);
+        FORMATION_ORDER_MAPPER.put(2, MA_SANG_MA_SANG);
+        FORMATION_ORDER_MAPPER.put(3, MA_SANG_SANG_MA);
+        FORMATION_ORDER_MAPPER.put(4, SANG_MA_MA_SANG);
     }
 
     private ViewMapper() {
-    }
-
-    public static String getSymbol(PieceType type, Team team) {
-        return SYMBOL_MAP.get(type).get(team);
     }
 }

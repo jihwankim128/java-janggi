@@ -13,8 +13,12 @@ public enum Team {
         return name;
     }
 
+    public boolean isHan() {
+        return this == HAN;
+    }
+
     public Team next() {
-        if (this == HAN) {
+        if (isHan()) {
             return CHO;
         }
         return HAN;
