@@ -1,6 +1,7 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class SoldierTest {
         Piece soldier = new Soldier(team);
 
         // when & then
-        assertThat(soldier.canMove(current, next)).isTrue();
+        assertThatCode(() -> soldier.validateMove(current, next))
+                .doesNotThrowAnyException();
     }
 
     @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동할 수 없다.")
@@ -30,7 +32,8 @@ public class SoldierTest {
         Piece soldier = new Soldier(team);
 
         // when & then
-        assertThat(soldier.canMove(current, next)).isFalse();
+        assertThatThrownBy(() -> soldier.validateMove(current, next))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동 시 무조건 경로가 비어있다.")

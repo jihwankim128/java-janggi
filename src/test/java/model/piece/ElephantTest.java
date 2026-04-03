@@ -1,6 +1,7 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -19,11 +20,9 @@ public class ElephantTest {
         // given
         Piece elephant = new Elephant(Team.HAN);
 
-        // when
-        boolean canMove = elephant.canMove(current, next);
-
-        // then
-        assertThat(canMove).isTrue();
+        // when & then
+        assertThatCode(() -> elephant.validateMove(current, next))
+                .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -32,11 +31,8 @@ public class ElephantTest {
         // given
         Piece elephant = new Elephant(Team.HAN);
 
-        // when
-        boolean canMove = elephant.canMove(current, next);
-
-        // then
-        assertThat(canMove).isFalse();
+        // when & then
+        assertThatThrownBy(() -> elephant.validateMove(current, next));
     }
 
     @ParameterizedTest

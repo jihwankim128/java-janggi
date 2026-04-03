@@ -22,12 +22,12 @@ public class FakePiece extends Piece {
     }
 
     @Override
-    protected boolean comparePosition(int rowDiff, int colDiff) {
-        return movable;
+    public List<Position> extractPath(Position current, Position next) {
+        return path;
     }
 
     @Override
-    public List<Position> extractPath(Position current, Position next) {
-        return path;
+    protected void validateMove(Position current, Position next) {
+
     }
 }

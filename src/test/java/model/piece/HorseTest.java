@@ -1,6 +1,7 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -19,11 +20,9 @@ public class HorseTest {
         // given
         Piece horse = new Horse(Team.HAN);
 
-        // when
-        boolean canMove = horse.canMove(current, next);
-
-        // then
-        assertThat(canMove).isTrue();
+        // when & then
+        assertThatCode(() -> horse.validateMove(current, next))
+                .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -32,11 +31,9 @@ public class HorseTest {
         // given
         Piece horse = new Horse(Team.HAN);
 
-        // when
-        boolean canMove = horse.canMove(current, next);
-
-        // then
-        assertThat(canMove).isFalse();
+        // when & then
+        assertThatThrownBy(() -> horse.validateMove(current, next))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest

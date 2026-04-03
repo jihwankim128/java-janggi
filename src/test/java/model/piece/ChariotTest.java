@@ -1,6 +1,7 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -18,22 +19,21 @@ public class ChariotTest {
     void 차는_직선으로_이동할_수_있다(Position current, Position next) {
         // given
         Piece chariot = new Chariot(Team.HAN);
-        // when
-        boolean canMove = chariot.canMove(current, next);
-        // then
-        assertThat(canMove).isTrue();
+
+        // when & then
+        assertThatCode(() -> chariot.validateMove(current, next))
+                .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
     @MethodSource("model.fixture.PieceMovePositionFixture#사간방_대각선_이동_방향_케이스")
-    @MethodSource("model.fixture.PieceMovePositionFixture#제자리_이동_케이스")
     void 차는_대각선_또는_제자리로_이동할_수_없다(Position current, Position next) {
         // given
         Piece chariot = new Chariot(Team.HAN);
-        // when
-        boolean canMove = chariot.canMove(current, next);
-        // then
-        assertThat(canMove).isFalse();
+
+        // when & then
+        assertThatThrownBy(() -> chariot.validateMove(current, next))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest

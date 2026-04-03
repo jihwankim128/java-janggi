@@ -23,12 +23,6 @@ public abstract class Piece {
         return this.team != team;
     }
 
-    public boolean canMove(Position current, Position next) {
-        int rowDiff = next.calculateRowDiff(current);
-        int colDiff = next.calculateColDiff(current);
-        return comparePosition(Math.abs(rowDiff), Math.abs(colDiff));
-    }
-
     public void validatePathCondition(List<Piece> pieces) {
         if (!pieces.isEmpty()) {
             throw new IllegalArgumentException("이동 경로에 기물이 있어 이동할 수 없는 위치입니다.");
@@ -41,13 +35,7 @@ public abstract class Piece {
         }
     }
 
-    public void validateMove(Position current, Position next) {
-        if (!canMove(current, next)) {
-            throw new IllegalArgumentException("해당 기물이 이동할 수 없는 위치입니다.");
-        }
-    }
-
-    protected abstract boolean comparePosition(int rowDiff, int colDiff);
+    protected abstract void validateMove(Position current, Position next);
 
     protected boolean isCho() {
         return !team.isHan();

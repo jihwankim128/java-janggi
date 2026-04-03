@@ -1,6 +1,8 @@
 package model.piece;
 
 import model.Team;
+import model.board.Position;
+import model.movement.Displacement;
 
 public class Chariot extends Piece {
 
@@ -9,7 +11,10 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected boolean comparePosition(int rowDiff, int colDiff) {
-        return (colDiff >= 1 && rowDiff == 0) || (colDiff == 0 && rowDiff >= 1);
+    protected void validateMove(Position current, Position next) {
+        Displacement displacement = next.minus(current);
+        if (displacement.isNotStraight()) {
+            throw new IllegalArgumentException("차가 이동할 수 없는 위치입니다.");
+        }
     }
 }
