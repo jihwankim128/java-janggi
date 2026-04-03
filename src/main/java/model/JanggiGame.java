@@ -7,8 +7,6 @@ import model.piece.Piece;
 
 public class JanggiGame {
 
-    private static final int CANNON_HURDLE_COUNT = 1;
-
     private final Board board;
     private Team turn;
 
@@ -19,13 +17,13 @@ public class JanggiGame {
 
     public void movePiece(Position current, Position next) {
         Piece piece = selectPiece(current);
-        piece.validateMove(current, next);
 
         List<Position> path = piece.extractPath(current, next);
         List<Piece> pieces = board.extractPiecesByPath(path);
-        piece.validatePathCondition(pieces);
 
+        piece.validatePathCondition(pieces);
         board.move(current, next);
+
         this.turn = turn.next();
     }
 

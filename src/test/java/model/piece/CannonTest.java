@@ -80,7 +80,7 @@ public class CannonTest {
         // given
         Piece cannon = new Cannon(Team.HAN);
         List<Piece> manyHurdles = List.of(
-                new Cannon(Team.CHO), // 사실 포가 아니어도 상관없지만 규칙상 테스트
+                new Cannon(Team.CHO),
                 new Cannon(Team.CHO)
         );
 

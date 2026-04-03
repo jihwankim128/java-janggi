@@ -34,13 +34,13 @@ public class PieceMovePathFixture {
     // === 마 이동 데이터 ===
     static Stream<Arguments> 마_이동_경로_테스트_데이터() {
         return Stream.of(
-                // 1. 세로(row)로 먼저 움직이는 경우 (rowDiff=2, colDiff=1)
+                // 1. 세로(rowDiff)로 먼저 움직이는 경우 (rowDiff=2, colDiff=1)
                 Arguments.of(new Position(5, 4), new Position(7, 3), List.of(new Position(6, 4))), // 북서
                 Arguments.of(new Position(5, 4), new Position(7, 5), List.of(new Position(6, 4))), // 북동
                 Arguments.of(new Position(5, 4), new Position(3, 3), List.of(new Position(4, 4))), // 남서
                 Arguments.of(new Position(5, 4), new Position(3, 5), List.of(new Position(4, 4))), // 남동
 
-                // 2. 가로(col)로 먼저 움직이는 경우 (rowDiff=1, colDiff=2)
+                // 2. 가로(colDiff)로 먼저 움직이는 경우 (rowDiff=1, colDiff=2)
                 Arguments.of(new Position(5, 4), new Position(6, 6), List.of(new Position(5, 5))), // 동북
                 Arguments.of(new Position(5, 4), new Position(4, 6), List.of(new Position(5, 5))), // 동남
                 Arguments.of(new Position(5, 4), new Position(6, 2), List.of(new Position(5, 3))), // 서북
@@ -51,14 +51,14 @@ public class PieceMovePathFixture {
     // === 상 이동 데이터 ===
     static Stream<Arguments> 상_이동_경로_테스트_데이터() {
         return Stream.of(
-                // 1. 세로(row)로 먼저 움직이는 경우 (rowDiff=3, colDiff=2)
+                // 1. 세로(rowDiff)로 먼저 움직이는 경우 (rowDiff=3, colDiff=2)
                 // 북서, 북동, 남서, 남동 순서
                 Arguments.of(new Position(5, 4), new Position(8, 2), List.of(new Position(6, 4), new Position(7, 3))),
                 Arguments.of(new Position(5, 4), new Position(8, 6), List.of(new Position(6, 4), new Position(7, 5))),
                 Arguments.of(new Position(5, 4), new Position(2, 2), List.of(new Position(4, 4), new Position(3, 3))),
                 Arguments.of(new Position(5, 4), new Position(2, 6), List.of(new Position(4, 4), new Position(3, 5))),
 
-                // 2. 가로(col)로 먼저 움직이는 경우 (rowDiff=2, colDiff=3)
+                // 2. 가로(colDiff)로 먼저 움직이는 경우 (rowDiff=2, colDiff=3)
                 // 동북, 동남, 서북, 서남 순서
                 Arguments.of(new Position(5, 4), new Position(7, 7), List.of(new Position(5, 5), new Position(6, 6))),
                 Arguments.of(new Position(5, 4), new Position(3, 7), List.of(new Position(5, 5), new Position(4, 6))),

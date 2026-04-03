@@ -1,10 +1,7 @@
 package model.piece;
 
-import java.util.ArrayList;
 import java.util.List;
 import model.Team;
-import model.board.Direction;
-import model.board.Position;
 
 public class Cannon extends Piece {
 
@@ -12,18 +9,6 @@ public class Cannon extends Piece {
 
     public Cannon(Team team) {
         super(team, PieceType.CANNON);
-    }
-
-    @Override
-    public List<Position> extractPath(Position current, Position next) {
-        Direction direction = Direction.from(current, next);
-        List<Position> path = new ArrayList<>();
-        Position step = current.move(direction);
-        while (!step.equals(next)) {
-            path.add(step);
-            step = step.move(direction);
-        }
-        return path;
     }
 
     @Override

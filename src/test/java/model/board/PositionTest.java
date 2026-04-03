@@ -3,6 +3,8 @@ package model.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import model.movement.Displacement;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -32,5 +34,31 @@ class PositionTest {
     void 장기판_위치가_유효하지_않다면_예외가_발생한다(int row, int col) {
         assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 두_위치가_주어진다면_두_위치에_대한_변위를_구할_수_있다() {
+        // given
+        Position start = new Position(5, 5);
+        Position end = new Position(3, 7);
+
+        // when
+        Displacement result = end.minus(start);
+
+        // then
+        assertThat(result.rowDiff()).isEqualTo(-2);
+        assertThat(result.colDiff()).isEqualTo(2);
+    }
+
+    @Test
+    void 기존_위치에서_추가적인_거리를_통해_다음_위치를_구할_수_있다() {
+        // given
+        Position current = new Position(5, 5);
+
+        // when
+        Position next = current.resolveNext(-1, 2);
+
+        // then
+        assertThat(next).isEqualTo(new Position(4, 7));
     }
 }

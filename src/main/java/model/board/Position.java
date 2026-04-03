@@ -3,17 +3,9 @@ package model.board;
 import static model.board.Board.BOARD_COL;
 import static model.board.Board.BOARD_ROW;
 
+import model.movement.Displacement;
+
 public record Position(int row, int col) {
-
-    public static final Position HAN_LEFT_OUTER = new Position(0, 1);
-    public static final Position HAN_LEFT_INNER = new Position(0, 2);
-    public static final Position HAN_RIGHT_INNER = new Position(0, 6);
-    public static final Position HAN_RIGHT_OUTER = new Position(0, 7);
-
-    public static final Position CHO_LEFT_OUTER = new Position(9, 1);
-    public static final Position CHO_LEFT_INNER = new Position(9, 2);
-    public static final Position CHO_RIGHT_INNER = new Position(9, 6);
-    public static final Position CHO_RIGHT_OUTER = new Position(9, 7);
 
     public Position {
         if (row < 0 || row >= BOARD_ROW) {
@@ -37,7 +29,7 @@ public record Position(int row, int col) {
         return this.col - other.col();
     }
 
-    public Position move(Direction direction) {
-        return new Position(row + direction.row(), col + direction.col());
+    public Position resolveNext(int rowDistance, int colDistance) {
+        return new Position(this.row + rowDistance, this.col + colDistance);
     }
 }

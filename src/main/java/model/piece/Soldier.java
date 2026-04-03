@@ -1,6 +1,5 @@
 package model.piece;
 
-import java.util.List;
 import model.Team;
 import model.board.Position;
 
@@ -8,11 +7,6 @@ public class Soldier extends Piece {
 
     public Soldier(Team team) {
         super(team, PieceType.SOLDIER);
-    }
-
-    @Override
-    public List<Position> extractPath(Position current, Position next) {
-        return List.of();
     }
 
     @Override

@@ -14,7 +14,10 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public abstract List<Position> extractPath(Position current, Position next);
+    public List<Position> extractPath(Position current, Position next) {
+        validateMove(current, next);
+        return type.extractPath(current, next);
+    }
 
     public boolean isOtherTeam(Team team) {
         return this.team != team;
