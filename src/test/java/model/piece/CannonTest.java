@@ -1,0 +1,98 @@
+package model.piece;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.List;
+import model.Team;
+import model.board.Position;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+public class CannonTest {
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceMovePositionFixture#사방위_이동_방향_케이스")
+    void 포는_직선으로_이동할_수_있다(Position current, Position next) {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+
+        // when & then
+        assertThatCode(() -> cannon.validateMove(current, next))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceMovePositionFixture#사간방_대각선_이동_방향_케이스")
+    void 포는_대각선이나_제자리로_이동할_수_없다(Position current, Position next) {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validateMove(current, next))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceMovePathFixture#사방위_이동_경로_테스트_데이터")
+    void 포에_대한_다음_위치까지의_이동_경로를_반환한다(Position current, Position next, List<Position> expectedPath) {
+        // given
+        Piece chariot = new Cannon(Team.HAN);
+
+        // when
+        List<Position> path = chariot.extractPath(current, next);
+
+        // then
+        assertThat(path).isEqualTo(expectedPath);
+    }
+
+    @Test
+    void 포가_넘어가는_다리에_포가_있으면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece hurdleCannon = new Cannon(Team.CHO); // 다리가 포인 경우
+        List<Piece> piecesOnPath = List.of(hurdleCannon);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validatePathCondition(piecesOnPath))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_넘어가는_다리가_없으면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        List<Piece> emptyPath = List.of(); // 다리가 없는 경우
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validatePathCondition(emptyPath))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_넘어가는_다리가_두_개_이상이면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        List<Piece> manyHurdles = List.of(
+                new Cannon(Team.CHO),
+                new Cannon(Team.CHO)
+        );
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validatePathCondition(manyHurdles))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_상대_포를_잡으려_하면_예외가_발생한다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece targetCannon = new Cannon(Team.CHO);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.validateTarget(targetCannon))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+}
