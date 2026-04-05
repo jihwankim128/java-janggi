@@ -17,7 +17,7 @@ public record Position(int row, int col) {
         }
     }
 
-    public Displacement minus(Position other) {
+    public Displacement toDisplacement(Position other) {
         return new Displacement(calculateRowDiff(other), calculateColDiff(other));
     }
 

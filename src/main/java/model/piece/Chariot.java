@@ -12,7 +12,7 @@ public class Chariot extends Piece {
 
     @Override
     protected void validateMove(Position current, Position next) {
-        Displacement displacement = next.minus(current);
+        Displacement displacement = next.toDisplacement(current);
         if (displacement.isNotStraight()) {
             throw new IllegalArgumentException("차가 이동할 수 없는 위치입니다.");
         }

@@ -6,27 +6,25 @@ import model.movement.Displacement;
 
 public class Soldier extends Piece {
 
-    private static final int SOLDIER_FORWARD_STEP = 1;
+    private final int forwardDirection;
 
     public Soldier(Team team) {
         super(team, PieceType.SOLDIER);
+        this.forwardDirection = resolveForwardDirection(team);
+    }
+
+    private static int resolveForwardDirection(Team team) {
+        if (team.isHan()) {
+            return 1;
+        }
+        return -1;
     }
 
     @Override
     protected void validateMove(Position current, Position next) {
-        Displacement displacement = next.minus(current);
-        int forwardCount = resolveForwardCount();
-
-        if (!(displacement.isForwardBy(forwardCount) || displacement.isSideOneStep())) {
+        Displacement displacement = next.toDisplacement(current);
+        if (!(displacement.isForwardBy(forwardDirection) || displacement.isSideOneStep())) {
             throw new IllegalArgumentException("졸이 이동할 수 없는 위치입니다.");
         }
     }
-
-    private int resolveForwardCount() {
-        if (isCho()) {
-            return -SOLDIER_FORWARD_STEP;
-        }
-        return SOLDIER_FORWARD_STEP;
-    }
-
 }

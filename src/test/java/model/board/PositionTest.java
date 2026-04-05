@@ -43,7 +43,7 @@ class PositionTest {
         Position end = new Position(3, 7);
 
         // when
-        Displacement result = end.minus(start);
+        Displacement result = end.toDisplacement(start);
 
         // then
         assertThat(result.rowDiff()).isEqualTo(-2);

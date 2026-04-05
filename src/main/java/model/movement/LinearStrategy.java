@@ -7,7 +7,7 @@ import model.board.Position;
 public class LinearStrategy implements MoveStrategy {
 
     private static Direction resolveCardinal(Position start, Position end) {
-        Displacement displacement = end.minus(start);
+        Displacement displacement = end.toDisplacement(start);
         return displacement.extractCardinal();
     }
 
