@@ -13,14 +13,6 @@ public record Displacement(int rowDiff, int colDiff) {
         return Direction.of(rowDiff, colDiff);
     }
 
-    public int absRowDiff() {
-        return Math.abs(rowDiff);
-    }
-
-    public int absColDiff() {
-        return Math.abs(colDiff);
-    }
-
     public boolean isNotStraight() {
         return colDiff != 0 && rowDiff != 0;
     }
@@ -36,5 +28,13 @@ public record Displacement(int rowDiff, int colDiff) {
 
     public boolean isSideOneStep() {
         return rowDiff == 0 && absColDiff() == 1;
+    }
+
+    private int absRowDiff() {
+        return Math.abs(rowDiff);
+    }
+
+    private int absColDiff() {
+        return Math.abs(colDiff);
     }
 }
