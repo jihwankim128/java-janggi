@@ -13,24 +13,24 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class JanggiFormationTest {
+class FormationTypeTest {
 
     static Stream<Arguments> formationTestProvider() {
         return Stream.of(
-                Arguments.of(JanggiFormation.SANG_MA_SANG_MA, Elephant.class, Horse.class, Elephant.class, Horse.class),
-                Arguments.of(JanggiFormation.MA_SANG_MA_SANG, Horse.class, Elephant.class, Horse.class, Elephant.class),
-                Arguments.of(JanggiFormation.MA_SANG_SANG_MA, Horse.class, Elephant.class, Elephant.class, Horse.class),
-                Arguments.of(JanggiFormation.SANG_MA_MA_SANG, Elephant.class, Horse.class, Horse.class, Elephant.class)
+                Arguments.of(FormationType.SANG_MA_SANG_MA, Elephant.class, Horse.class, Elephant.class, Horse.class),
+                Arguments.of(FormationType.MA_SANG_MA_SANG, Horse.class, Elephant.class, Horse.class, Elephant.class),
+                Arguments.of(FormationType.MA_SANG_SANG_MA, Horse.class, Elephant.class, Elephant.class, Horse.class),
+                Arguments.of(FormationType.SANG_MA_MA_SANG, Elephant.class, Horse.class, Horse.class, Elephant.class)
         );
     }
 
     static Stream<Arguments> 포메이션_별_기물_위치() {
         return Stream.of(
                 // formation, 좌외(1), 좌내(2), 우내(6), 우외(7) 순서
-                Arguments.of(JanggiFormation.SANG_MA_SANG_MA, Elephant.class, Horse.class, Elephant.class, Horse.class),
-                Arguments.of(JanggiFormation.MA_SANG_MA_SANG, Horse.class, Elephant.class, Horse.class, Elephant.class),
-                Arguments.of(JanggiFormation.MA_SANG_SANG_MA, Horse.class, Elephant.class, Elephant.class, Horse.class),
-                Arguments.of(JanggiFormation.SANG_MA_MA_SANG, Elephant.class, Horse.class, Horse.class, Elephant.class)
+                Arguments.of(FormationType.SANG_MA_SANG_MA, Elephant.class, Horse.class, Elephant.class, Horse.class),
+                Arguments.of(FormationType.MA_SANG_MA_SANG, Horse.class, Elephant.class, Horse.class, Elephant.class),
+                Arguments.of(FormationType.MA_SANG_SANG_MA, Horse.class, Elephant.class, Elephant.class, Horse.class),
+                Arguments.of(FormationType.SANG_MA_MA_SANG, Elephant.class, Horse.class, Horse.class, Elephant.class)
         );
     }
 
@@ -41,7 +41,7 @@ class JanggiFormationTest {
     @ParameterizedTest(name = "{0} 차림 일 때")
     @MethodSource("포메이션_별_기물_위치")
     void 한나라_상차림_기물_순서_테스트(
-            JanggiFormation formation,
+            FormationType formation,
             Class<? extends Piece> leftOuter,
             Class<? extends Piece> leftInner,
             Class<? extends Piece> rightInner,
@@ -58,7 +58,7 @@ class JanggiFormationTest {
     @ParameterizedTest(name = "{0} 차림일 때")
     @MethodSource("choFormationProvider")
     void 초나라_상차림_기물_순서_테스트(
-            JanggiFormation formation,
+            FormationType formation,
             Class<? extends Piece> leftOuter,
             Class<? extends Piece> leftInner,
             Class<? extends Piece> rightInner,
@@ -77,7 +77,7 @@ class JanggiFormationTest {
             "SANG_MA_SANG_MA, HAN", "MA_SANG_MA_SANG, HAN", "MA_SANG_SANG_MA, HAN", "SANG_MA_MA_SANG, HAN",
             "SANG_MA_SANG_MA, CHO", "MA_SANG_MA_SANG, CHO", "MA_SANG_SANG_MA, CHO", "SANG_MA_MA_SANG, CHO"
     })
-    void 각_팀별_상차림의_기물_수는_4개여야_한다(JanggiFormation formation, Team team) {
+    void 각_팀별_상차림의_기물_수는_4개여야_한다(FormationType formation, Team team) {
         // when
         assertThat(formation.generateByTeam(team)).hasSize(4);
     }

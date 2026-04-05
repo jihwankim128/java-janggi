@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import model.Team;
-import model.board.JanggiFormation;
+import model.board.FormationType;
 import model.board.Position;
+import model.board.TeamFormation;
 import model.piece.Piece;
 import view.parser.InputParser;
 
@@ -17,16 +18,12 @@ public class InputView {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final InputParser PARSER = new InputParser();
 
-    public JanggiFormation readFormationByTeam(Team team) {
-        System.out.printf("%n%s의 상차림을 선택해주세요.%n", team.getName());
-        FORMATION_ORDER_MAPPER.forEach((order, formation) ->
-                System.out.printf("%d. %s%n", order, FORMATION_DISPLAY_MAPPER.get(formation)));
-
-        String input = SCANNER.nextLine();
-        int order = PARSER.parseNumber(input);
-
-        return Optional.ofNullable(FORMATION_ORDER_MAPPER.get(order))
+    public TeamFormation readFormationByTeam(Team team) {
+        int order = readFormationOrder(team);
+        FormationType formationType = Optional.ofNullable(FORMATION_ORDER_MAPPER.get(order))
                 .orElseThrow(() -> new IllegalArgumentException("올바른 상차림을 선택해주세요."));
+
+        return new TeamFormation(team, formationType);
     }
 
     public Position readPiecePositionForMove(Team turn) {
@@ -48,5 +45,14 @@ public class InputView {
         System.out.printf("[%s] 기물 %s의 다음 위치를 선택해주세요. (쉼표 기준으로 분리)%n", turn.getName(), formatSymbol(piece));
         System.out.print("기물: ");
         return extractPosition();
+    }
+
+    private int readFormationOrder(Team team) {
+        System.out.printf("%n%s의 상차림을 선택해주세요.%n", team.getName());
+        FORMATION_ORDER_MAPPER.forEach((order, formation) ->
+                System.out.printf("%d. %s%n", order, FORMATION_DISPLAY_MAPPER.get(formation)));
+
+        String input = SCANNER.nextLine();
+        return PARSER.parseNumber(input);
     }
 }

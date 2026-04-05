@@ -1,23 +1,23 @@
 package view.mapper;
 
-import static model.board.JanggiFormation.MA_SANG_MA_SANG;
-import static model.board.JanggiFormation.MA_SANG_SANG_MA;
-import static model.board.JanggiFormation.SANG_MA_MA_SANG;
-import static model.board.JanggiFormation.SANG_MA_SANG_MA;
+import static model.board.FormationType.MA_SANG_MA_SANG;
+import static model.board.FormationType.MA_SANG_SANG_MA;
+import static model.board.FormationType.SANG_MA_MA_SANG;
+import static model.board.FormationType.SANG_MA_SANG_MA;
 
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import model.Team;
-import model.board.JanggiFormation;
+import model.board.FormationType;
 import model.piece.PieceType;
 
 public class ViewMapper {
 
     public static final Map<PieceType, Map<Team, String>> SYMBOL_MAP = new EnumMap<>(PieceType.class);
-    public static Map<Integer, JanggiFormation> FORMATION_ORDER_MAPPER = new LinkedHashMap<>();
+    public static Map<Integer, FormationType> FORMATION_ORDER_MAPPER = new LinkedHashMap<>();
 
-    public static Map<JanggiFormation, String> FORMATION_DISPLAY_MAPPER = Map.of(
+    public static Map<FormationType, String> FORMATION_DISPLAY_MAPPER = Map.of(
             SANG_MA_SANG_MA, "상마상마",
             MA_SANG_MA_SANG, "마상마상",
             MA_SANG_SANG_MA, "마상상마",

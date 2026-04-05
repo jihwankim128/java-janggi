@@ -19,8 +19,8 @@ public abstract class Piece {
         return type.extractPath(current, next);
     }
 
-    public boolean isOtherTeam(Team team) {
-        return this.team != team;
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
     }
 
     public void validatePathCondition(List<Piece> pieces) {
@@ -36,10 +36,6 @@ public abstract class Piece {
     }
 
     protected abstract void validateMove(Position current, Position next);
-
-    protected boolean isCho() {
-        return !team.isHan();
-    }
 
     protected boolean isCannon() {
         return getType() == PieceType.CANNON;

@@ -8,7 +8,7 @@ import model.piece.Elephant;
 import model.piece.Horse;
 import model.piece.Piece;
 
-public enum JanggiFormation {
+public enum FormationType {
     SANG_MA_SANG_MA(team -> List.of(new Elephant(team), new Horse(team), new Elephant(team), new Horse(team))),
     MA_SANG_MA_SANG(team -> List.of(new Horse(team), new Elephant(team), new Horse(team), new Elephant(team))),
     MA_SANG_SANG_MA(team -> List.of(new Horse(team), new Elephant(team), new Elephant(team), new Horse(team))),
@@ -26,7 +26,7 @@ public enum JanggiFormation {
 
     private final FormationStrategy strategy;
 
-    JanggiFormation(FormationStrategy strategy) {
+    FormationType(FormationStrategy strategy) {
         this.strategy = strategy;
     }
 

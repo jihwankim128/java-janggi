@@ -9,8 +9,8 @@ import model.JanggiGame;
 import model.Team;
 import model.board.Board;
 import model.board.BoardFactory;
-import model.board.JanggiFormation;
 import model.board.Position;
+import model.board.TeamFormation;
 import model.piece.Piece;
 import view.InputView;
 import view.OutputView;
@@ -36,12 +36,12 @@ public class JanggiController {
     }
 
     private Board createBoardByFormation() {
-        JanggiFormation hanFormation = retry(() -> inputView.readFormationByTeam(HAN), processError());
-        JanggiFormation choFormation = retry(() -> inputView.readFormationByTeam(CHO), processError());
+        TeamFormation hanFormation = retry(() -> inputView.readFormationByTeam(HAN), processError());
+        TeamFormation choFormation = retry(() -> inputView.readFormationByTeam(CHO), processError());
 
         Board board = BoardFactory.generateDefaultPieces();
-        board.arrangePieces(hanFormation.generateByTeam(HAN));
-        board.arrangePieces(choFormation.generateByTeam(CHO));
+        board.arrangePieces(hanFormation.generate());
+        board.arrangePieces(choFormation.generate());
         return board;
     }
 
