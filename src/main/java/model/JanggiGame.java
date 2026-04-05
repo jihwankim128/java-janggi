@@ -29,8 +29,14 @@ public class JanggiGame {
 
     public Piece selectPiece(Position position) {
         Piece piece = board.pickPiece(position);
-        turn.validateAlly(piece);
+        validateAlly(piece);
         return piece;
+    }
+
+    private void validateAlly(Piece piece) {
+        if (!piece.isSameTeam(turn)) {
+            throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
+        }
     }
 
     public Team getTurn() {

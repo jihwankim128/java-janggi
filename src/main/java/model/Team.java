@@ -1,7 +1,5 @@
 package model;
 
-import model.piece.Piece;
-
 public enum Team {
     HAN("한나라"), CHO("초나라");
 
@@ -9,12 +7,6 @@ public enum Team {
 
     Team(String name) {
         this.name = name;
-    }
-
-    public void validateAlly(Piece piece) {
-        if (!piece.isSameTeam(this)) {
-            throw new IllegalArgumentException(this.name + "의 기물이 아닙니다.");
-        }
     }
 
     public boolean isHan() {
