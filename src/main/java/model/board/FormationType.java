@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Team;
+import model.coordinate.Position;
 import model.piece.Elephant;
 import model.piece.Horse;
 import model.piece.Piece;

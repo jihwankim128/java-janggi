@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 import java.util.stream.Stream;
 import model.Team;
+import model.coordinate.Position;
 import model.piece.Elephant;
 import model.piece.Horse;
 import model.piece.Piece;

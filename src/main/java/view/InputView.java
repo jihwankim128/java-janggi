@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.Scanner;
 import model.Team;
 import model.board.FormationType;
-import model.board.Position;
 import model.board.TeamFormation;
+import model.coordinate.Position;
 import model.piece.Piece;
 import view.parser.InputParser;
 

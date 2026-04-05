@@ -2,7 +2,7 @@ package model.piece;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 
 public abstract class Piece {
 
@@ -14,9 +14,9 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public List<Position> extractPath(Position current, Position next) {
+    public List<Position> pathTo(Position current, Position next) {
         validateMove(current, next);
-        return type.extractPath(current, next);
+        return extractPath(current, next);
     }
 
     public boolean isSameTeam(Team team) {
@@ -37,8 +37,10 @@ public abstract class Piece {
 
     protected abstract void validateMove(Position current, Position next);
 
-    protected boolean isCannon() {
-        return getType() == PieceType.CANNON;
+    protected abstract List<Position> extractPath(Position current, Position next);
+
+    protected boolean isSameType(Piece piece) {
+        return type == piece.type;
     }
 
     public Team getTeam() {

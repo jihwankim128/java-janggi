@@ -11,7 +11,7 @@ import static view.formater.BoardFormatter.formatSymbol;
 
 import java.util.Map;
 import model.board.Board;
-import model.board.Position;
+import model.coordinate.Position;
 import model.piece.Piece;
 
 public class OutputView {

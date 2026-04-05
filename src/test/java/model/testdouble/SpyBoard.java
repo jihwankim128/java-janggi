@@ -3,7 +3,7 @@ package model.testdouble;
 import java.util.Map;
 import model.Team;
 import model.board.Board;
-import model.board.Position;
+import model.coordinate.Position;
 import model.piece.Horse;
 import model.piece.Piece;
 

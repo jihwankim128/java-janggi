@@ -3,7 +3,7 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import model.board.Position;
+import model.coordinate.Position;
 import model.piece.Horse;
 import model.piece.Piece;
 import model.testdouble.FakePiece;

@@ -1,4 +1,4 @@
-package model.movement;
+package model.coordinate;
 
 public record Displacement(int rowDiff, int colDiff) {
 

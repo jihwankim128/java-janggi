@@ -1,9 +1,7 @@
-package model.board;
+package model.coordinate;
 
 import static model.board.Board.BOARD_COL;
 import static model.board.Board.BOARD_ROW;
-
-import model.movement.Displacement;
 
 public record Position(int row, int col) {
 

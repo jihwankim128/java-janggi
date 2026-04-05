@@ -2,7 +2,7 @@ package model.testdouble;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 import model.piece.Piece;
 import model.piece.PieceType;
 
@@ -22,12 +22,17 @@ public class FakePiece extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position current, Position next) {
+    public List<Position> pathTo(Position current, Position next) {
         return path;
     }
 
     @Override
     protected void validateMove(Position current, Position next) {
 
+    }
+
+    @Override
+    protected List<Position> extractPath(Position current, Position next) {
+        return List.of();
     }
 }

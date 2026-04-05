@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import java.util.Map;
 import model.Team;
+import model.coordinate.Position;
 import model.piece.Piece;
 import model.testdouble.FakePiece;
 import org.junit.jupiter.api.Test;

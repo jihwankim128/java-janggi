@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 import model.testdouble.FakePiece;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,7 +43,7 @@ public class SoldierTest {
         Piece soldier = new Soldier(team);
 
         // when
-        List<Position> path = soldier.extractPath(current, next);
+        List<Position> path = soldier.pathTo(current, next);
 
         // then
         assertThat(path).isEmpty();

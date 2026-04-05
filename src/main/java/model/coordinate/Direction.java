@@ -1,7 +1,6 @@
-package model.movement;
+package model.coordinate;
 
 import java.util.stream.Stream;
-import model.board.Position;
 
 public enum Direction {
     EAST(0, 1),

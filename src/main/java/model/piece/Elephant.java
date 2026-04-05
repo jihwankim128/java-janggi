@@ -1,8 +1,10 @@
 package model.piece;
 
+import java.util.List;
 import model.Team;
-import model.board.Position;
-import model.movement.Displacement;
+import model.coordinate.Direction;
+import model.coordinate.Displacement;
+import model.coordinate.Position;
 
 public class Elephant extends Piece {
 
@@ -19,5 +21,17 @@ public class Elephant extends Piece {
         if (displacement.isNotStepCombination(ELEPHANT_LONG_STEP, ELEPHANT_SHORT_STEP)) {
             throw new IllegalArgumentException("상이 이동할 수 없는 위치입니다.");
         }
+    }
+
+
+    @Override
+    protected List<Position> extractPath(Position start, Position end) {
+        Displacement displacement = end.toDisplacement(start);
+        Direction cardinal = displacement.extractCardinal();
+        Direction diagonal = displacement.extractDiagonal();
+
+        Position oneStep = cardinal.move(start);
+        Position stepping = diagonal.move(oneStep);
+        return List.of(oneStep, stepping);
     }
 }

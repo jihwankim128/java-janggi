@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import model.Team;
-import model.board.Position;
+import model.coordinate.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,7 +42,7 @@ public class CannonTest {
         Piece chariot = new Cannon(Team.HAN);
 
         // when
-        List<Position> path = chariot.extractPath(current, next);
+        List<Position> path = chariot.pathTo(current, next);
 
         // then
         assertThat(path).isEqualTo(expectedPath);

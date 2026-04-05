@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 import model.board.Board;
-import model.board.Position;
+import model.coordinate.Position;
 import model.piece.Piece;
 
 public class JanggiGame {
@@ -18,7 +18,7 @@ public class JanggiGame {
     public void movePiece(Position current, Position next) {
         Piece piece = selectPiece(current);
 
-        List<Position> path = piece.extractPath(current, next);
+        List<Position> path = piece.pathTo(current, next);
         List<Piece> pieces = board.extractPiecesByPath(path);
 
         piece.validatePathCondition(pieces);
