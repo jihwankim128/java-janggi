@@ -23,7 +23,6 @@ public class Elephant extends Piece {
         }
     }
 
-
     @Override
     protected List<Position> extractPath(Position start, Position end) {
         Displacement displacement = end.toDisplacement(start);
