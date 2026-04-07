@@ -1,5 +1,7 @@
 package model.coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public enum Direction {
@@ -29,6 +31,16 @@ public enum Direction {
 
     private boolean isSameDirection(int rowDiff, int colDiff) {
         return row == Integer.signum(rowDiff) && col == Integer.signum(colDiff);
+    }
+
+    public List<Position> pathTo(Position start, Position end) {
+        List<Position> path = new ArrayList<>();
+        Position step = move(start);
+        while (!step.equals(end)) {
+            path.add(step);
+            step = move(step);
+        }
+        return path;
     }
 
     public Position move(Position target) {

@@ -30,7 +30,7 @@ public abstract class PalacePiece extends Piece {
     }
 
     private void validateDiagonal(Position current, Displacement displacement) {
-        if (displacement.isNotStraight() && isNotPalaceDiagonal(current)) {
+        if (displacement.isNotStraight() && !isPalaceDiagonal(current)) {
             throw new IllegalArgumentException("궁성 대각선 이동은 특정 지점에서만 가능합니다.");
         }
     }

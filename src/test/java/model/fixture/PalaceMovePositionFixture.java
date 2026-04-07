@@ -1,5 +1,6 @@
 package model.fixture;
 
+import java.util.List;
 import java.util.stream.Stream;
 import model.Team;
 import model.coordinate.Position;
@@ -66,6 +67,67 @@ public class PalaceMovePositionFixture {
                 Arguments.of(Team.HAN, new Position(0, 4), new Position(2, 4), PieceType.GENERAL), // 직선 2칸
                 Arguments.of(Team.CHO, new Position(7, 3), new Position(9, 5), PieceType.GUARD),   // 대각선 2칸
                 Arguments.of(Team.HAN, new Position(1, 4), new Position(1, 4), PieceType.GENERAL)  // 제자리 이동
+        );
+    }
+
+    // ============================
+    // 車 & 包 궁성 대각선 케이스
+    // ============================
+    public static Stream<Arguments> 차_포_궁성_대각선_이동_경로() {
+        return Stream.of(
+                // 한나라 - 교차점 → 중앙 한 칸 (경로 없음)
+                Arguments.of(Team.HAN, new Position(0, 3), new Position(1, 4), List.of()),
+                Arguments.of(Team.HAN, new Position(0, 5), new Position(1, 4), List.of()),
+                Arguments.of(Team.HAN, new Position(2, 3), new Position(1, 4), List.of()),
+                Arguments.of(Team.HAN, new Position(2, 5), new Position(1, 4), List.of()),
+                // 한나라 - 중앙 → 교차점 한 칸 (경로 없음)
+                Arguments.of(Team.HAN, new Position(1, 4), new Position(0, 3), List.of()),
+                Arguments.of(Team.HAN, new Position(1, 4), new Position(0, 5), List.of()),
+                Arguments.of(Team.HAN, new Position(1, 4), new Position(2, 3), List.of()),
+                Arguments.of(Team.HAN, new Position(1, 4), new Position(2, 5), List.of()),
+                // 한나라 - 교차점 → 교차점 두 칸 (중앙 경유)
+                Arguments.of(Team.HAN, new Position(0, 3), new Position(2, 5), List.of(new Position(1, 4))),
+                Arguments.of(Team.HAN, new Position(0, 5), new Position(2, 3), List.of(new Position(1, 4))),
+                Arguments.of(Team.HAN, new Position(2, 3), new Position(0, 5), List.of(new Position(1, 4))),
+                Arguments.of(Team.HAN, new Position(2, 5), new Position(0, 3), List.of(new Position(1, 4))),
+
+                // 초나라 - 교차점 → 중앙 한 칸 (경로 없음)
+                Arguments.of(Team.CHO, new Position(7, 3), new Position(8, 4), List.of()),
+                Arguments.of(Team.CHO, new Position(7, 5), new Position(8, 4), List.of()),
+                Arguments.of(Team.CHO, new Position(9, 3), new Position(8, 4), List.of()),
+                Arguments.of(Team.CHO, new Position(9, 5), new Position(8, 4), List.of()),
+                // 초나라 - 중앙 → 교차점 한 칸 (경로 없음)
+                Arguments.of(Team.CHO, new Position(8, 4), new Position(7, 3), List.of()),
+                Arguments.of(Team.CHO, new Position(8, 4), new Position(7, 5), List.of()),
+                Arguments.of(Team.CHO, new Position(8, 4), new Position(9, 3), List.of()),
+                Arguments.of(Team.CHO, new Position(8, 4), new Position(9, 5), List.of()),
+                // 초나라 - 교차점 → 교차점 두 칸 (중앙 경유)
+                Arguments.of(Team.CHO, new Position(7, 3), new Position(9, 5), List.of(new Position(8, 4))),
+                Arguments.of(Team.CHO, new Position(7, 5), new Position(9, 3), List.of(new Position(8, 4))),
+                Arguments.of(Team.CHO, new Position(9, 3), new Position(7, 5), List.of(new Position(8, 4))),
+                Arguments.of(Team.CHO, new Position(9, 5), new Position(7, 3), List.of(new Position(8, 4)))
+        );
+    }
+
+    public static Stream<Arguments> 차_포_궁성_대각선_이동_불가능한_위치() {
+        return Stream.of(
+                // 한나라 - 교차점이 아닌 곳에서 대각선 시도
+                Arguments.of(Team.HAN, new Position(0, 4), new Position(1, 5)),
+                Arguments.of(Team.HAN, new Position(0, 4), new Position(1, 3)),
+                Arguments.of(Team.HAN, new Position(1, 3), new Position(2, 4)),
+                Arguments.of(Team.HAN, new Position(1, 5), new Position(2, 4)),
+                // 한나라 - 궁성 밖으로 대각선 이동
+                Arguments.of(Team.HAN, new Position(0, 3), new Position(3, 6)),
+                Arguments.of(Team.HAN, new Position(2, 5), new Position(4, 7)),
+
+                // 초나라 - 교차점이 아닌 곳에서 대각선 시도
+                Arguments.of(Team.CHO, new Position(7, 4), new Position(8, 5)),
+                Arguments.of(Team.CHO, new Position(7, 4), new Position(8, 3)),
+                Arguments.of(Team.CHO, new Position(8, 3), new Position(9, 4)),
+                Arguments.of(Team.CHO, new Position(8, 5), new Position(9, 4)),
+                // 초나라 - 궁성 밖으로 대각선 이동
+                Arguments.of(Team.CHO, new Position(7, 3), new Position(4, 0)),
+                Arguments.of(Team.CHO, new Position(9, 5), new Position(6, 2))
         );
     }
 }

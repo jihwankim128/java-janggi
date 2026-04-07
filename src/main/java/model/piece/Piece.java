@@ -49,8 +49,8 @@ public abstract class Piece {
         return !Palace.contains(team, position);
     }
 
-    protected boolean isNotPalaceDiagonal(Position position) {
-        return !Palace.isDiagonalPoint(team, position);
+    protected boolean isPalaceDiagonal(Position position) {
+        return Palace.isDiagonalPoint(team, position);
     }
 
     public Team getTeam() {

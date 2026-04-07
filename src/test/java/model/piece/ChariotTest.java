@@ -21,7 +21,7 @@ public class ChariotTest {
         Piece chariot = new Chariot(Team.HAN);
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(current, next))
+        assertThatCode(() -> chariot.pathTo(current, next))
                 .doesNotThrowAnyException();
     }
 
@@ -32,7 +32,7 @@ public class ChariotTest {
         Piece chariot = new Chariot(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> chariot.validateMove(current, next))
+        assertThatThrownBy(() -> chariot.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -57,6 +57,30 @@ public class ChariotTest {
 
         // when & then
         assertThatThrownBy(() -> chariot.validatePathCondition(obstacles))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PalaceMovePositionFixture#차_포_궁성_대각선_이동_경로")
+    void 차는_궁성_교차점에서_대각선으로_이동_경로를_구할_수_있다(Team team, Position current, Position next, List<Position> expectedPath) {
+        // given
+        Piece cannon = new Chariot(team);
+
+        // when & then
+        List<Position> path = cannon.pathTo(current, next);
+
+        // then
+        assertThat(path).isEqualTo(expectedPath);
+    }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PalaceMovePositionFixture#차_포_궁성_대각선_이동_불가능한_위치")
+    void 차는_궁성_교차점이_아닌_곳에서_대각선으로_이동할_수_없다(Team team, Position current, Position next) {
+        // given
+        Piece cannon = new Chariot(team);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
