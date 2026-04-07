@@ -1,8 +1,9 @@
 package model.piece;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import model.Team;
 import model.coordinate.Position;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,9 +17,11 @@ public class PalacePieceTest {
         // given
         Piece piece = createPiece(team, type);
 
-        // when & then
-        assertThatCode(() -> piece.validateMove(current, next))
-                .doesNotThrowAnyException();
+        // when
+        List<Position> result = piece.pathTo(current, next);
+
+        // then
+        assertThat(result).isEmpty();
     }
 
     @ParameterizedTest(name = "{0}팀 {3}이 {1}에서 {2}로 이동 실패")
@@ -28,7 +31,7 @@ public class PalacePieceTest {
         Piece piece = createPiece(team, type);
 
         // when & then
-        assertThatThrownBy(() -> piece.validateMove(current, next))
+        assertThatThrownBy(() -> piece.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

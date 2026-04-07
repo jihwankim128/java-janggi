@@ -28,7 +28,7 @@ public abstract class LinearMovePiece extends Piece {
 
     private void validateStraight(Position current, Displacement displacement) {
         if (!isPalaceDiagonal(current) && displacement.isNotStraight()) {
-            throw new IllegalArgumentException("차가 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException("현재 기물이 이동할 수 없는 위치입니다.");
         }
     }
 

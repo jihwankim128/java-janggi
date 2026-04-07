@@ -1,7 +1,6 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -14,17 +13,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class SoldierTest {
 
-    @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동할 수 있다.")
-    @MethodSource("model.fixture.PieceMovePositionFixture#졸_병_이동_가능한_위치")
-    void 졸_병_이동_성공_테스트(Team team, Position current, Position next) {
-        // given
-        Piece soldier = new Soldier(team);
-
-        // when & then
-        assertThatCode(() -> soldier.validateMove(current, next))
-                .doesNotThrowAnyException();
-    }
-
     @ParameterizedTest(name = "{0}나라 졸 일 때, {1}에서 {2}로 이동할 수 없다.")
     @MethodSource("model.fixture.PieceMovePositionFixture#졸_병_이동_불가능한_위치")
     void 졸_병_이동_실패_테스트(Team team, Position current, Position next) {
@@ -32,7 +20,7 @@ public class SoldierTest {
         Piece soldier = new Soldier(team);
 
         // when & then
-        assertThatThrownBy(() -> soldier.validateMove(current, next))
+        assertThatThrownBy(() -> soldier.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

@@ -19,7 +19,7 @@ public class Horse extends Piece {
     protected void validateMove(Position current, Position next) {
         Displacement displacement = next.toDisplacement(current);
         if (displacement.isNotStepCombination(HORSE_LONG_STEP, HORSE_SHORT_STEP)) {
-            throw new IllegalArgumentException("마가 이동할 수 없는 위치입니다.");
+            throw new IllegalArgumentException("현재 기물이 이동할 수 없는 위치입니다.");
         }
     }
 

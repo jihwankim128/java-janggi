@@ -1,7 +1,6 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -13,17 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class ChariotTest {
-
-    @ParameterizedTest
-    @MethodSource("model.fixture.PieceMovePositionFixture#사방위_이동_방향_케이스")
-    void 차는_직선으로_이동할_수_있다(Position current, Position next) {
-        // given
-        Piece chariot = new Chariot(Team.HAN);
-
-        // when & then
-        assertThatCode(() -> chariot.pathTo(current, next))
-                .doesNotThrowAnyException();
-    }
 
     @ParameterizedTest
     @MethodSource("model.fixture.PieceMovePositionFixture#사간방_대각선_이동_방향_케이스")

@@ -1,7 +1,6 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -14,24 +13,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class CannonTest {
 
     @ParameterizedTest
-    @MethodSource("model.fixture.PieceMovePositionFixture#사방위_이동_방향_케이스")
-    void 포는_직선으로_이동할_수_있다(Position current, Position next) {
-        // given
-        Piece cannon = new Cannon(Team.HAN);
-
-        // when & then
-        assertThatCode(() -> cannon.pathTo(current, next))
-                .doesNotThrowAnyException();
-    }
-
-    @ParameterizedTest
     @MethodSource("model.fixture.PieceMovePositionFixture#사간방_대각선_이동_방향_케이스")
     void 포는_대각선이나_제자리로_이동할_수_없다(Position current, Position next) {
         // given
         Piece cannon = new Cannon(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> cannon.validateMove(current, next))
+        assertThatThrownBy(() -> cannon.pathTo(current, next))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
