@@ -16,15 +16,27 @@ public class JanggiGame {
     }
 
     public void movePiece(Position current, Position next) {
+        validateGamePlay();
         Piece piece = selectPiece(current);
 
         List<Position> path = piece.pathTo(current, next);
         List<Piece> pieces = board.extractPiecesByPath(path);
-
         piece.validatePathCondition(pieces);
-        board.move(current, next);
 
+        board.move(current, next);
         this.turn = turn.opposite();
+    }
+
+    public boolean isNotDone() {
+        return board.isAliveGeneral(Team.HAN) && board.isAliveGeneral(Team.CHO);
+    }
+
+    public Team resolveWinner() {
+        validateGameDone();
+        if (board.isAliveGeneral(Team.HAN)) {
+            return Team.HAN;
+        }
+        return Team.CHO;
     }
 
     public Piece selectPiece(Position position) {
@@ -33,9 +45,25 @@ public class JanggiGame {
         return piece;
     }
 
+    private boolean isDone() {
+        return !isNotDone();
+    }
+
+    private void validateGamePlay() {
+        if (isDone()) {
+            throw new IllegalStateException("게임이 종료되었으므로 이동할 수 없습니다.");
+        }
+    }
+
     private void validateAlly(Piece piece) {
         if (!piece.isSameTeam(turn)) {
             throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
+        }
+    }
+
+    private void validateGameDone() {
+        if (isNotDone()) {
+            throw new IllegalArgumentException("아직 게임이 진행중입니다.");
         }
     }
 

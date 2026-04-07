@@ -10,6 +10,7 @@ import static view.formater.BoardFormatter.formatHorizon;
 import static view.formater.BoardFormatter.formatSymbol;
 
 import java.util.Map;
+import model.Team;
 import model.board.Board;
 import model.coordinate.Position;
 import model.piece.Piece;
@@ -48,5 +49,9 @@ public class OutputView {
 
     public void displayError(String message) {
         System.out.println(RED + "[ERROR] " + message + RESET);
+    }
+
+    public void displayWinner(Team winner) {
+        System.out.println(winner.getName() + " 승");
     }
 }

@@ -36,15 +36,19 @@ public abstract class Piece {
     }
 
     public void validateTarget(Piece otherPiece) {
-        if (team() == otherPiece.team) {
+        if (team() == otherPiece.team()) {
             throw new IllegalArgumentException("아군이 있는 위치로 이동할 수 없습니다.");
         }
+    }
+
+    public boolean isSameType(PieceType type) {
+        return type() == type;
     }
 
     protected abstract void validateMove(Position current, Position next);
 
     protected boolean isSameType(Piece piece) {
-        return type == piece.type;
+        return isSameType(piece.type());
     }
 
     protected List<Position> extractPath(Position current, Position next) {
@@ -55,7 +59,7 @@ public abstract class Piece {
         return team;
     }
 
-    public PieceType getType() {
+    public PieceType type() {
         return type;
     }
 }

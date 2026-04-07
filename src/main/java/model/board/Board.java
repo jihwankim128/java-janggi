@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import model.Team;
 import model.coordinate.Position;
 import model.piece.Piece;
+import model.piece.PieceType;
 
 public class Board {
 
@@ -31,6 +33,12 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 존재하는 장기말이 없습니다."));
     }
 
+    public boolean isAliveGeneral(Team team) {
+        return board.values()
+                .stream()
+                .anyMatch(piece -> piece.isSameType(PieceType.GENERAL) && piece.isSameTeam(team));
+    }
+
     public void arrangePieces(Map<Position, Piece> pieces) {
         board.putAll(pieces);
     }
@@ -46,11 +54,11 @@ public class Board {
         return Optional.ofNullable(board.get(position));
     }
 
-    public Map<Position, Piece> board() {
-        return Map.copyOf(board);
-    }
-
     private boolean hasPieceAt(Position position) {
         return board.containsKey(position);
+    }
+
+    public Map<Position, Piece> board() {
+        return Map.copyOf(board);
     }
 }

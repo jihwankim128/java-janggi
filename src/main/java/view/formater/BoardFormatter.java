@@ -33,7 +33,7 @@ public class BoardFormatter {
             return EMPTY;
         }
         String color = extractColor(piece.team());
-        String symbol = SYMBOL_MAP.get(piece.getType()).get(piece.team());
+        String symbol = SYMBOL_MAP.get(piece.type()).get(piece.team());
         return color + symbol + RESET;
     }
 

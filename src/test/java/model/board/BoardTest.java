@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import model.Team;
 import model.coordinate.Position;
+import model.piece.General;
 import model.piece.Piece;
 import model.testdouble.FakePiece;
 import org.junit.jupiter.api.Test;
@@ -115,6 +116,31 @@ class BoardTest {
         // then
         assertThat(extracted).hasSize(2)
                 .containsExactly(hurdle1, hurdle2);
+    }
+
+    @Test
+    void 팀의_왕이_살아있는지_알_수_있다() {
+        // given
+        Position generalPos = new Position(1, 4);
+        Board board = new Board(Map.of(generalPos, new General(Team.HAN)));
+
+        // when
+        boolean alive = board.isAliveGeneral(Team.HAN);
+
+        // then
+        assertThat(alive).isTrue();
+    }
+
+    @Test
+    void 해당_팀의_왕이_죽었는지_알_수_잇다() {
+        // given
+        Board board = new Board(Map.of());
+
+        // when
+        boolean alive = board.isAliveGeneral(Team.HAN);
+
+        // then
+        assertThat(alive).isFalse();
     }
 
     private void assertSuccessMoved(Board board, Position source, FakePiece piece, Position destination) {

@@ -29,10 +29,16 @@ public class JanggiController {
         outputView.displayBoard(board.board());
 
         JanggiGame janggiGame = new JanggiGame(board);
-        while (true) {
+        while (janggiGame.isNotDone()) {
             retry(() -> playByTurn(janggiGame), processError());
             outputView.displayBoard(board.board());
         }
+        printResult(janggiGame);
+    }
+
+    private void printResult(JanggiGame janggiGame) {
+        Team winner = janggiGame.resolveWinner();
+        outputView.displayWinner(winner);
     }
 
     private Board createBoardByFormation() {
