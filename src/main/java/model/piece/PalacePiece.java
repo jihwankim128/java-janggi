@@ -2,6 +2,7 @@ package model.piece;
 
 import model.Team;
 import model.coordinate.Displacement;
+import model.coordinate.Palace;
 import model.coordinate.Position;
 
 public abstract class PalacePiece extends Piece {
@@ -18,9 +19,13 @@ public abstract class PalacePiece extends Piece {
     }
 
     private void validatePalacePosition(Position current, Position next) {
-        if (isNotPalace(current) || isNotPalace(next)) {
+        if (isNotInPalace(current, next)) {
             throw new IllegalArgumentException("궁성 영역 내부에서만 이동할 수 있습니다.");
         }
+    }
+
+    private boolean isNotInPalace(Position current, Position next) {
+        return !Palace.contains(team(), current) || !Palace.contains(team(), next);
     }
 
     private void validateOneStep(Displacement displacement) {
@@ -30,7 +35,7 @@ public abstract class PalacePiece extends Piece {
     }
 
     private void validateDiagonal(Position current, Displacement displacement) {
-        if (displacement.isNotStraight() && !isPalaceDiagonal(current)) {
+        if (displacement.isNotStraight() && !Palace.isDiagonalPoint(team(), current)) {
             throw new IllegalArgumentException("궁성 대각선 이동은 특정 지점에서만 가능합니다.");
         }
     }

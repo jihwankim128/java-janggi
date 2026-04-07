@@ -24,7 +24,7 @@ public class JanggiGame {
         piece.validatePathCondition(pieces);
         board.move(current, next);
 
-        this.turn = turn.next();
+        this.turn = turn.opposite();
     }
 
     public Piece selectPiece(Position position) {

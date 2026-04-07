@@ -130,4 +130,13 @@ public class PalaceMovePositionFixture {
                 Arguments.of(Team.CHO, new Position(9, 5), new Position(6, 2))
         );
     }
+
+    public static Stream<Arguments> 졸_병_궁성_이동_불가능한_위치() {
+        return Stream.of(
+                // 적군 궁성 내 '후퇴' 대각선 시도
+                Arguments.of(Team.CHO, new Position(2, 4), new Position(3, 5)),
+                // 적군 궁성 내 대각선 2칸 이동 시도
+                Arguments.of(Team.HAN, new Position(7, 3), new Position(9, 5))
+        );
+    }
 }

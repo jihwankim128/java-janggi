@@ -32,8 +32,8 @@ public class BoardFormatter {
         if (piece == null) {
             return EMPTY;
         }
-        String color = extractColor(piece.getTeam());
-        String symbol = SYMBOL_MAP.get(piece.getType()).get(piece.getTeam());
+        String color = extractColor(piece.team());
+        String symbol = SYMBOL_MAP.get(piece.getType()).get(piece.team());
         return color + symbol + RESET;
     }
 

@@ -22,8 +22,12 @@ public record Displacement(int rowDiff, int colDiff) {
                 (absRowDiff() != shortStep || absColDiff() != longStep);
     }
 
-    public boolean isForwardBy(int forwardCount) {
-        return rowDiff == forwardCount && colDiff == 0;
+    public boolean isForwardBy(int forwardDirection) {
+        return rowDiff == forwardDirection && colDiff == 0;
+    }
+
+    public boolean isSameForwardDirection(int forwardDirection) {
+        return rowDiff == forwardDirection;
     }
 
     public boolean isSideOneStep() {

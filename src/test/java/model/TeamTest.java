@@ -12,7 +12,7 @@ class TeamTest {
         Team han = Team.HAN;
 
         // when
-        Team next = han.next();
+        Team next = han.opposite();
 
         // then
         assertThat(next).isEqualTo(Team.CHO);
@@ -24,7 +24,7 @@ class TeamTest {
         Team cho = Team.CHO;
 
         // when
-        Team next = cho.next();
+        Team next = cho.opposite();
 
         // then
         assertThat(next).isEqualTo(Team.HAN);

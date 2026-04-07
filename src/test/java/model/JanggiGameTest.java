@@ -28,7 +28,7 @@ class JanggiGameTest {
 
         // then
         assertThat(board.pickPiece(destination)).isEqualTo(piece);
-        assertThat(janggiGame.getTurn()).isEqualTo(prevTurn.next());
+        assertThat(janggiGame.getTurn()).isEqualTo(prevTurn.opposite());
     }
 
     @Test

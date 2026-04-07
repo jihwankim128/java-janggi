@@ -2,7 +2,6 @@ package model.piece;
 
 import java.util.List;
 import model.Team;
-import model.coordinate.Palace;
 import model.coordinate.Position;
 
 public abstract class Piece {
@@ -37,7 +36,7 @@ public abstract class Piece {
     }
 
     public void validateTarget(Piece otherPiece) {
-        if (getTeam() == otherPiece.team) {
+        if (team() == otherPiece.team) {
             throw new IllegalArgumentException("아군이 있는 위치로 이동할 수 없습니다.");
         }
     }
@@ -52,15 +51,7 @@ public abstract class Piece {
         return List.of();
     }
 
-    protected boolean isNotPalace(Position position) {
-        return !Palace.contains(team, position);
-    }
-
-    protected boolean isPalaceDiagonal(Position position) {
-        return Palace.isDiagonalPoint(team, position);
-    }
-
-    public Team getTeam() {
+    public Team team() {
         return team;
     }
 

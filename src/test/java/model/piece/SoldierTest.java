@@ -47,4 +47,15 @@ public class SoldierTest {
         assertThatThrownBy(() -> soldier.validatePathCondition(obstacles))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @ParameterizedTest
+    @MethodSource("model.fixture.PalaceMovePositionFixture#졸_병_궁성_이동_불가능한_위치")
+    void 졸은_궁성_교차점이_아닌_곳에서_대각선으로_이동할_수_없다(Team team, Position current, Position next) {
+        // given
+        Piece cannon = new Soldier(team);
+
+        // when & then
+        assertThatThrownBy(() -> cannon.pathTo(current, next))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }

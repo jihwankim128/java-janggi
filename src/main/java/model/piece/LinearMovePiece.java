@@ -4,6 +4,7 @@ import java.util.List;
 import model.Team;
 import model.coordinate.Direction;
 import model.coordinate.Displacement;
+import model.coordinate.Palace;
 import model.coordinate.Position;
 
 public abstract class LinearMovePiece extends Piece {
@@ -20,17 +21,21 @@ public abstract class LinearMovePiece extends Piece {
     }
 
     @Override
-    protected List<Position> extractPath(Position start, Position end) {
-        if (isPalaceDiagonal(start)) {
-            return extractDiagonalPath(start, end);
+    protected List<Position> extractPath(Position current, Position next) {
+        if (Palace.isDiagonalPoint(team(), current)) {
+            return extractDiagonalPath(current, next);
         }
-        return extractLinearPath(start, end);
+        return extractLinearPath(current, next);
     }
 
     private void validatePalaceDiagonal(Position current, Position next) {
-        if (!isPalaceDiagonal(current) || !isPalaceDiagonal(next)) {
+        if (isNotInPalaceDiagonal(current, next)) {
             throw new IllegalArgumentException("대각선 이동은 궁성 교차점에서만 가능합니다.");
         }
+    }
+
+    private boolean isNotInPalaceDiagonal(Position current, Position next) {
+        return !Palace.isDiagonalPoint(team(), current) || !Palace.isDiagonalPoint(team(), next);
     }
 
     private List<Position> extractLinearPath(Position start, Position end) {

@@ -82,7 +82,11 @@ public class PieceMovePathFixture {
                 // 초나라 전진/좌/우
                 Arguments.of(Team.CHO, new Position(6, 2), new Position(5, 2)),
                 Arguments.of(Team.CHO, new Position(6, 2), new Position(6, 1)),
-                Arguments.of(Team.CHO, new Position(6, 2), new Position(6, 3))
+                Arguments.of(Team.CHO, new Position(6, 2), new Position(6, 3)),
+                // 한나라 적진 궁성 이동
+                Arguments.of(Team.HAN, new Position(7, 5), new Position(8, 4)), // 대각선
+                // 초나라 적진 궁성 이동
+                Arguments.of(Team.CHO, new Position(2, 4), new Position(1, 4)) // 대각선
         );
     }
 }
