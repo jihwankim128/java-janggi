@@ -14,7 +14,14 @@ public abstract class Piece {
         this.type = type;
     }
 
+    private static void validatePosition(Position current, Position next) {
+        if (current.equals(next)) {
+            throw new IllegalArgumentException("기물은 제자리로 이동할 수 없습니다.");
+        }
+    }
+
     public List<Position> pathTo(Position current, Position next) {
+        validatePosition(current, next);
         validateMove(current, next);
         return extractPath(current, next);
     }

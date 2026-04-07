@@ -27,6 +27,12 @@ public class PieceMovePathFixture {
                         new Position(0, 0),
                         new Position(3, 0),
                         List.of(new Position(1, 0), new Position(2, 0))
+                ),
+                // 4. 궁성 교차점에서 수평 이동
+                Arguments.of(
+                        new Position(2, 5),
+                        new Position(2, 8),
+                        List.of(new Position(2, 6), new Position(2, 7))
                 )
         );
     }

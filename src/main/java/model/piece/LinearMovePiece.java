@@ -14,8 +14,9 @@ public abstract class LinearMovePiece extends Piece {
     @Override
     protected void validateMove(Position current, Position next) {
         Displacement displacement = next.toDisplacement(current);
-        validatePalaceDiagonal(current, next);
-        validateStraight(current, displacement);
+        if (displacement.isNotStraight()) {
+            validatePalaceDiagonal(current, next);
+        }
     }
 
     @Override
@@ -26,15 +27,9 @@ public abstract class LinearMovePiece extends Piece {
         return extractLinearPath(start, end);
     }
 
-    private void validateStraight(Position current, Displacement displacement) {
-        if (!isPalaceDiagonal(current) && displacement.isNotStraight()) {
-            throw new IllegalArgumentException("현재 기물이 이동할 수 없는 위치입니다.");
-        }
-    }
-
     private void validatePalaceDiagonal(Position current, Position next) {
-        if (isPalaceDiagonal(current) && !isPalaceDiagonal(next)) {
-            throw new IllegalArgumentException("궁성 영역 대각선에서 이동 할 수 없는 위치입니다.");
+        if (!isPalaceDiagonal(current) || !isPalaceDiagonal(next)) {
+            throw new IllegalArgumentException("대각선 이동은 궁성 교차점에서만 가능합니다.");
         }
     }
 
