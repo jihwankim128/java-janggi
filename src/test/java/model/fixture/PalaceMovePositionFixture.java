@@ -66,7 +66,10 @@ public class PalaceMovePositionFixture {
                 // 4. 거리 초과 및 특수 실패
                 Arguments.of(Team.HAN, new Position(0, 4), new Position(2, 4), PieceType.GENERAL), // 직선 2칸
                 Arguments.of(Team.CHO, new Position(7, 3), new Position(9, 5), PieceType.GUARD),   // 대각선 2칸
-                Arguments.of(Team.HAN, new Position(1, 4), new Position(1, 4), PieceType.GENERAL)  // 제자리 이동
+                Arguments.of(Team.HAN, new Position(1, 4), new Position(1, 4), PieceType.GENERAL), // 제자리 이동
+
+                // 5. 출발지가 궁성 밖인 경우
+                Arguments.of(Team.HAN, new Position(3, 4), new Position(2, 4), PieceType.GENERAL)
         );
     }
 
