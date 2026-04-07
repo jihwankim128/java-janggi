@@ -1,6 +1,7 @@
 package model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
@@ -74,6 +75,18 @@ public class CannonTest {
     }
 
     @Test
+    void 포가_정상적으로_하나의_기물을_넘어가는_경우_예외가_발생하지_않는다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece hurdle = new Soldier(Team.CHO);
+        List<Piece> piecesOnPath = List.of(hurdle);
+
+        // when & then
+        assertThatCode(() -> cannon.validatePathCondition(piecesOnPath))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
     void 포가_상대_포를_잡으려_하면_예외가_발생한다() {
         // given
         Piece cannon = new Cannon(Team.HAN);
@@ -82,6 +95,17 @@ public class CannonTest {
         // when & then
         assertThatThrownBy(() -> cannon.validateTarget(targetCannon))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포가_상대_포가_아닌_기물을_잡으려_하면_예외가_발생하지_않는다() {
+        // given
+        Piece cannon = new Cannon(Team.HAN);
+        Piece target = new Soldier(Team.CHO);
+
+        // when & then
+        assertThatCode(() -> cannon.validateTarget(target))
+                .doesNotThrowAnyException();
     }
 
     @ParameterizedTest
