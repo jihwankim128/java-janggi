@@ -30,6 +30,12 @@ public record Displacement(int rowDiff, int colDiff) {
         return rowDiff == 0 && absColDiff() == 1;
     }
 
+    public boolean isOneStepInRange() {
+        int row = absRowDiff();
+        int col = absColDiff();
+        return (row <= 1 && col <= 1) && (row + col > 0);
+    }
+
     private int absRowDiff() {
         return Math.abs(rowDiff);
     }

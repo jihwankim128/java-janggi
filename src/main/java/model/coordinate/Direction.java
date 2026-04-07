@@ -34,12 +34,4 @@ public enum Direction {
     public Position move(Position target) {
         return target.resolveNext(row, col);
     }
-
-    public int row() {
-        return row;
-    }
-
-    public int col() {
-        return col;
-    }
 }

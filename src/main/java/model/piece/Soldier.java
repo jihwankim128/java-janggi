@@ -1,6 +1,5 @@
 package model.piece;
 
-import java.util.List;
 import model.Team;
 import model.coordinate.Displacement;
 import model.coordinate.Position;
@@ -27,10 +26,5 @@ public class Soldier extends Piece {
         if (!(displacement.isForwardBy(forwardDirection) || displacement.isSideOneStep())) {
             throw new IllegalArgumentException("졸이 이동할 수 없는 위치입니다.");
         }
-    }
-
-    @Override
-    protected List<Position> extractPath(Position current, Position next) {
-        return List.of();
     }
 }

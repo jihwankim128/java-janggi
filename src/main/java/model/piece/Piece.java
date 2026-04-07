@@ -2,10 +2,10 @@ package model.piece;
 
 import java.util.List;
 import model.Team;
+import model.coordinate.Palace;
 import model.coordinate.Position;
 
 public abstract class Piece {
-
     private final Team team;
     private final PieceType type;
 
@@ -37,10 +37,20 @@ public abstract class Piece {
 
     protected abstract void validateMove(Position current, Position next);
 
-    protected abstract List<Position> extractPath(Position current, Position next);
-
     protected boolean isSameType(Piece piece) {
         return type == piece.type;
+    }
+
+    protected List<Position> extractPath(Position current, Position next) {
+        return List.of();
+    }
+
+    protected boolean isNotPalace(Position position) {
+        return !Palace.contains(team, position);
+    }
+
+    protected boolean isNotPalaceDiagonal(Position position) {
+        return !Palace.isDiagonalPoint(team, position);
     }
 
     public Team getTeam() {
