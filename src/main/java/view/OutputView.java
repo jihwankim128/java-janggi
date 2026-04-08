@@ -9,6 +9,7 @@ import static view.formater.BoardFormatter.VERTICAL_LINE;
 import static view.formater.BoardFormatter.formatHorizon;
 import static view.formater.BoardFormatter.formatSymbol;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 import model.Team;
 import model.board.Board;
@@ -53,5 +54,10 @@ public class OutputView {
 
     public void displayWinner(Team winner) {
         System.out.println(winner.getName() + " 승");
+    }
+
+    public void displayScore(Map<Team, Double> finalScore) {
+        DecimalFormat formatter = new DecimalFormat("#.#");
+        finalScore.forEach((team, score) -> System.out.printf("%s: %s점%n", team.getName(), formatter.format(score)));
     }
 }

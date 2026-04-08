@@ -4,6 +4,7 @@ import static controller.Retrier.retry;
 import static model.Team.CHO;
 import static model.Team.HAN;
 
+import java.util.Map;
 import java.util.function.Consumer;
 import model.JanggiGame;
 import model.Team;
@@ -25,40 +26,63 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = createBoardByFormation();
-        outputView.displayBoard(board.board());
+        JanggiGame janggiGame = createJanggiGame();
+        outputView.displayBoard(janggiGame.getBoard());
 
-        JanggiGame janggiGame = new JanggiGame(board);
-        while (janggiGame.isNotDone()) {
-            retry(() -> playByTurn(janggiGame), processError());
-            outputView.displayBoard(board.board());
+        while (janggiGame.canPlaying()) {
+            retry(() -> checkBigJang(janggiGame), processError());
+            play(janggiGame);
         }
+
         printResult(janggiGame);
     }
 
-    private void printResult(JanggiGame janggiGame) {
-        Team winner = janggiGame.resolveWinner();
-        outputView.displayWinner(winner);
-    }
-
-    private Board createBoardByFormation() {
+    private JanggiGame createJanggiGame() {
         TeamFormation hanFormation = retry(() -> inputView.readFormationByTeam(HAN), processError());
         TeamFormation choFormation = retry(() -> inputView.readFormationByTeam(CHO), processError());
 
         Board board = BoardFactory.generateDefaultPieces();
         board.arrangePieces(hanFormation.generate());
         board.arrangePieces(choFormation.generate());
-        return board;
+        return new JanggiGame(board);
+    }
+
+    private void play(JanggiGame janggiGame) {
+        if (janggiGame.canPlaying()) {
+            retry(() -> playByTurn(janggiGame), processError());
+        }
+        outputView.displayBoard(janggiGame.getBoard());
     }
 
     private void playByTurn(JanggiGame janggiGame) {
-        Team currentTurn = janggiGame.getTurn();
+        Team currentTurn = janggiGame.turn();
 
         Position current = inputView.readPiecePositionForMove(currentTurn);
         Piece piece = janggiGame.selectPiece(current);
 
         Position next = inputView.readPiecePositionForArrange(currentTurn, piece);
         janggiGame.movePiece(current, next);
+    }
+
+    private void checkBigJang(JanggiGame janggiGame) {
+        if (!janggiGame.isBigJang()) {
+            return;
+        }
+
+        boolean bigJang = inputView.readBigJangStatus(janggiGame.turn());
+        if (bigJang) {
+            janggiGame.finishByBigJang();
+        }
+    }
+
+    private void printResult(JanggiGame janggiGame) {
+        Team winner = janggiGame.resolveWinner();
+        outputView.displayWinner(winner);
+
+        if (janggiGame.isBigJangDone()) {
+            Map<Team, Double> finalScore = janggiGame.calculateFinalScore();
+            outputView.displayScore(finalScore);
+        }
     }
 
     private Consumer<IllegalArgumentException> processError() {

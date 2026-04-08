@@ -55,4 +55,11 @@ public class InputView {
         String input = SCANNER.nextLine();
         return PARSER.parseNumber(input);
     }
+
+    public boolean readBigJangStatus(Team turn) {
+        System.out.printf("%n[%s] 빅장입니다! 종료하시겠습니까? (Y, N)%n", turn.getName());
+        String input = SCANNER.nextLine();
+        InputCommand command = InputCommand.parse(input);
+        return command == InputCommand.Y;
+    }
 }

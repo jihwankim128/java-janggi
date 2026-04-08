@@ -8,17 +8,21 @@ import model.piece.PieceType;
 
 public class FakePiece extends Piece {
 
-    private final boolean movable;
     private final List<Position> path;
+    private final double score;
 
-    FakePiece(Team team, PieceType type, boolean movable, List<Position> path) {
+    FakePiece(Team team, PieceType type, List<Position> path, double score) {
         super(team, type);
-        this.movable = movable;
         this.path = path;
+        this.score = score;
     }
 
     public static FakePiece createFake(Team team) {
-        return new FakePiece(team, PieceType.SOLDIER, true, List.of());
+        return new FakePiece(team, PieceType.SOLDIER, List.of(), 0.0);
+    }
+
+    public static FakePiece createFakeWithScore(Team team, double score) {
+        return new FakePiece(team, PieceType.SOLDIER, List.of(), score);
     }
 
     @Override
@@ -32,7 +36,7 @@ public class FakePiece extends Piece {
     }
 
     @Override
-    protected List<Position> extractPath(Position current, Position next) {
-        return List.of();
+    public double score() {
+        return score;
     }
 }

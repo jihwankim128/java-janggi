@@ -26,7 +26,7 @@ public abstract class Piece {
     }
 
     public boolean isSameTeam(Team team) {
-        return this.team == team;
+        return team() == team;
     }
 
     public void validatePathCondition(List<Piece> pieces) {
@@ -43,6 +43,10 @@ public abstract class Piece {
 
     public boolean isSameType(PieceType type) {
         return type() == type;
+    }
+
+    public double score() {
+        return type().getScore();
     }
 
     protected abstract void validateMove(Position current, Position next);

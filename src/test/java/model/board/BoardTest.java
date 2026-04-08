@@ -51,7 +51,7 @@ class BoardTest {
         board.move(source, destination);
 
         // then
-        assertSuccessMoved(board, destination, piece, source);
+        assertSuccessMoved(board, source, piece, destination);
     }
 
     @Test
@@ -77,7 +77,7 @@ class BoardTest {
         board.move(source, destination);
 
         // then
-        assertSuccessMoved(board, destination, piece, source);
+        assertSuccessMoved(board, source, piece, destination);
     }
 
     @Test
@@ -143,8 +143,46 @@ class BoardTest {
         assertThat(alive).isFalse();
     }
 
+    @Test
+    void 팀의_왕의_위치를_찾을_수_있다() {
+        // given
+        Position generalPos = new Position(1, 4);
+        General general = new General(Team.HAN);
+        Board board = new Board(Map.of(generalPos, general));
+
+        // when
+        Position foundPosition = board.findGeneralPositionByTeam(Team.HAN);
+
+        // then
+        assertThat(foundPosition).isEqualTo(generalPos);
+    }
+
+    @Test
+    void 팀의_왕이_없으면_위치를_찾을_때_예외가_발생한다() {
+        // given
+        Board board = new Board(Map.of());
+
+        // when & then
+        assertThatThrownBy(() -> board.findGeneralPositionByTeam(Team.HAN))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 특정_팀의_기물_점수_합계를_계산한다() {
+        // given
+        Board board = BoardFactory.generateDefaultPieces();
+        Map<Position, Piece> choPieces = FormationType.SANG_MA_MA_SANG.generateByTeam(Team.CHO);
+        board.arrangePieces(choPieces);
+
+        // when
+        double score = board.calculateBaseScore(Team.CHO);
+
+        // then: 기본 총 점수는 72점이다
+        assertThat(score).isEqualTo(72);
+    }
+
     private void assertSuccessMoved(Board board, Position source, FakePiece piece, Position destination) {
-        assertThat(board.pickPiece(source)).isEqualTo(piece);
-        assertThat(board.board()).doesNotContainKey(destination);
+        assertThat(board.pickPiece(destination)).isEqualTo(piece);
+        assertThat(board.board()).doesNotContainKey(source);
     }
 }

@@ -36,7 +36,7 @@ public class Board {
     public boolean isAliveGeneral(Team team) {
         return board.values()
                 .stream()
-                .anyMatch(piece -> piece.isSameType(PieceType.GENERAL) && piece.isSameTeam(team));
+                .anyMatch(piece -> isTargetGeneral(piece, team));
     }
 
     public void arrangePieces(Map<Position, Piece> pieces) {
@@ -48,6 +48,27 @@ public class Board {
                 .filter(this::hasPieceAt)
                 .map(this::pickPiece)
                 .toList();
+    }
+
+    public Position findGeneralPositionByTeam(Team team) {
+        return board.entrySet()
+                .stream()
+                .filter(data -> isTargetGeneral(data.getValue(), team))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(team.getName() + "의 왕이 없습니다."));
+    }
+
+    public double calculateBaseScore(Team team) {
+        return board.values()
+                .stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::score)
+                .sum();
+    }
+
+    private boolean isTargetGeneral(Piece piece, Team team) {
+        return piece.isSameType(PieceType.GENERAL) && piece.isSameTeam(team);
     }
 
     private Optional<Piece> findByPosition(Position position) {
