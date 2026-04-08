@@ -180,6 +180,19 @@ class JanggiGameTest {
     }
 
     @Test
+    void 빅장_상태에서_승자를_요청하면_예외가_발생한다() {
+        // given
+        Position barrierPos = new Position(6, 4);
+        SpyBoard board = SpyBoard.withBothGenerals().addPiece(barrierPos, new Chariot(Team.CHO));
+        JanggiGame janggiGame = new JanggiGame(board);
+        janggiGame.movePiece(barrierPos, new Position(6, 0));
+
+        // when & then
+        assertThatThrownBy(janggiGame::resolveWinner)
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
     void 장기에서_기물의_점수를_계산하면_후차례에게_가점을_준다() {
         // given: 양 팀 다 0점인 상황
         SpyBoard board = SpyBoard.withBothGenerals();

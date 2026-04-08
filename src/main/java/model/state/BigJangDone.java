@@ -8,8 +8,6 @@ import model.board.Board;
 
 public class BigJangDone extends JanggiState {
 
-    private static final double AFTER_TURN_BONUS_SCORE = 1.5;
-
     public BigJangDone(Team turn) {
         super(turn);
     }
