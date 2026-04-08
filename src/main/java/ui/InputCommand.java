@@ -1,4 +1,4 @@
-package view;
+package ui;
 
 public enum InputCommand {
     Y, N;

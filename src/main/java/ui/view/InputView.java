@@ -1,8 +1,8 @@
-package view;
+package ui.view;
 
-import static view.formater.BoardFormatter.formatSymbol;
-import static view.mapper.ViewMapper.FORMATION_DISPLAY_MAPPER;
-import static view.mapper.ViewMapper.FORMATION_ORDER_MAPPER;
+import static ui.formater.BoardFormatter.formatSymbol;
+import static ui.mapper.ViewMapper.FORMATION_DISPLAY_MAPPER;
+import static ui.mapper.ViewMapper.FORMATION_ORDER_MAPPER;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,8 @@ import model.board.FormationType;
 import model.board.TeamFormation;
 import model.coordinate.Position;
 import model.piece.Piece;
-import view.parser.InputParser;
+import ui.InputCommand;
+import ui.parser.InputParser;
 
 public class InputView {
 

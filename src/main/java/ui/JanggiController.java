@@ -1,8 +1,8 @@
-package controller;
+package ui;
 
-import static controller.Retrier.retry;
 import static model.Team.CHO;
 import static model.Team.HAN;
+import static ui.Retrier.retry;
 
 import java.util.Map;
 import model.JanggiGame;
@@ -12,8 +12,8 @@ import model.board.BoardFactory;
 import model.board.TeamFormation;
 import model.coordinate.Position;
 import model.piece.Piece;
-import view.InputView;
-import view.OutputView;
+import ui.view.InputView;
+import ui.view.OutputView;
 
 public class JanggiController {
 

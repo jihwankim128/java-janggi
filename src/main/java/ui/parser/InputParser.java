@@ -1,4 +1,4 @@
-package view.parser;
+package ui.parser;
 
 import java.util.Arrays;
 import java.util.List;

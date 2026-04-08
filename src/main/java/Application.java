@@ -1,4 +1,4 @@
-import controller.JanggiController;
+import ui.JanggiController;
 
 public class Application {
     public static void main(String[] args) {

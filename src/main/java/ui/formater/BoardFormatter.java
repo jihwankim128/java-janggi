@@ -1,6 +1,6 @@
-package view.formater;
+package ui.formater;
 
-import static view.mapper.ViewMapper.SYMBOL_MAP;
+import static ui.mapper.ViewMapper.SYMBOL_MAP;
 
 import model.Team;
 import model.piece.Piece;

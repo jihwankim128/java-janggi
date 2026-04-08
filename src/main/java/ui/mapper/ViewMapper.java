@@ -1,4 +1,4 @@
-package view.mapper;
+package ui.mapper;
 
 import static model.board.FormationType.MA_SANG_MA_SANG;
 import static model.board.FormationType.MA_SANG_SANG_MA;
