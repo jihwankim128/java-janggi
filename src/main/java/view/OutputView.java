@@ -18,6 +18,29 @@ import model.piece.Piece;
 
 public class OutputView {
 
+    public static void displayBoard(Map<Position, Piece> board) {
+        displayColIndex();
+        String border = formatHorizon(Board.BOARD_COL);
+        System.out.println(border);
+
+        displayPositionByPiece(board);
+
+        System.out.println(border);
+    }
+
+    public static void displayError(String message) {
+        System.out.println(RED + "[ERROR] " + message + RESET);
+    }
+
+    public static void displayWinner(Team winner) {
+        System.out.println(winner.getName() + " 승");
+    }
+
+    public static void displayScore(Map<Team, Double> finalScore) {
+        DecimalFormat formatter = new DecimalFormat("#.#");
+        finalScore.forEach((team, score) -> System.out.printf("%s: %s점%n", team.getName(), formatter.format(score)));
+    }
+
     private static void displayPositionByPiece(Map<Position, Piece> board) {
         for (int row = 0; row < Board.BOARD_ROW; row++) {
             System.out.print(ROW_NUM[row] + " " + VERTICAL_LINE);
@@ -36,28 +59,5 @@ public class OutputView {
             System.out.print(SPACE + column);
         }
         System.out.println();
-    }
-
-    public void displayBoard(Map<Position, Piece> board) {
-        displayColIndex();
-        String border = formatHorizon(Board.BOARD_COL);
-        System.out.println(border);
-
-        displayPositionByPiece(board);
-
-        System.out.println(border);
-    }
-
-    public void displayError(String message) {
-        System.out.println(RED + "[ERROR] " + message + RESET);
-    }
-
-    public void displayWinner(Team winner) {
-        System.out.println(winner.getName() + " 승");
-    }
-
-    public void displayScore(Map<Team, Double> finalScore) {
-        DecimalFormat formatter = new DecimalFormat("#.#");
-        finalScore.forEach((team, score) -> System.out.printf("%s: %s점%n", team.getName(), formatter.format(score)));
     }
 }

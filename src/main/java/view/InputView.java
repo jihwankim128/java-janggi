@@ -15,10 +15,10 @@ import model.piece.Piece;
 import view.parser.InputParser;
 
 public class InputView {
-    private static final Scanner SCANNER = new Scanner(System.in);
-    private static final InputParser PARSER = new InputParser();
 
-    public TeamFormation readFormationByTeam(Team team) {
+    private static final Scanner SCANNER = new Scanner(System.in);
+
+    public static TeamFormation readFormationByTeam(Team team) {
         int order = readFormationOrder(team);
         FormationType formationType = Optional.ofNullable(FORMATION_ORDER_MAPPER.get(order))
                 .orElseThrow(() -> new IllegalArgumentException("올바른 상차림을 선택해주세요."));
@@ -26,40 +26,40 @@ public class InputView {
         return new TeamFormation(team, formationType);
     }
 
-    public Position readPiecePositionForMove(Team turn) {
+    public static Position readPiecePositionForMove(Team turn) {
         System.out.println();
         System.out.printf("[%s] 이동할 기물을 선택해주세요. (쉼표 기준으로 분리)%n", turn.getName());
         System.out.print("기물: ");
         return extractPosition();
     }
 
-    private Position extractPosition() {
-        List<String> tokens = PARSER.parseToken(SCANNER.nextLine(), ",");
-        int row = PARSER.parseNumber(tokens.get(0));
-        int col = PARSER.parseNumber(tokens.get(1));
-        return new Position(row, col);
-    }
-
-    public Position readPiecePositionForArrange(Team turn, Piece piece) {
+    public static Position readPiecePositionForArrange(Team turn, Piece piece) {
         System.out.println();
         System.out.printf("[%s] 기물 %s의 다음 위치를 선택해주세요. (쉼표 기준으로 분리)%n", turn.getName(), formatSymbol(piece));
         System.out.print("기물: ");
         return extractPosition();
     }
 
-    private int readFormationOrder(Team team) {
+    public static boolean readBigJangStatus(Team turn) {
+        System.out.printf("%n[%s] 빅장입니다! 종료하시겠습니까? (Y, N)%n", turn.getName());
+        String input = SCANNER.nextLine();
+        InputCommand command = InputCommand.parse(input);
+        return command == InputCommand.Y;
+    }
+
+    private static Position extractPosition() {
+        List<String> tokens = InputParser.parseToken(SCANNER.nextLine(), ",");
+        int row = InputParser.parseNumber(tokens.get(0));
+        int col = InputParser.parseNumber(tokens.get(1));
+        return new Position(row, col);
+    }
+
+    private static int readFormationOrder(Team team) {
         System.out.printf("%n%s의 상차림을 선택해주세요.%n", team.getName());
         FORMATION_ORDER_MAPPER.forEach((order, formation) ->
                 System.out.printf("%d. %s%n", order, FORMATION_DISPLAY_MAPPER.get(formation)));
 
         String input = SCANNER.nextLine();
-        return PARSER.parseNumber(input);
-    }
-
-    public boolean readBigJangStatus(Team turn) {
-        System.out.printf("%n[%s] 빅장입니다! 종료하시겠습니까? (Y, N)%n", turn.getName());
-        String input = SCANNER.nextLine();
-        InputCommand command = InputCommand.parse(input);
-        return command == InputCommand.Y;
+        return InputParser.parseNumber(input);
     }
 }
