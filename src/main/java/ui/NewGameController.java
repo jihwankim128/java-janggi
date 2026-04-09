@@ -4,11 +4,10 @@ import static model.Team.CHO;
 import static model.Team.HAN;
 import static ui.Retrier.retry;
 
-import java.util.Map;
-import model.JanggiGame;
+import application.JanggiResult;
+import application.JanggiService;
+import application.MoveCommand;
 import model.Team;
-import model.board.Board;
-import model.board.BoardFactory;
 import model.board.TeamFormation;
 import model.coordinate.Position;
 import model.piece.Piece;
@@ -17,64 +16,65 @@ import ui.view.OutputView;
 
 public class NewGameController implements JanggiController {
 
+    private final JanggiService janggiService;
+
+    public NewGameController(JanggiService janggiService) {
+        this.janggiService = janggiService;
+    }
+
     @Override
     public void run() {
-        JanggiGame janggiGame = createJanggiGame();
-        OutputView.displayBoard(janggiGame.getBoard());
+        Long janggiId = createJanggiGame();
+        OutputView.displayBoard(janggiService.getBoardResponse(janggiId));
 
-        while (janggiGame.canPlaying()) {
-            retry(() -> checkBigJang(janggiGame), OutputView::displayError);
-            play(janggiGame);
+        while (janggiService.canPlaying(janggiId)) {
+            retry(() -> checkBigJang(janggiId), OutputView::displayError);
+            play(janggiId);
         }
 
-        printResult(janggiGame);
+        printResult(janggiId);
     }
 
-    private JanggiGame createJanggiGame() {
+    private Long createJanggiGame() {
         TeamFormation hanFormation = retry(() -> InputView.readFormationByTeam(HAN), OutputView::displayError);
         TeamFormation choFormation = retry(() -> InputView.readFormationByTeam(CHO), OutputView::displayError);
-
-        Board board = BoardFactory.generateDefaultPieces();
-        board.arrangePieces(hanFormation.generate());
-        board.arrangePieces(choFormation.generate());
-        return new JanggiGame(board);
+        return janggiService.createJanggiGame(hanFormation, choFormation);
     }
 
-    private void play(JanggiGame janggiGame) {
-        if (janggiGame.canPlaying()) {
-            retry(() -> playByTurn(janggiGame), OutputView::displayError);
+    private void play(Long janggiId) {
+        if (janggiService.canPlaying(janggiId)) {
+            retry(() -> playByTurn(janggiId), OutputView::displayError);
         }
-        OutputView.displayBoard(janggiGame.getBoard());
+        OutputView.displayBoard(janggiService.getBoardResponse(janggiId));
     }
 
-    private void playByTurn(JanggiGame janggiGame) {
-        Team currentTurn = janggiGame.turn();
+    private void playByTurn(Long janggiId) {
+        Team currentTurn = janggiService.getTurn(janggiId);
 
         Position current = InputView.readPiecePositionForMove(currentTurn);
-        Piece piece = janggiGame.selectPiece(current);
+        Piece piece = janggiService.selectPiece(janggiId, current);
 
         Position next = InputView.readPiecePositionForArrange(currentTurn, piece);
-        janggiGame.movePiece(current, next);
+        janggiService.movePiece(janggiId, new MoveCommand(current, next));
     }
 
-    private void checkBigJang(JanggiGame janggiGame) {
-        if (!janggiGame.isBigJang()) {
+    private void checkBigJang(Long janggiId) {
+        if (!janggiService.isBigJang(janggiId)) {
             return;
         }
 
-        boolean bigJang = InputView.readBigJangStatus(janggiGame.turn());
+        boolean bigJang = InputView.readBigJangStatus(janggiService.getTurn(janggiId));
         if (bigJang) {
-            janggiGame.finishByBigJang();
+            janggiService.finishByBigJang(janggiId);
         }
     }
 
-    private void printResult(JanggiGame janggiGame) {
-        Team winner = janggiGame.resolveWinner();
-        OutputView.displayWinner(winner);
+    private void printResult(Long janggiId) {
+        JanggiResult gameResult = janggiService.getGameResult(janggiId);
+        OutputView.displayWinner(gameResult.winner());
 
-        if (janggiGame.isBigJangDone()) {
-            Map<Team, Double> finalScore = janggiGame.calculateFinalScore();
-            OutputView.displayScore(finalScore);
+        if (gameResult.bigJangDone()) {
+            OutputView.displayScore(gameResult.finalScore());
         }
     }
 }
