@@ -49,10 +49,10 @@ public abstract class JdbcTemplate {
     public <T> T executeQuery(String sql, RowMapper<T> mapper, Object... parameters) {
         try (
                 Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)
+                PreparedStatement statement = conn.prepareStatement(sql)
         ) {
-            setParameters(pstmt, parameters);
-            try (ResultSet rs = pstmt.executeQuery()) {
+            setParameters(statement, parameters);
+            try (ResultSet rs = statement.executeQuery()) {
                 return mapper.map(rs);
             }
         } catch (SQLException e) {
@@ -60,9 +60,9 @@ public abstract class JdbcTemplate {
         }
     }
 
-    private void setParameters(PreparedStatement pstmt, Object[] parameters) throws SQLException {
+    private void setParameters(PreparedStatement statement, Object[] parameters) throws SQLException {
         for (int i = 0; i < parameters.length; i++) {
-            pstmt.setObject(i + 1, parameters[i]);
+            statement.setObject(i + 1, parameters[i]);
         }
     }
 
