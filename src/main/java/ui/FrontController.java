@@ -2,6 +2,7 @@ package ui;
 
 import static ui.Retrier.retry;
 
+import application.JanggiQueryService;
 import application.JanggiService;
 import java.util.Map;
 import java.util.Optional;
@@ -12,10 +13,10 @@ public class FrontController {
 
     private final Map<GameMenu, JanggiController> controllers;
 
-    public FrontController(JanggiService janggiService) {
+    public FrontController(JanggiService janggiService, JanggiQueryService janggiQueryService) {
         controllers = Map.of(
-                GameMenu.CONTINUE, new ContinueController(janggiService),
-                GameMenu.NEW_GAME, new NewGameController(janggiService)
+                GameMenu.CONTINUE, new ContinueController(janggiService, janggiQueryService),
+                GameMenu.NEW_GAME, new NewGameController(janggiService, janggiQueryService)
         );
     }
 

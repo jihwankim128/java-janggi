@@ -1,17 +1,13 @@
 package application;
 
-import java.util.Map;
-import model.GameStatus;
 import model.JanggiGame;
-import model.Team;
 import model.board.Board;
 import model.board.BoardFactory;
 import model.board.TeamFormation;
-import model.coordinate.Position;
-import model.piece.Piece;
 import repository.JanggiRepository;
 
 public class JanggiServiceImpl implements JanggiService {
+
     private final JanggiRepository janggiRepository;
 
     public JanggiServiceImpl(JanggiRepository janggiRepository) {
@@ -37,35 +33,6 @@ public class JanggiServiceImpl implements JanggiService {
         JanggiGame janggiGame = getGame(janggiId);
         janggiGame.movePiece(command.current(), command.next());
         janggiRepository.update(janggiId, janggiGame);
-    }
-
-    public JanggiResultDto getGameResult(Long janggiId) {
-        JanggiGame janggiGame = getGame(janggiId);
-        return JanggiResultDto.from(janggiGame);
-    }
-
-    public Map<Position, Piece> getBoardResponse(Long janggiId) {
-        return getGame(janggiId).getBoard();
-    }
-
-    public boolean canPlaying(Long janggiId) {
-        return getGame(janggiId).canPlaying();
-    }
-
-    public Team getTurn(Long janggiId) {
-        return getGame(janggiId).turn();
-    }
-
-    public Piece selectPiece(Long janggiId, Position current) {
-        return getGame(janggiId).selectPiece(current);
-    }
-
-    public boolean isBigJang(Long janggiId) {
-        return getGame(janggiId).isBigJang();
-    }
-
-    public Map<Long, GameStatus> collectGameStatus() {
-        return janggiRepository.collectGameStatus();
     }
 
     private JanggiGame getGame(Long janggiId) {

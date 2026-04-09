@@ -2,6 +2,7 @@ package ui;
 
 import static ui.Retrier.retry;
 
+import application.JanggiQueryService;
 import application.JanggiService;
 import java.util.Map;
 import model.GameStatus;
@@ -10,18 +11,18 @@ import ui.view.OutputView;
 
 public class ContinueController extends JanggiController {
 
-    protected ContinueController(JanggiService janggiService) {
-        super(janggiService);
+    protected ContinueController(JanggiService janggiService, JanggiQueryService janggiQueryService) {
+        super(janggiService, janggiQueryService);
     }
 
     @Override
     public void run() {
-        Map<Long, GameStatus> gameStatusById = janggiService.collectGameStatus();
+        Map<Long, GameStatus> gameStatusById = janggiQueryService.collectGameStatus();
         if (gameStatusById.isEmpty()) {
             OutputView.displayNoGame();
             return;
         }
-        
+
         process(gameStatusById);
     }
 
