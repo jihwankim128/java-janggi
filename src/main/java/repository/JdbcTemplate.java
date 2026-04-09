@@ -64,12 +64,12 @@ public abstract class JdbcTemplate {
     private <T> T execute(PreparedStatementExecutor<T> executor) {
         Connection conn = null;
         try {
-            conn = getConnection();
+            conn = ConnectionManager.getConnection(dataSource);
             return executor.execute(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            closeConnection(conn);
+            ConnectionManager.releaseConnection(conn);
         }
     }
 
@@ -79,28 +79,6 @@ public abstract class JdbcTemplate {
                 return rs.getLong(1);
             }
             throw new SQLException("[ERROR] ID를 생성할 수 없습니다.");
-        }
-    }
-
-    private Connection getConnection() {
-        return ConnectionManager.get().orElseGet(() -> {
-            try {
-                return dataSource.getConnection();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    private void closeConnection(Connection conn) {
-        if (ConnectionManager.isPresent() || conn == null) {
-            return;
-        }
-
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
