@@ -17,7 +17,7 @@ public class FrontController {
         JanggiService janggiService = new JanggiService(new InMemoryJanggiRepository());
 
         controllers = Map.of(
-                GameMenu.CONTINUE, new ContinueController(),
+                GameMenu.CONTINUE, new ContinueController(janggiService),
                 GameMenu.NEW_GAME, new NewGameController(janggiService)
         );
     }

@@ -72,6 +72,10 @@ public class JanggiGame {
         return state.turn();
     }
 
+    public GameStatus status() {
+        return state.status();
+    }
+
     public Map<Position, Piece> getBoard() {
         return board.board();
     }

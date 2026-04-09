@@ -1,6 +1,7 @@
 package application;
 
 import java.util.Map;
+import model.GameStatus;
 import model.JanggiGame;
 import model.Team;
 import model.board.Board;
@@ -38,9 +39,9 @@ public class JanggiService {
         janggiRepository.update(janggiId, janggiGame);
     }
 
-    public JanggiResult getGameResult(Long janggiId) {
+    public JanggiResultDto getGameResult(Long janggiId) {
         JanggiGame janggiGame = getGame(janggiId);
-        return JanggiResult.from(janggiGame);
+        return JanggiResultDto.from(janggiGame);
     }
 
     public Map<Position, Piece> getBoardResponse(Long janggiId) {
@@ -66,5 +67,9 @@ public class JanggiService {
     private JanggiGame getGame(Long janggiId) {
         return janggiRepository.findById(janggiId)
                 .orElseThrow(() -> new IllegalArgumentException(janggiId + "번 장기 게임이 존재하지 않습니다."));
+    }
+
+    public Map<Long, GameStatus> collectGameStatus() {
+        return janggiRepository.collectGameStatus();
     }
 }

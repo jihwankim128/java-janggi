@@ -61,7 +61,8 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void displayGameMenu() {
-        System.out.println("> 장기 게임 프로그램을 시작합니다.");
+    public static void displayNoGame() {
+        System.out.println();
+        System.out.println("진행한 게임이 없습니다.");
     }
 }

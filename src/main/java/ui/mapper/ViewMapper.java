@@ -8,6 +8,7 @@ import static model.board.FormationType.SANG_MA_SANG_MA;
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import model.GameStatus;
 import model.Team;
 import model.board.FormationType;
 import model.piece.PieceType;
@@ -22,6 +23,13 @@ public class ViewMapper {
             MA_SANG_MA_SANG, "마상마상",
             MA_SANG_SANG_MA, "마상상마",
             SANG_MA_MA_SANG, "상마마상"
+    );
+
+    public static Map<GameStatus, String> GAME_STATUS_DISPLAY_MAPPER = Map.of(
+            GameStatus.PLAYING, "진행",
+            GameStatus.BIG_JANG, "진행",
+            GameStatus.BIG_JANG_DONE, "종료",
+            GameStatus.DONE, "종료"
     );
 
     static {

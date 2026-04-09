@@ -3,11 +3,15 @@ package ui.view;
 import static ui.formater.BoardFormatter.formatSymbol;
 import static ui.mapper.ViewMapper.FORMATION_DISPLAY_MAPPER;
 import static ui.mapper.ViewMapper.FORMATION_ORDER_MAPPER;
+import static ui.mapper.ViewMapper.GAME_STATUS_DISPLAY_MAPPER;
+import static ui.parser.InputParser.parseLong;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+import model.GameStatus;
 import model.Team;
 import model.board.FormationType;
 import model.board.TeamFormation;
@@ -76,5 +80,19 @@ public class InputView {
         System.out.println();
         System.out.println("메뉴를 선택해주세요:");
         return GameMenu.select(InputParser.parseNumber(SCANNER.nextLine()));
+    }
+
+    public static Long readPlayGameId(Map<Long, GameStatus> gameStatusById) {
+        System.out.println();
+        System.out.println("> 이어서 진행할 게임을 선택해주세요.");
+        gameStatusById.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> System.out.printf("%d번 게임: %s 상태%n",
+                        entry.getKey(), GAME_STATUS_DISPLAY_MAPPER.get(entry.getValue())));
+
+        System.out.println();
+        System.out.println("번호를 입력해주세요:");
+        return parseLong(SCANNER.nextLine());
     }
 }
