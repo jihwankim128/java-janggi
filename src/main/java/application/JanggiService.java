@@ -2,74 +2,30 @@ package application;
 
 import java.util.Map;
 import model.GameStatus;
-import model.JanggiGame;
 import model.Team;
-import model.board.Board;
-import model.board.BoardFactory;
 import model.board.TeamFormation;
 import model.coordinate.Position;
 import model.piece.Piece;
-import repository.JanggiRepository;
 
-public class JanggiService {
-    private final JanggiRepository janggiRepository;
+public interface JanggiService {
 
-    public JanggiService(JanggiRepository janggiRepository) {
-        this.janggiRepository = janggiRepository;
-    }
+    Long createJanggiGame(TeamFormation hanFormation, TeamFormation choFormation);
 
-    public Long createJanggiGame(TeamFormation hanFormation, TeamFormation choFormation) {
-        Board board = BoardFactory.generateDefaultPieces();
-        board.arrangePieces(hanFormation.generate());
-        board.arrangePieces(choFormation.generate());
+    void finishByBigJang(Long janggiId);
 
-        JanggiGame janggiGame = new JanggiGame(board);
-        return janggiRepository.save(janggiGame);
-    }
+    void movePiece(Long janggiId, MoveCommand command);
 
-    public void finishByBigJang(Long janggiId) {
-        JanggiGame janggiGame = getGame(janggiId);
-        janggiGame.finishByBigJang();
-        janggiRepository.update(janggiId, janggiGame);
-    }
+    JanggiResultDto getGameResult(Long janggiId);
 
-    public void movePiece(Long janggiId, MoveCommand command) {
-        JanggiGame janggiGame = getGame(janggiId);
-        janggiGame.movePiece(command.current(), command.next());
-        janggiRepository.update(janggiId, janggiGame);
-    }
+    Map<Position, Piece> getBoardResponse(Long janggiId);
 
-    public JanggiResultDto getGameResult(Long janggiId) {
-        JanggiGame janggiGame = getGame(janggiId);
-        return JanggiResultDto.from(janggiGame);
-    }
+    boolean canPlaying(Long janggiId);
 
-    public Map<Position, Piece> getBoardResponse(Long janggiId) {
-        return getGame(janggiId).getBoard();
-    }
+    Team getTurn(Long janggiId);
 
-    public boolean canPlaying(Long janggiId) {
-        return getGame(janggiId).canPlaying();
-    }
+    Piece selectPiece(Long janggiId, Position current);
 
-    public Team getTurn(Long janggiId) {
-        return getGame(janggiId).turn();
-    }
+    boolean isBigJang(Long janggiId);
 
-    public Piece selectPiece(Long janggiId, Position current) {
-        return getGame(janggiId).selectPiece(current);
-    }
-
-    public boolean isBigJang(Long janggiId) {
-        return getGame(janggiId).isBigJang();
-    }
-
-    private JanggiGame getGame(Long janggiId) {
-        return janggiRepository.findById(janggiId)
-                .orElseThrow(() -> new IllegalArgumentException(janggiId + "번 장기 게임이 존재하지 않습니다."));
-    }
-
-    public Map<Long, GameStatus> collectGameStatus() {
-        return janggiRepository.collectGameStatus();
-    }
+    Map<Long, GameStatus> collectGameStatus();
 }

@@ -1,17 +1,21 @@
 import application.JanggiService;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import application.JanggiServiceImpl;
+import application.JanggiTxService;
+import javax.sql.DataSource;
 import repository.JdbcJanggiRepository;
+import repository.db.DataSourceManager;
+import repository.db.TransactionTemplate;
 import ui.FrontController;
 
 public class Application {
 
     public static void main(String[] args) {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://localhost:3309/janggi_db?serverTimezone=UTC&useSSL=false");
-        dataSource.setUser("janggi");
-        dataSource.setPassword("janggi1234");
+        DataSource dataSource = DataSourceManager.getDataSource();
+        TransactionTemplate transactionTemplate = new TransactionTemplate(dataSource);
 
-        JanggiService janggiService = new JanggiService(new JdbcJanggiRepository(dataSource));
+        JanggiServiceImpl janggiServiceImpl = new JanggiServiceImpl(new JdbcJanggiRepository(dataSource));
+        JanggiService janggiService = new JanggiTxService(transactionTemplate, janggiServiceImpl);
+
         FrontController frontController = new FrontController(janggiService);
         frontController.run();
     }
