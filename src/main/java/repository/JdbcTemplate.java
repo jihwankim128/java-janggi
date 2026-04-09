@@ -18,64 +18,54 @@ public abstract class JdbcTemplate {
     }
 
     public Long executeInsert(String sql, Object... parameters) {
-        Connection conn = null;
-        try {
-            conn = getConnection();
+        return execute(conn -> {
             try (PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 setParameters(statement, parameters);
                 statement.executeUpdate();
                 return extractGeneratedKey(statement);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            closeConnection(conn);
-        }
+        });
     }
 
     public void executeUpdate(String sql, Object... parameters) {
-        Connection conn = null;
-        try {
-            conn = getConnection();
+        execute(conn -> {
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 setParameters(statement, parameters);
                 statement.executeUpdate();
+                return null;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            closeConnection(conn);
-        }
+        });
     }
 
     public <T> T executeQuery(String sql, RowMapper<T> mapper, Object... parameters) {
-        Connection conn = null;
-        try {
-            conn = getConnection();
+        return execute(conn -> {
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 setParameters(statement, parameters);
                 try (ResultSet rs = statement.executeQuery()) {
                     return mapper.map(rs);
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            closeConnection(conn);
-        }
+        });
     }
 
     public void executeBatch(String sql, List<Object[]> parameters) {
-        Connection conn = null;
-        try {
-            conn = getConnection();
+        execute(conn -> {
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 for (Object[] params : parameters) {
                     setParameters(statement, params);
                     statement.addBatch();
                 }
                 statement.executeBatch();
+                return null;
             }
+        });
+    }
+
+    private <T> T execute(PreparedStatementExecutor<T> executor) {
+        Connection conn = null;
+        try {
+            conn = getConnection();
+            return executor.execute(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -123,5 +113,10 @@ public abstract class JdbcTemplate {
     @FunctionalInterface
     public interface RowMapper<T> {
         T map(ResultSet rs) throws SQLException;
+    }
+
+    @FunctionalInterface
+    private interface PreparedStatementExecutor<T> {
+        T execute(Connection conn) throws SQLException;
     }
 }
