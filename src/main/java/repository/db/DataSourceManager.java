@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 
 public class DataSourceManager {
 
-    private static final String URL = "jdbc:mysql://localhost:3309/janggi_db?serverTimezone=UTC&useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3309/janggi_db?serverTimezone=UTC&useSSL=false&rewriteBatchedStatements=true";
     private static final String USER = "janggi";
     private static final String PASSWORD = "janggi1234";
 

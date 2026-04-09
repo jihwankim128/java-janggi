@@ -13,8 +13,12 @@ public class JanggiGame {
     private JanggiState state;
 
     public JanggiGame(Board board) {
+        this(board, new Running(Team.startTurn()));
+    }
+
+    public JanggiGame(Board board, JanggiState state) {
         this.board = board;
-        this.state = new Running(Team.startTurn());
+        this.state = state;
     }
 
     public void movePiece(Position current, Position next) {

@@ -1,8 +1,7 @@
 package repository;
 
-import java.lang.reflect.Field;
-import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -31,22 +30,22 @@ public class JdbcJanggiRepository extends JdbcTemplate implements JanggiReposito
 
     @Override
     public Optional<JanggiGame> findById(Long janggiId) {
-        String gameSql = "SELECT * FROM janggi_game WHERE id = ?";
-        return executeQuery(gameSql, rs -> {
+        String sql = "SELECT * FROM janggi_game WHERE id = ?";
+        return executeQuery(sql, rs -> {
             if (!rs.next()) {
                 return Optional.empty();
             }
 
             Board board = fetchBoard(janggiId);
-            JanggiGame janggiGame = new JanggiGame(board);
-            return resolveJanggiGame(rs, janggiGame);
+            JanggiState state = JanggiMapper.createState(rs.getString("status"), rs.getString("turn"));
+            return Optional.of(new JanggiGame(board, state));
         }, janggiId);
     }
 
     @Override
     public void update(Long janggiId, JanggiGame janggiGame) {
-        String updateGameSql = "UPDATE janggi_game SET status = ?, turn = ? WHERE id = ?";
-        executeUpdate(updateGameSql, janggiGame.status().name(), janggiGame.turn().name(), janggiId);
+        String sql = "UPDATE janggi_game SET status = ?, turn = ? WHERE id = ?";
+        executeUpdate(sql, janggiGame.status().name(), janggiGame.turn().name(), janggiId);
 
         executeUpdate("DELETE FROM piece WHERE game_id = ?", janggiId);
         savePieces(janggiId, janggiGame.getBoard());
@@ -66,16 +65,21 @@ public class JdbcJanggiRepository extends JdbcTemplate implements JanggiReposito
 
     private void savePieces(Long gameId, Map<Position, Piece> board) {
         String sql = "INSERT INTO piece (game_id, `row`, col, `type`, team) VALUES (?, ?, ?, ?, ?)";
-        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
-            Position pos = entry.getKey();
-            Piece piece = entry.getValue();
-            executeUpdate(sql, gameId, pos.row(), pos.col(), piece.type().name(), piece.team().name());
-        }
+
+        List<Object[]> parameters = board.entrySet().stream()
+                .map(entry -> {
+                    Position pos = entry.getKey();
+                    Piece piece = entry.getValue();
+                    return new Object[]{gameId, pos.row(), pos.col(), piece.type().name(), piece.team().name()};
+                })
+                .toList();
+
+        executeBatch(sql, parameters);
     }
 
     private Board fetchBoard(Long gameId) {
-        String pieceSql = "SELECT * FROM piece WHERE game_id = ?";
-        return executeQuery(pieceSql, rs -> {
+        String sql = "SELECT * FROM piece WHERE game_id = ?";
+        return executeQuery(sql, rs -> {
             Map<Position, Piece> pieces = new HashMap<>();
             while (rs.next()) {
                 Piece piece = JanggiMapper.createPiece(rs.getString("type"), rs.getString("team"));
@@ -84,19 +88,5 @@ public class JdbcJanggiRepository extends JdbcTemplate implements JanggiReposito
             }
             return new Board(pieces);
         }, gameId);
-    }
-
-    private Optional<JanggiGame> resolveJanggiGame(ResultSet rs, JanggiGame janggiGame) {
-        try {
-            JanggiState state = JanggiMapper.createState(rs.getString("status"), rs.getString("turn"));
-
-            Field stateField = JanggiGame.class.getDeclaredField("state");
-            stateField.setAccessible(true);
-            stateField.set(janggiGame, state);
-
-            return Optional.of(janggiGame);
-        } catch (Exception e) {
-            throw new RuntimeException("[ERROR] 복원 중 리플렉션 오류 발생", e);
-        }
     }
 }

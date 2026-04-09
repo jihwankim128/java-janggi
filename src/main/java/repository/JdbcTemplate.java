@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import javax.sql.DataSource;
 import repository.db.ConnectionManager;
 
@@ -56,6 +57,24 @@ public abstract class JdbcTemplate {
                 try (ResultSet rs = statement.executeQuery()) {
                     return mapper.map(rs);
                 }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeConnection(conn);
+        }
+    }
+
+    public void executeBatch(String sql, List<Object[]> parameters) {
+        Connection conn = null;
+        try {
+            conn = getConnection();
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+                for (Object[] params : parameters) {
+                    setParameters(statement, params);
+                    statement.addBatch();
+                }
+                statement.executeBatch();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
