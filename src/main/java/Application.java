@@ -1,8 +1,8 @@
-import ui.JanggiController;
+import ui.FrontController;
 
 public class Application {
     public static void main(String[] args) {
-        JanggiController janggiController = new JanggiController();
-        janggiController.run();
+        FrontController frontController = new FrontController();
+        frontController.run();
     }
 }

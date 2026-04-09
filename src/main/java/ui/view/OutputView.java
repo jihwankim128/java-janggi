@@ -60,4 +60,8 @@ public class OutputView {
         }
         System.out.println();
     }
+
+    public static void displayGameMenu() {
+        System.out.println("> 장기 게임 프로그램을 시작합니다.");
+    }
 }
