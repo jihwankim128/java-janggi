@@ -1,11 +1,12 @@
-package ui.view;
+package console.view;
 
-import static ui.formater.BoardFormatter.formatSymbol;
-import static ui.mapper.ViewMapper.FORMATION_DISPLAY_MAPPER;
-import static ui.mapper.ViewMapper.FORMATION_ORDER_MAPPER;
-import static ui.mapper.ViewMapper.GAME_STATUS_DISPLAY_MAPPER;
-import static ui.parser.InputParser.parseLong;
+import static console.util.BoardFormatter.formatSymbol;
+import static console.util.InputParser.parseLong;
+import static console.view.ViewMapper.FORMATION_DISPLAY_MAPPER;
+import static console.view.ViewMapper.FORMATION_ORDER_MAPPER;
+import static console.view.ViewMapper.GAME_STATUS_DISPLAY_MAPPER;
 
+import console.util.InputParser;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,6 @@ import model.board.FormationType;
 import model.board.TeamFormation;
 import model.coordinate.Position;
 import model.piece.Piece;
-import ui.GameMenu;
-import ui.InputCommand;
-import ui.parser.InputParser;
 
 public class InputView {
 
@@ -70,16 +68,16 @@ public class InputView {
         return InputParser.parseNumber(input);
     }
 
-    public static GameMenu readGameMenu() {
+    public static GameMenuCommand readGameMenu() {
         System.out.println();
         System.out.println("> 장기 게임 메뉴");
         System.out.println();
-        Arrays.stream(GameMenu.values())
+        Arrays.stream(GameMenuCommand.values())
                 .forEach(gameMenu -> System.out.printf("%d. %s%n", gameMenu.getValue(), gameMenu.getDescription()));
 
         System.out.println();
         System.out.println("메뉴를 선택해주세요:");
-        return GameMenu.select(InputParser.parseNumber(SCANNER.nextLine()));
+        return GameMenuCommand.select(InputParser.parseNumber(SCANNER.nextLine()));
     }
 
     public static Long readPlayGameId(Map<Long, GameStatus> gameStatusById) {

@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Map;
+import model.GameStatus;
 import model.JanggiGame;
 import model.board.Board;
 import model.board.BoardFactory;
@@ -44,8 +46,12 @@ public class JanggiService {
         });
     }
 
-    private JanggiGame getGame(Long janggiId) {
+    public JanggiGame getGame(Long janggiId) {
         return janggiRepository.findById(janggiId)
                 .orElseThrow(() -> new IllegalArgumentException(janggiId + "번 장기 게임이 존재하지 않습니다."));
+    }
+
+    public Map<Long, GameStatus> collectGameStatus() {
+        return janggiRepository.collectGameStatus();
     }
 }

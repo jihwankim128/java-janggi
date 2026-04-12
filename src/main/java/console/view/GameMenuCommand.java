@@ -1,8 +1,8 @@
-package ui;
+package console.view;
 
 import java.util.stream.Stream;
 
-public enum GameMenu {
+public enum GameMenuCommand {
 
     CONTINUE(1, "게임 이어서 진행하기"),
     NEW_GAME(2, "새로 시작하기"),
@@ -11,12 +11,12 @@ public enum GameMenu {
     private final int value;
     private final String description;
 
-    GameMenu(int value, String description) {
+    GameMenuCommand(int value, String description) {
         this.value = value;
         this.description = description;
     }
 
-    public static GameMenu select(int number) {
+    public static GameMenuCommand select(int number) {
         return Stream.of(values())
                 .filter(v -> v.value == number)
                 .findFirst()

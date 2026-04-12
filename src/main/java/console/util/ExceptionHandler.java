@@ -1,13 +1,13 @@
-package ui;
+package console.util;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public final class Retrier {
-    private Retrier() {
+public final class ExceptionHandler {
+    private ExceptionHandler() {
     }
 
-    public static <T> T retry(Supplier<T> task, Consumer<String> consumer) {
+    public static <T> T handleRetry(Supplier<T> task, Consumer<String> consumer) {
         while (true) {
             try {
                 return task.get();
@@ -17,7 +17,7 @@ public final class Retrier {
         }
     }
 
-    public static void retry(Runnable task, Consumer<String> consumer) {
+    public static void handleRetry(Runnable task, Consumer<String> consumer) {
         while (true) {
             try {
                 task.run();
@@ -25,6 +25,14 @@ public final class Retrier {
             } catch (IllegalArgumentException e) {
                 consumer.accept(e.getMessage());
             }
+        }
+    }
+
+    public static void handle(Runnable task, Consumer<String> consumer) {
+        try {
+            task.run();
+        } catch (IllegalArgumentException e) {
+            consumer.accept(e.getMessage());
         }
     }
 }

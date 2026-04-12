@@ -1,4 +1,4 @@
-package ui.parser;
+package console.util;
 
 import java.util.Arrays;
 import java.util.List;

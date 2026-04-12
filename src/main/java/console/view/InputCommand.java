@@ -1,4 +1,4 @@
-package ui;
+package console.view;
 
 public enum InputCommand {
     Y, N;

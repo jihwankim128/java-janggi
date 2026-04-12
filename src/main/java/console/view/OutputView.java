@@ -1,13 +1,13 @@
-package ui.view;
+package console.view;
 
-import static ui.formater.BoardFormatter.COL_NUM;
-import static ui.formater.BoardFormatter.RED;
-import static ui.formater.BoardFormatter.RESET;
-import static ui.formater.BoardFormatter.ROW_NUM;
-import static ui.formater.BoardFormatter.SPACE;
-import static ui.formater.BoardFormatter.VERTICAL_LINE;
-import static ui.formater.BoardFormatter.formatHorizon;
-import static ui.formater.BoardFormatter.formatSymbol;
+import static console.util.BoardFormatter.COL_NUM;
+import static console.util.BoardFormatter.RED;
+import static console.util.BoardFormatter.RESET;
+import static console.util.BoardFormatter.ROW_NUM;
+import static console.util.BoardFormatter.SPACE;
+import static console.util.BoardFormatter.VERTICAL_LINE;
+import static console.util.BoardFormatter.formatHorizon;
+import static console.util.BoardFormatter.formatSymbol;
 
 import java.text.DecimalFormat;
 import java.util.Map;

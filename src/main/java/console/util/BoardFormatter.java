@@ -1,6 +1,6 @@
-package ui.formater;
+package console.util;
 
-import static ui.mapper.ViewMapper.SYMBOL_MAP;
+import static console.view.ViewMapper.SYMBOL_MAP;
 
 import model.Team;
 import model.piece.Piece;
