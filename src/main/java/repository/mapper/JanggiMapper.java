@@ -1,8 +1,11 @@
 package repository.mapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import model.GameStatus;
 import model.JanggiState;
 import model.Team;
+import model.coordinate.Position;
 import model.piece.Cannon;
 import model.piece.Chariot;
 import model.piece.Elephant;
@@ -22,8 +25,10 @@ public class JanggiMapper {
     private JanggiMapper() {
     }
 
-    public static Piece createPiece(String type, String teamName) {
-        Team team = Team.valueOf(teamName);
+    public static Piece mapToPiece(ResultSet rs) throws SQLException {
+        String type = rs.getString("type");
+        Team team = Team.valueOf(rs.getString("team"));
+
         return switch (PieceType.valueOf(type)) {
             case CHARIOT -> new Chariot(team);
             case CANNON -> new Cannon(team);
@@ -35,13 +40,23 @@ public class JanggiMapper {
         };
     }
 
-    public static JanggiState createState(String statusName, String turnName) {
-        Team turn = Team.valueOf(turnName);
-        return switch (GameStatus.valueOf(statusName)) {
-            case GameStatus.PLAYING -> new Running(turn);
-            case GameStatus.BIG_JANG -> new BigJang(turn);
-            case GameStatus.DONE -> new Finished(turn);
-            case GameStatus.BIG_JANG_DONE -> new BigJangDone(turn);
+    public static Position mapToPosition(ResultSet rs) throws SQLException {
+        return new Position(rs.getInt("row"), rs.getInt("col"));
+    }
+
+    public static JanggiState mapToState(ResultSet rs) throws SQLException {
+        Team turn = Team.valueOf(rs.getString("turn"));
+        GameStatus status = GameStatus.valueOf(rs.getString("status"));
+
+        return switch (status) {
+            case PLAYING -> new Running(turn);
+            case BIG_JANG -> new BigJang(turn);
+            case DONE -> new Finished(turn);
+            case BIG_JANG_DONE -> new BigJangDone(turn);
         };
+    }
+    
+    public static GameStatus mapToGameStatus(ResultSet rs) throws SQLException {
+        return GameStatus.valueOf(rs.getString("status"));
     }
 }

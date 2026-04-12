@@ -1,4 +1,4 @@
-package repository;
+package repository.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import javax.sql.DataSource;
-import repository.db.ConnectionManager;
+import repository.mapper.RowMapper;
 
-public abstract class JdbcTemplate {
+public class JdbcDao {
 
     private final DataSource dataSource;
 
-    protected JdbcTemplate(DataSource dataSource) {
+    public JdbcDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -86,11 +86,6 @@ public abstract class JdbcTemplate {
         for (int i = 0; i < parameters.length; i++) {
             statement.setObject(i + 1, parameters[i]);
         }
-    }
-
-    @FunctionalInterface
-    public interface RowMapper<T> {
-        T map(ResultSet rs) throws SQLException;
     }
 
     @FunctionalInterface
