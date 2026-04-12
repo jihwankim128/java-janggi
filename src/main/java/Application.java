@@ -1,7 +1,5 @@
 import application.JanggiQueryService;
 import application.JanggiService;
-import application.JanggiServiceImpl;
-import application.JanggiTxService;
 import javax.sql.DataSource;
 import repository.JanggiRepository;
 import repository.JdbcJanggiRepository;
@@ -16,8 +14,7 @@ public class Application {
         TransactionTemplate transactionTemplate = new TransactionTemplate(dataSource);
         JanggiRepository janggiRepository = new JdbcJanggiRepository(dataSource);
 
-        JanggiServiceImpl janggiServiceImpl = new JanggiServiceImpl(janggiRepository);
-        JanggiService janggiService = new JanggiTxService(transactionTemplate, janggiServiceImpl);
+        JanggiService janggiService = new JanggiService(transactionTemplate, janggiRepository);
         JanggiQueryService janggiQueryService = new JanggiQueryService(janggiRepository);
 
         new FrontController(janggiService, janggiQueryService).run();

@@ -17,7 +17,6 @@ public final class Retrier {
         }
     }
 
-
     public static void retry(Runnable task, Consumer<String> consumer) {
         while (true) {
             try {
