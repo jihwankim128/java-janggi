@@ -15,8 +15,6 @@ import model.piece.Horse;
 import model.piece.Piece;
 import model.piece.PieceType;
 import model.piece.Soldier;
-import model.state.BigJang;
-import model.state.BigJangDone;
 import model.state.Finished;
 import model.state.Running;
 
@@ -49,13 +47,13 @@ public class JanggiMapper {
         GameStatus status = GameStatus.valueOf(rs.getString("status"));
 
         return switch (status) {
-            case PLAYING -> new Running(turn);
-            case BIG_JANG -> new BigJang(turn);
-            case DONE -> new Finished(turn);
-            case BIG_JANG_DONE -> new BigJangDone(turn);
+            case PLAYING -> new Running(turn, GameStatus.PLAYING);
+            case BIG_JANG -> new Running(turn, GameStatus.BIG_JANG);
+            case DONE -> new Finished(turn, GameStatus.DONE);
+            case BIG_JANG_DONE -> new Finished(turn, GameStatus.BIG_JANG_DONE);
         };
     }
-    
+
     public static GameStatus mapToGameStatus(ResultSet rs) throws SQLException {
         return GameStatus.valueOf(rs.getString("status"));
     }

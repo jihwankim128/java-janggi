@@ -5,7 +5,7 @@ import java.util.Map;
 import model.board.Board;
 import model.coordinate.Position;
 import model.piece.Piece;
-import model.state.BigJangDone;
+import model.state.Finished;
 import model.state.Running;
 
 public class JanggiGame {
@@ -13,7 +13,7 @@ public class JanggiGame {
     private JanggiState state;
 
     public JanggiGame(Board board) {
-        this(board, new Running(Team.startTurn()));
+        this(board, new Running(Team.startTurn(), GameStatus.PLAYING));
     }
 
     public JanggiGame(Board board, JanggiState state) {
@@ -33,7 +33,6 @@ public class JanggiGame {
     }
 
     public Piece selectPiece(Position position) {
-        state.validateGamePlay();
         Piece piece = board.pickPiece(position);
         validateAlly(piece);
         return piece;
@@ -51,7 +50,8 @@ public class JanggiGame {
         if (state.status() != GameStatus.BIG_JANG) {
             throw new IllegalStateException("현재 빅장 상태가 아닙니다.");
         }
-        this.state = new BigJangDone(state.turn());
+        Team winner = JanggiReferee.judgeBigJangWinner(board);
+        this.state = new Finished(winner, GameStatus.BIG_JANG_DONE);
     }
 
     public boolean canPlaying() {

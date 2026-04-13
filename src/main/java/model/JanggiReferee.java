@@ -1,7 +1,12 @@
 package model;
 
+import java.util.List;
 import java.util.Map;
 import model.board.Board;
+import model.coordinate.Direction;
+import model.coordinate.Displacement;
+import model.coordinate.Position;
+import model.piece.Piece;
 
 public class JanggiReferee {
 
@@ -20,7 +25,7 @@ public class JanggiReferee {
         );
     }
 
-    public static Team judgeWinner(Board board) {
+    public static Team judgeBigJangWinner(Board board) {
         Map<Team, Double> scores = collectScores(board);
         double startTurnScore = scores.get(START_TURN);
         double afterTurnScore = scores.get(AFTER_TURN);
@@ -29,5 +34,19 @@ public class JanggiReferee {
             return START_TURN;
         }
         return AFTER_TURN;
+    }
+
+    public static boolean checkBigJang(Board board, Team turn) {
+        Position allyGeneralPosition = board.findGeneralPositionByTeam(turn);
+        Position enemyGeneralPosition = board.findGeneralPositionByTeam(turn.opposite());
+        Displacement displacement = enemyGeneralPosition.toDisplacement(allyGeneralPosition);
+        if (displacement.isNotStraight()) {
+            return false;
+        }
+
+        Direction direction = displacement.extractCardinal();
+        List<Position> path = direction.pathTo(allyGeneralPosition, enemyGeneralPosition);
+        List<Piece> pieces = board.extractPiecesByPath(path);
+        return pieces.isEmpty();
     }
 }
